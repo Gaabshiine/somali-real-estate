@@ -1,0 +1,71 @@
+{% load static %}
+<!-- Navbar -->
+<div class="site-wrap">
+
+    <div class="site-mobile-menu">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div> <!-- .site-mobile-menu -->
+
+    <header class="site-navbar">
+      <div class="container-lg py-1">
+        <div class="row justify-content-between align-items-center">
+          <div class="col-8 col-sm-3">
+
+            <!-- logo-->
+            <a class="navbar-brand mt-2" href="#">
+              <img src="{% static "./user_styles/images/greenlogo2.svg" %}" class="img-fluid" width="158px" height="50px" alt="Somaali Real Estate"
+                loading="lazy" />
+            </a>
+
+          </div>
+          <div class="d-none d-sm-block col-sm-6">
+            <nav class="site-navigation text-end text-md-end" role="navigation">
+
+              <ul class="site-menu js-clone-nav d-none d-xl-block text-center">
+                <li class="active">
+                  <!-- I want to links to the home link -->
+                  <a href="{% url "listings_app:home" %}">Home</a>
+                </li>
+                <li><a href="buy.html">Buy</a></li>
+                <li><a href="rent.html">Rent</a></li>
+                <li class="has-children">
+                  <a href="properties.html">Properties</a>
+                  <ul class="dropdown arrow-top">
+                    <li><a href="#">Apartments</a></li>
+                    <li><a href="#">Houses</a></li>
+                  </ul>
+                </li>
+                <li><a href="{% url "listings_app:about" %}">About</a></li>
+                <li><a href="{% url "listings_app:contact" %}">Contact</a></li>
+              </ul>
+            </nav>
+
+          </div>
+
+          <div class="col-4 col-sm-3">
+            <nav class="site-navigation text-end text-md-end" role="navigation">
+              <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3">
+                <a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3"></span></a>
+              </div>
+              <ul class="site-menu js-clone-nav d-none d-xl-block">
+                <li><a href="{% url "accounts_app:login" %}"><i class="fa-solid fa-right-from-bracket"></i> Login</a></li>
+                <li class="d-xl-none ">
+                  <a href="{% url "accounts_app:register" %}"><i class="fa-solid fa-user-plus pe-2"></i> Sign Up</a>
+                </li>
+
+                <li class="d-none d-xl-inline">
+                  <a href="{% url "accounts_app:register" %}" class="rounded-4 px-3 bg-success py-2 text-white"><i
+                      class="fa-solid fa-user-plus pe-2"></i> Sign Up</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>

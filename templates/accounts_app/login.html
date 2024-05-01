@@ -1,0 +1,89 @@
+
+{% extends 'base_user.html' %}
+
+{% block navbar %}
+{% include 'partials/navbar.html' %}
+
+{% endblock  %}
+
+{% block content %}
+    <!-- login side -->
+  <div class="site-section" style="background-color:#f9f9f9 !important">
+    <!-- Section: Design Block -->
+    <section class="container-lg rounded-5">
+      <!-- Jumbotron -->
+      <div class="px-4 py-5 px-md-5 rounded-2">
+        <div class="container">
+          <div class="row justify-content-center align-items-center">
+
+            <div class="col-lg-6 mb-5 mb-lg-0">
+
+              <div class="card" style="border-radius: 5px; border: 0;">
+                <div class="card-body py-5 px-md-5">
+                  <h3 class="text-center fs-5 fw-bold pb-3 text-uppercase" style="color: #212A55;">login</h3>
+                  <p class="text-center pb-5" style="color: #858585;">Please enter your login and password!</p>
+                  <form>
+
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                      <input type="email" id="form3Example3" class="form-control"
+                        style="background-color: #f6f6f6; height: 40px;" />
+                      <label class="form-label" for="form3Example3">Email address</label>
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-4">
+                      <input type="password" id="form3Example4" class="form-control"
+                        style="background-color: #f6f6f6; height: 40px;" />
+                      <label class="form-label" for="form3Example4">Password</label>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="form3Example4" class="form-label">Select Role</label>
+                      <select class="form-select border-0" id="form3Example4" style="background-color: #f6f6f6; height: 40px;">
+                          <option>Role</option>
+                          <option>Owner</option>
+                          <option>User</option>
+                      </select>                     
+                  </div>
+                    <p class="text-center" style="color: #858585;">Forget password?</p>
+
+                    <!-- Submit button -->
+                    <a href="profile.html" class="btn text-uppercase btn-primary btn-block mb-4">
+                      Sign in
+                    </a>
+
+
+                    <!-- Register buttons -->
+                    <div class="text-center">
+
+                      <button type="button" class="btn btn-link btn-floating mx-1">
+                        <i class="fab fa-facebook-f"></i>
+                      </button>
+
+                      <button type="button" class="btn btn-link btn-floating mx-1">
+                        <i class="fab fa-google"></i>
+                      </button>
+
+                      <button type="button" class="btn btn-link btn-floating mx-1">
+                        <i class="fab fa-twitter"></i>
+                      </button>
+
+                      <button type="button" class="btn btn-link btn-floating mx-1">
+                        <i class="fab fa-github"></i>
+                      </button>
+                    </div>
+                    <p class="text-center mt-4" style="color: #858585;">Don't have an account? <a
+                        href="/register.html">Sign Up</a></p>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Jumbotron -->
+    </section>
+    <!-- Section: Design Block -->
+  </div>
+{% endblock %}
