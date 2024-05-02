@@ -379,5 +379,3 @@ var TrandingSlider = new Swiper('.tranding-slider', {
 
 
 
-
-
