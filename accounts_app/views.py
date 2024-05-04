@@ -32,18 +32,18 @@ def user_profile_view(request):
 
 
 # edit_profile_view
-def edit_profile_view(request, id):
-    return render(request, "accounts_app/edit_profile.html", {}) # render edit profile page
+def edit_profile_view(request, slug):
+    return redirect(request, "accounts_app/edit_profile.html", {}) # render edit profile page
 
 
 # change_password_view
-def change_password_view(request, id):
+def change_password_view(request, slug):
     return render(request, "accounts_app/change_password.html", {}) # render change password page
 
 
 # reset_password_view
-def forgot_password_view(request, id):
-    return render(request, "accounts_app/reset_password.html", ) # render reset password page
+def forgot_password_view(request):
+    return render(request, "accounts_app/forget_password.html", ) # render reset password page
 
 
 

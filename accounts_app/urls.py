@@ -10,10 +10,9 @@ urlpatterns = [
     path("logout/", views.logout_view , name="logout"), 
     path("owner_profile/", views.owner_profile_view, name="owner_profile"),
     path("user_profile/", views.user_profile_view, name="user_profile"),
-    path("edit_profile/<int:id>", views.edit_profile_view, name="edit_profile"),
-    path("change_password/<int:id>", views.change_password_view, name="change_password"),
+    path("edit_profile/<slug:slug>", views.edit_profile_view, name="edit_profile"),
+    path("change_password/<slug:slug>", views.change_password_view, name="change_password"),
     path("forgot_password/", views.forgot_password_view, name="forgot_password"),
 
 ]
 
-# function that adds two number

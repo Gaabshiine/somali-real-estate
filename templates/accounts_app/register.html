@@ -48,26 +48,19 @@
 
               <div class="card" style="border-radius: 5px; border: 0;">
                 <div class="card-body py-5 px-md-5">
-                  <h3 class="text-center fs-5 fw-bold pb-5 text-uppercase" style="color: #212A55;">Join Us</h3>
+                  <h3 class="text-center fs-5 fw-bold pb-2 text-uppercase" style="color: #212A55;">Join Us</h3>
                   <form>
                     <!-- 2 column grid layout with text inputs for the first and last names -->
                     <div class="row">
-                      <div class="col-md-6">
+                      <div class="col-md-12">
                         <div class="">
                           <div data-mdb-input-init class="form-outline">
-                            <input type="text" id="first_name" style="background-color: #f6f6f6; height: 40px;" class="form-control my-3" />
+                            <input type="text" id="first_name" style="height: 40px;" class="form-control my-3" />
                             <label class="form-label" for="first_name">First Name</label>
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-6">
-                        <div class="">
-                          <div data-mdb-input-init class="form-outline">
-                            <input type="text" id="middle_name" style="background-color: #f6f6f6; height: 40px;" class="form-control my-3" />
-                            <label class="form-label" for="middle_name">Middle Name</label>
-                          </div>
-                        </div>
-                      </div>
+                      
 
                     </div>
 
@@ -75,28 +68,129 @@
                       <div class="col-md-6">
                         <div class="">
                           <div data-mdb-input-init class="form-outline">
-                            <input type="text" id="last_name" style="background-color: #f6f6f6; height: 40px;" class="form-control my-3" />
-                            <label class="form-label" for="last_name">Last Name</label>
+                            <input type="text" id="middle_name" style="height: 40px;" class="form-control my-3" />
+                            <label class="form-label" for="middle_name">Middle Name</label>
                           </div>
                         </div>
                       </div>
                       <div class="col-md-6">
+                        <div class="">
+                          <div data-mdb-input-init class="form-outline">
+                            <input type="text" id="last_name" style="height: 40px;" class="form-control my-3" />
+                            <label class="form-label" for="last_name">Last Name</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      
+                      <div class="col-md-6">
                         <!-- Email input -->
                         <div class="">
                           <div data-mdb-input-init class="form-outline">
-                            <input type="email" id="type_email" style="background-color: #f6f6f6; height: 40px;" class="form-control my-3" />
+                            <input type="email" id="type_email" style="height: 40px;" class="form-control my-3" />
                             <label class="form-label" for="type_email">Email Address</label>
                           </div>
                         </div>
                       </div>
 
+                      <div class="col-md-6" style="margin-top: 17px">
+                        <!-- Email input -->
+                        <div class="mb-3">
+                          
+                          <select class="form-select" id="gender" required>
+                              <option value="">Choose Your Gender</option>
+                              <option value="male">Male</option>
+                              <option value="female">Female</option>
+
+                          </select>
+                          <div class="invalid-feedback">
+                              Choose Your Gender
+                          </div>
+                      </div>
+                      </div>
+
                     </div>
 
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="">
+                          <div data-mdb-input-init class="form-outline">
+                            <input type="date" id="dob" style="height: 40px;" class="form-control my-3" />
+                            <label class="form-label" for="dob">Date of Birth</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="">
+                          <div data-mdb-input-init class="form-outline">
+                            <input type="text" id="phone_number" style="height: 40px;" class="form-control my-3" />
+                            <label class="form-label" for="last_name">Phone Number</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="">
+                          <div data-mdb-input-init class="form-outline">
+                            <input type="text" id="address" style="height: 40px;" class="form-control my-3" />
+                            <label class="form-label" for="address">Address</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="">
+                          <div data-mdb-input-init class="form-outline">
+                            <input type="text" id="occupation" style="height: 40px;" class="form-control my-3" />
+                            <label class="form-label" for="occupation">Occupation</label>
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6"  style="margin-top:17px">
+                        <div class="mb-3">
+                          
+                          <select class="form-select" id="state" required>
+                              <option value="">Choose State of Residence</option>
+                              <option value="BN">Banadir</option>
+                              <option value="HR">Hershabelle</option>
+                              <option value="Gal">Galmudug</option>
+                              <option value="JB">Jubbaland</option>
+                              <option value="Koonfur-galbeed">Koonfur Galbeed</option>
+                              <option value="Puntland">Buntland</option>
+
+                          </select>
+                          <div class="invalid-feedback">
+                              Choose State of Residence
+                          </div>
+                      </div>
+                      </div>
+                      <div class="col-md-6" style="margin-top:17px">
+                        <div class="mb-3">
+                          <select class="form-select" id="state" required>
+                            <option value="">Choose Your Type</option>
+                            <option value="owner">Owner</option>
+                            <option value="tenant">Tenant</option>
+                            <option value="Seller">Seller</option>
+                            <option value="Buyer">Buyer</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Choose State of Residence
+                        </div>
+                        </div>
+                      </div>
+                    </div>
                     <div class="row mb-4">
                       <div class="col-md-6">
                         <div class="">
                           <div data-mdb-input-init class="form-outline">
-                            <input type="password" id="password" style="background-color: #f6f6f6; height: 40px;" class="form-control my-3" />
+                            <input type="password" id="password" style="height: 40px;" class="form-control my-3" />
                             <label class="form-label" for="password">Password</label>
                           </div>
                         </div>
@@ -105,7 +199,7 @@
                         <!-- confirm pass input -->
                         <div class="">
                           <div data-mdb-input-init class="form-outline">
-                            <input type="password" id="confirm_password" style="background-color: #f6f6f6; height: 40px;" class="form-control my-3" />
+                            <input type="password" id="confirm_password" style="height: 40px;" class="form-control my-3" />
                             <label class="form-label" for="confirm_password">Confirm Password</label>
                           </div>
                         </div>
@@ -119,12 +213,12 @@
                       <div class="col-md-12">
                         <!-- Submit button -->
                     <button type="submit" class="btn btn-primary btn-block mb-4">
-                      Sign up
+                      Register
                     </button>
 
                     <!-- Register buttons -->
                     <div class="text-center">
-                      <p style="color: #858585;">or sign up with:</p>
+                     
                       <button type="button" class="btn btn-link btn-floating mx-1">
                         <i class="fab fa-facebook-f"></i>
                       </button>

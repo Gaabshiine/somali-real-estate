@@ -13,7 +13,6 @@
         <!-- Link Swiper's CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-
         <!-- Font Awesome -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
         <!-- Google Fonts -->
@@ -37,6 +36,18 @@
         <link rel="stylesheet" href="{% static "./user_styles/css/aos.css" %}">
         <link rel="stylesheet" href="{% static "./user_styles/css/style.css" %}">
 
+        <style>
+          .details {
+            display: none;
+          }
+      
+          .checkbox-label {
+            display: inline-block;
+            margin-right: 100px;
+            /* Adjust as needed */
+          }
+        </style>
+
     {% endblock  %}
 </head>
 <body>
@@ -59,6 +70,7 @@
   
   {% endblock %}
 
+  {% block content_modal %}{% endblock content_modal %}
    {% block content %}{% endblock content %}
 
 
@@ -87,6 +99,29 @@
     <script src="{% static "./user_styles/js/aos.js" %}"></script>
 
     <script src="{% static "./user_styles/js/main.js" %}"></script>
+
+    <script>
+      function toggleDetails(detailsId) {
+        var details = document.getElementById(detailsId);
+        var checkbox = document.getElementById(detailsId.replace("details", "checkbox"));
+  
+        if (checkbox.checked) {
+          details.style.display = "block";
+        } else {
+          details.style.display = "none";
+        }
+  
+        // Hide details of the other checkbox
+        var otherCheckboxId = (detailsId === 'details1') ? 'checkbox2' : 'checkbox1';
+        var otherDetailsId = (detailsId === 'details1') ? 'details2' : 'details1';
+        var otherDetails = document.getElementById(otherDetailsId);
+        var otherCheckbox = document.getElementById(otherCheckboxId);
+  
+        otherDetails.style.display = "none";
+        otherCheckbox.checked = false;
+      }
+  
+    </script>
 
 </body>
 </html>

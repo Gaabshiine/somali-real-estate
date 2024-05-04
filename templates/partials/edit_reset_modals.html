@@ -1,0 +1,71 @@
+<!-- Change password HTML -->
+<div id="changePasswordModal" class="modal fade" style="margin-top: 80px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="" method="POST">
+                <div class="modal-header">
+                    <h4 class="modal-title fs-6"> Change Password</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body p-4">
+                    <form>
+                        <!-- old password input -->
+                       
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="password" id="oldPassoword" class="form-control border-0" />
+                            <label class="form-label" for="oldPassoword">Old Password</label>
+                        </div>
+                        <!-- new password input -->
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="password" id="newPassword" class="form-control border-0" />
+                            <label class="form-label" for="newPassword">New Password</label>
+                        </div>
+                        <!-- confirm password input -->
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="password" id="confirmPassword" class="form-control border-0" />
+                            <label class="form-label" for="confirmPassword">Confirm Password</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <!-- Submit button -->
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary text-capitalize">Save Change</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Reset password HTML -->
+
+<div id="resetPasswordModal" class="modal fade" style="margin-top: 80px;"  tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal-dialog d-flex justify-content-center">
+        <div class="modal-content w-75">
+            <div class="modal-header">
+              <h4 class="modal-title fs-5"> Reset Password</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body p-4">
+              <p class="text-center">Enter your email address and we'll send you an email with instructions to reset your password.</p>
+                <form>
+                    <!-- Email input -->
+                    <div data-mdb-input-init class="form-outline mb-4">
+                        <input type="email" id="email1" class="form-control" />
+                        <label class="form-label" for="email1">Email address</label>
+                    </div>
+  
+                    <!-- Submit button -->
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block text-capitalize">Reset Password</button>
+                    <div class="d-flex justify-content-between mt-4">
+                      <a class="" href="{% url "accounts_app:login" %}">Login</a>
+                      <a class="" href="{% url "accounts_app:register" %}">Register</a>
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+
+

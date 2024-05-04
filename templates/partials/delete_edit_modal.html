@@ -1,0 +1,579 @@
+<!-- Edit property HTML-->
+<div id="editPropertyModal" class="modal fade" style="margin-top: 80px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="" method="POST">
+                <div class="modal-header">
+                    <h4 class="modal-title fs-5">Edit Property</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto;">
+         
+  
+                <div id="" class="">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card border-0  shadow-none">
+                                <div class="card-body">
+  
+                                    <div class="row">
+                                        <div class="col-lg-12">
+  
+                                          <!-- if it apartement -->
+                                            <form class="needs-validation" novalidate>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="form-control"
+                                                                class="form-label">Apartment Name <span
+                                                                    class="text-danger">*</span></label>
+                                                            <input class="form-control" type="text"
+                                                                placeholder="Enter your apartment name"
+                                                                id="apartment-name"
+                                                                style="height: 40px;" required />
+                                                        </div>
+                                                    </div>
+  
+  
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="amount" class="form-label">Rent
+                                                                <span class="text-danger">
+                                                                    *</span></label>
+                                                            <div class="input-group flex-nowrap">
+                                                                <span class="input-group-text"
+                                                                    id="basic-addon1"
+                                                                    style="height: 40px;">$</span>
+                                                                <input type="text" id="amount"
+                                                                    class="form-control"
+                                                                    aria-label="rent"
+                                                                    aria-describedby="basic-addon1"
+                                                                    style="height: 40px;" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+  
+  
+                                                </div> <!-- end row -->
+  
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="form-control"
+                                                                class="form-label">Year Built <span
+                                                                    class="text-danger">*</span></label>
+                                                            <input class="form-control" type="text"
+                                                                placeholder="Enter the year your apartment was built"
+                                                                id="year-built" style="height: 40px;"
+                                                                required />
+                                                        </div>
+                                                    </div>
+  
+  
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="form-control"
+                                                                class="form-label">Area <span
+                                                                    class="text-danger">
+                                                                    *</span></label>
+                                                            <div class="input-group flex-nowrap">
+                                                                <span class="input-group-text"
+                                                                    id="basic-addon1"
+                                                                    style="height: 40px;">SQ
+                                                                    FT</span>
+                                                                <input type="text" id="area"
+                                                                    class="form-control"
+                                                                    aria-label="rent"
+                                                                    aria-describedby="basic-addon1"
+                                                                    style="height: 40px;" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+  
+                                                </div> <!-- end row -->
+  
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="gender"
+                                                                class="form-label">Select Distric
+                                                                Located <span
+                                                                    class="text-danger">*</span></label>
+                                                            <select class="form-select" id="gender"
+                                                                style="height: 40px;" required>
+                                                                <option value="">Choose District
+                                                                    Location</option>
+  
+                                                                <option value="WD">Wadajir</option>
+                                                                <option value="Dhr">Dharkenley</option>
+                                                                <option value="Dnl">Daynile</option>
+                                                                <option value="Wrd">Wardigley</option>
+                                                                <option value="HWl">Howl Wadaag</option>
+                                                                <option value="Wbr">Waberi</option>
+                                                                <option value="HJb">Hamar Jijab</option>
+                                                                <option value="Bon">Bondhere</option>
+                                                                <option value="Krn">Karaan</option>
+                                                                <option value="Yaq">Yaqshid</option>
+                                                                <option value="Huw">Huriwaa</option>
+                                                                <option value="Kd">Kahda</option>
+                                                                <option value="Hdn">Hodan</option>
+                                                                <option value="Shb">Shibis</option>
+                                                                <option value="Abd">Abdiaziz</option>
+                                                                <option value="Shg">Shangani</option>
+  
+                                                            </select>
+                                                            <div class="invalid-feedback">
+                                                                Choose Owner Name
+                                                            </div>
+                                                        </div>
+                                                    </div>
+  
+  
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="form-control"
+                                                                class="form-label">Location <span
+                                                                    class="text-danger">*</span></label>
+                                                            <input class="form-control" type="text"
+                                                                placeholder="" id="location"
+                                                                style="height: 40px;" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+  
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="mb-3">
+                                                            <label for="gender"
+                                                                class="form-label">Select Owner <span
+                                                                    class="text-danger">*</span></label>
+                                                            <select class="form-select" id="gender"
+                                                                style="height: 40px;" required>
+                                                                <option value="">Choose District
+                                                                    Location</option>
+  
+                                                                <option value="WD">Wadajir</option>
+                                                                <option value="Dhr">Dharkenley</option>
+                                                                <option value="Dnl">Daynile</option>
+                                                                <option value="Wrd">Wardigley</option>
+                                                                <option value="HWl">Howl Wadaag</option>
+  
+                                                            </select>
+                                                            <div class="invalid-feedback">
+                                                                Choose Owner Name
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+  
+  
+                                                        <div class="mb-3">
+                                                            <label for="description"
+                                                                class="form-label">Description
+                                                                (Optional)</label>
+                                                            <textarea class="form-control"
+                                                                id="description" rows="3"
+                                                                placeholder="Write some note.."></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div> <!-- end row -->
+                                        </div>
+  
+  
+                                    </div> <!-- end row -->
+                                    <h4 class="page-title mt-5 fs-6 fw-bold">Apartment Features
+                                        Checklist</h4>
+                                    <p class="text-muted mb-4 fs-6">Customize your search by selecting
+                                        the amenities and features that matter most to you.</p>
+                                    <div class="row px-2">
+                                        <div class="col-md-4">
+                                            <div class="mt-2">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input"
+                                                        id="gym">
+                                                    <label class="form-check-label"
+                                                        for="gym">Gym</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end col -->
+  
+                                        <div class="col-md-4">
+                                            <div class="mt-2">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input"
+                                                        id="alerm">
+                                                    <label class="form-check-label"
+                                                        for="alerm">Alerm</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mt-2">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input"
+                                                        id="internet">
+                                                    <label class="form-check-label"
+                                                        for="internet">Internet</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end col -->
+                                    </div>
+                                    <!-- end row -->
+                                    <div class="row px-2">
+                                        <div class="col-md-4">
+                                            <div class="mt-2">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input"
+                                                        id="air-conditioner">
+                                                    <label class="form-check-label"
+                                                        for="air-conditioner">Air Conditioner</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end col -->
+  
+                                        <div class="col-md-4">
+                                            <div class="mt-2">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input"
+                                                        id="car-parking">
+                                                    <label class="form-check-label"
+                                                        for="car-parking">Car Parking</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mt-2">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input"
+                                                        id="swimming-pool">
+                                                    <label class="form-check-label"
+                                                        for="swimming-pool">Swimming Pool</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end col -->
+                                    </div>
+                                    <!-- end row -->
+                                    <h4 class="page-title mt-5 fs-6 fw-bold">Property Images</h4>
+                                    <p class="text-muted mb-4 fs-6">Please Insert Pictures of the
+                                        Apartment atleast three Pictures.</p>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="img-1" class="form-label">Gallery_1 <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="file" id="img-1" class="form-control"
+                                                    style="height: 38px;" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="img-2"
+                                                    class="form-label">Gallery_2</span></label>
+                                                <input type="file" id="img-2" class="form-control"
+                                                    style="height: 38px;">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="img-3" class="form-label">Gallery_3</label>
+                                                <input type="file" id="img-3" class="form-control"
+                                                    style="height: 38px;">
+                                            </div>
+                                        </div>
+                                    </div> <!-- end row -->
+                                    
+                                    </form>
+                                </div>
+  
+                            </div> <!-- end row-->
+  
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                </div>
+  
+                {% comment %} <div id="" class="">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card border-0  shadow-none">
+                                <div class="card-body">
+  
+                                    <div class="row">
+                                        <div class="col-lg-12">
+  
+                                          <!-- If it is house -->
+                                            <form class="needs-validation" novalidate>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="house-name"
+                                                                class="form-label">House Name <span
+                                                                    class="text-danger">*</span></label>
+                                                            <input class="form-control" type="text"
+                                                                placeholder="Enter your house name"
+                                                                id="house-name" style="height: 40px;" />
+                                                        </div>
+                                                    </div>
+  
+  
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="amount" class="form-label">Rent
+                                                                <span class="text-danger">
+                                                                    *</span></label>
+                                                            <div class="input-group flex-nowrap">
+                                                                <span class="input-group-text"
+                                                                    id="basic-addon1"
+                                                                    style="height: 40px;">$</span>
+                                                                <input type="text" id="amount"
+                                                                    class="form-control"
+                                                                    aria-label="rent"
+                                                                    aria-describedby="basic-addon1"
+                                                                    style="height: 40px;" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+  
+  
+                                                </div> <!-- end row -->
+  
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="form-control"
+                                                                class="form-label">Year Built <span
+                                                                    class="text-danger">*</span></label>
+                                                            <input class="form-control" type="text"
+                                                                placeholder="Enter the year your apartment was built"
+                                                                id="year-built" style="height: 40px;"
+                                                                required />
+                                                        </div>
+                                                    </div>
+  
+  
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="form-control"
+                                                                class="form-label">Area <span
+                                                                    class="text-danger">
+                                                                    *</span></label>
+                                                            <div class="input-group flex-nowrap">
+                                                                <span class="input-group-text"
+                                                                    id="basic-addon1"
+                                                                    style="height: 40px;">SQ
+                                                                    FT</span>
+                                                                <input type="text" id="area"
+                                                                    class="form-control"
+                                                                    aria-label="rent"
+                                                                    aria-describedby="basic-addon1"
+                                                                    style="height: 40px;" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+  
+                                                </div> <!-- end row -->
+  
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="gender"
+                                                                class="form-label">Select Distric
+                                                                Located <span
+                                                                    class="text-danger">*</span></label>
+                                                            <select class="form-select" id="gender"
+                                                                style="height: 40px;" required>
+                                                                <option value="">Choose District
+                                                                    Location</option>
+  
+                                                                <option value="WD">Wadajir</option>
+                                                                <option value="Dhr">Dharkenley</option>
+                                                                <option value="Dnl">Daynile</option>
+                                                                <option value="Wrd">Wardigley</option>
+                                                                <option value="HWl">Howl Wadaag</option>
+                                                                <option value="Wbr">Waberi</option>
+                                                                <option value="HJb">Hamar Jijab</option>
+                                                                <option value="Bon">Bondhere</option>
+                                                                <option value="Krn">Karaan</option>
+                                                                <option value="Yaq">Yaqshid</option>
+                                                                <option value="Huw">Huriwaa</option>
+                                                                <option value="Kd">Kahda</option>
+                                                                <option value="Hdn">Hodan</option>
+                                                                <option value="Shb">Shibis</option>
+                                                                <option value="Abd">Abdiaziz</option>
+                                                                <option value="Shg">Shangani</option>
+  
+                                                            </select>
+                                                            <div class="invalid-feedback">
+                                                                Choose Owner Name
+                                                            </div>
+                                                        </div>
+                                                    </div>
+  
+  
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="form-control"
+                                                                class="form-label">Location <span
+                                                                    class="text-danger">*</span></label>
+                                                            <input class="form-control" type="text"
+                                                                placeholder="" id="location"
+                                                                style="height: 40px;" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+  
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="mb-3">
+                                                            <label for="gender"
+                                                                class="form-label">Select Owner <span
+                                                                    class="text-danger">*</span></label>
+                                                            <select class="form-select" id="gender"
+                                                                style="height: 40px;" required>
+                                                                <option value="">Choose District
+                                                                    Location</option>
+  
+                                                                <option value="WD">Wadajir</option>
+                                                                <option value="Dhr">Dharkenley</option>
+                                                                <option value="Dnl">Daynile</option>
+                                                                <option value="Wrd">Wardigley</option>
+                                                                <option value="HWl">Howl Wadaag</option>
+  
+                                                            </select>
+                                                            <div class="invalid-feedback">
+                                                                Choose Owner Name
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+  
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="number-of-bathroom">No. of
+                                                                Bathrooms</label>
+                                                            <input type="text" class="form-control"
+                                                                aria-label="number-of-bathroom"
+                                                                aria-describedby="basic-addon1"
+                                                                placeholder="e.g. 2"
+                                                                id="number-of-bathroom"
+                                                                style="height: 40px;">
+                                                        </div>
+                                                    </div>
+  
+  
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="number-of-rooms">No. of
+                                                                Rooms</label>
+  
+  
+                                                            <input type="text" class="form-control"
+                                                                aria-label="number-of-rooms"
+                                                                aria-describedby="basic-addon1"
+                                                                placeholder="e.g. 6"
+                                                                id="number-of-rooms"
+                                                                style="height: 40px;">
+  
+                                                        </div>
+                                                    </div>
+  
+                                                </div> <!-- end row -->
+                                                <div class="row">
+                                                    <div class="col-12">
+  
+  
+                                                        <div class="mb-3">
+                                                            <label for="house-description"
+                                                                class="form-label">House
+                                                                Description</label>
+                                                            <textarea class="form-control"
+                                                                id="house-description" rows="3"
+                                                                placeholder="Write some note.."></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div> <!-- end row -->
+                                        </div>
+  
+  
+                                        <h4 class="page-title mt-5 fs-6 fw-bold">Property Images</h4>
+                                        <p class="text-muted mb-4 fs-6">Please Insert Pictures of the
+                                            Apartment atleast three Pictures.</p>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="img-1" class="form-label">Gallery_1
+                                                        <span class="text-danger">*</span></label>
+                                                    <input type="file" id="img-1" class="form-control"
+                                                        style="height: 38px;" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="img-2"
+                                                        class="form-label">Gallery_2</span></label>
+                                                    <input type="file" id="img-2" class="form-control"
+                                                        style="height: 38px;">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="img-3"
+                                                        class="form-label">Gallery_3</label>
+                                                    <input type="file" id="img-3" class="form-control"
+                                                        style="height: 38px;">
+                                                </div>
+                                            </div>
+                                        </div> <!-- end row -->
+  
+                                        </form>
+                                    </div>
+  
+                                </div> <!-- end row-->
+  
+  
+  
+  
+                            </div> <!-- end card-body-->
+                        </div> <!-- end card-->
+                    </div>
+  
+                </div> {% endcomment %}
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-light border border-2 text-capitalize" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-primary text-capitalize" value="Save">
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+  
+  <!-- Delete property HTML -->
+  <div id="deletePropertyModal" class="modal fade" style="margin-top: 80px;">
+      <div class="modal-dialog">
+          <div class="modal-content">
+  
+              <form action="" method="post">
+  
+                  <div class="modal-header">
+                      <h4 class="modal-title fs-5">Delete Property</h4>
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  </div>
+                  <div class="modal-body">
+                      <p>Are you sure you want to delete Abdisalan?</p>
+                      <p class="text-warning"><small>This action cannot be undone.</small></p>
+                  </div>
+                  <div class="modal-footer">
+                      <input type="button" class="btn btn-light border border-2" data-dismiss="modal" value="Cancel">
+                      <a href="#" class="btn btn-danger">Delete</a>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
