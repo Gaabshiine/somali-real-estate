@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Somali &mdash; Real Estate</title>
+    <meta content="SomaliRealEState" name="author" />
+
+
+    {% block css %}{% endblock css %}
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{% static "./admin_styles/images/icon.svg" %} ">
+    <!-- third party css -->
+    <link href="{% static "./admin_styles/css/vendor/jquery-jvectormap-1.2.2.css" %}" rel="stylesheet" type="text/css" />
+    <link href="{% static "./admin_styles/css/vendor/dataTables.bootstrap5.css" %}" rel="stylesheet" type="text/css" />
+    <link href="{% static "./admin_styles/css/vendor/responsive.bootstrap5.css" %}" rel="stylesheet" type="text/css" />
+    <!-- third party css end -->
+
+    <!-- App css -->
+    <link href="{% static "./admin_styles/css/icons.min.css" %}" rel="stylesheet" type="text/css" />
+    <link href="{% static "./admin_styles/css/app.min.css" %}" rel="stylesheet" type="text/css" id="light-style" />
+    <link href="{% static "./admin_styles/css/app-dark.min.css" %}" rel="stylesheet" type="text/css" id="dark-style" />
+</head>
+<body class="loading"
+data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
+
+     <!-- Pre-loader -->
+     <div id="preloader">
+        <div id="status">
+            <div class="bouncing-loader">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- wrapper -->
+    {% block wrapper %}{% endblock %}
+
+    <!-- right_sidebar -->
+    {% block right_sidebar %}{% endblock  %}
+    
+   
+
+
+    <!-- footer -->
+    {% block footer %}{% endblock %}
+
+    <!-- bundle -->
+    <script src="{% static "./admin_styles/js/vendor.min.js" %}"></script>
+    <script src="{% static "./admin_styles/js/app.min.js" %}"></script>
+
+    <!-- third party js -->
+    <script src="{% static "./admin_styles/js/vendor/jquery.dataTables.min.js" %}"></script>
+    <script src="{% static "./admin_styles/js/vendor/dataTables.bootstrap5.js" %}"></script>
+    <script src="{% static "./admin_styles/js/vendor/dataTables.responsive.min.js" %}"></script>
+    <script src="{% static "./admin_styles/js/vendor/responsive.bootstrap5.min.js" %}"></script>
+    <script src="{% static "./admin_styles/js/vendor/dataTables.checkboxes.min.js" %}"></script>
+    <!-- third party js ends -->
+
+    <!-- demo app -->
+    <script src="{% static "./admin_styles/js/pages/demo.customers.js" %}"></script>
+    <script src="{% static "./admin_styles/js/pages/demo.dashboard-crm.js" %}"></script>
+    <script src="{% static "./admin_styles/js/pages/demo.form-wizard.js" %}"></script>
+
+    <!-- end demo js-->
+
+
+    <!-- Apex js -->
+    <script src="{% static "./admin_styles/js/vendor/apexcharts.min.js" %}"></script>
+
+    <!-- Todo js -->
+    <script src="{% static "./admin_styles/js/ui/component.todo.js" %}"></script>
+
+</body>
+</html>

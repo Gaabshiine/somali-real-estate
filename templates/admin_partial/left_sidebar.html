@@ -1,0 +1,265 @@
+{% load static %}
+{% load static %}
+<!-- ========== Left Sidebar Start ========== -->
+<div class="leftside-menu">
+
+    <!-- LOGO -->
+    <a href="index.html" class="logo text-center logo-light">
+        <span class="logo-lg">
+            <img src="{% static "./admin_styles/images/logo.png" %}" alt="" height="40">
+        </span>
+        <span class="logo-sm">
+            <img src="{% static "./admin_styles/images/logo3.png" %}" alt="" height="16">
+        </span>
+    </a>
+
+    <!-- LOGO -->
+    <a href="index.html" class="logo text-center logo-dark">
+        <span class="logo-lg">
+            <img src="{% static "./admin_styles/images/dark_logo.png" %}" alt="" height="40">
+        </span>
+        <span class="logo-sm">
+            <img src="{% static "./admin_styles/images/dark_logo2.png" %}" alt="" height="16">
+        </span>
+    </a>
+
+    <div class="h-100" id="leftside-menu-container" data-simplebar>
+
+        <!--- Sidemenu -->
+        <ul class="side-nav">
+
+            <li class="side-nav-title side-nav-item"></li>
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="index.html" aria-expanded="false" aria-controls="index.html"
+                    class="side-nav-link">
+                    <i class="uil-home-alt"></i>
+                    <span> Dashboards </span>
+                </a>
+            </li>
+
+
+
+            <li class="side-nav-title side-nav-item">Apps</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarOwners" aria-expanded="false"
+                    aria-controls="sidebarOwners" class="side-nav-link">
+                    <i class="uil-user"></i>
+                    <span> Owners </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarOwners">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{% url "admin_dashboard:register_owner" %}">Register Now</a>
+                        </li>
+                        <li>
+                            <a href="{% url "admin_dashboard:view_owners" %}">View Owners</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarUsers" aria-expanded="false"
+                    aria-controls="sidebarUsers" class="side-nav-link">
+                    <i class="uil-users-alt"></i>
+                    <span> Tenants </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarUsers">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{% url "admin_dashboard:register_tenant" %}">Register Now</a>
+                        </li>
+                        <li>
+                            <a href="app-assign-property.html">Assign Property</a>
+                        </li>
+                        <li>
+                            <a href="{% url "admin_dashboard:view_tenants" %}">View Users</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="{% url "admin_dashboard:view_blacklist" %}" class="side-nav-link">
+                    <i class="uil-user-times"></i>
+                    <span> Blacklists </span>
+                </a>
+            </li>
+
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarApartment" aria-expanded="false"
+                    aria-controls="sidebarApartment" class="side-nav-link">
+                    <i class="uil-store"></i>
+                    <span>Rent Properties </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarApartment">
+                    <ul class="side-nav-second-level">
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarApartmentProperty" aria-expanded="false"
+                                aria-controls="sidebarCreateProperty" class="side-nav-link">
+                                <span class="ms-4">Apartment Property </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="sidebarApartmentProperty">
+                                <ul class="side-nav-second-level">
+                                    <!-- Subsection for create -->
+                                    <li>
+                                        <a href="apps-apartment-register.html" class="ms-2">Create Property</a>
+                                    </li>
+                                    <!-- Subsection for Units -->
+                                    <li>
+                                        <a href="apps-apartment-units.html" class="ms-2">Property Units</a>
+                                    </li>
+
+
+                                    <!-- Subsection for view -->
+                                    <li>
+                                        <a href="apps-apartment-view.html" class="ms-2">View Properties</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarHouseProperty" aria-expanded="false"
+                                aria-controls="sidebarCreateProperty" class="side-nav-link">
+                                <span class="ms-4">House Property </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="sidebarHouseProperty">
+                                <ul class="side-nav-second-level">
+                                    <!-- Subsection for house -->
+                                    <li>
+                                        <a href="apps-house-register.html" class="ms-2">Create Property</a>
+                                    </li>
+
+
+
+                                    <!-- Subsection for view -->
+                                    <li>
+                                        <a href="apps-house-view.html" class="ms-2">View Properties</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="apps-property-view.html">View All Properties</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebar-pay-properties" aria-expanded="false"
+                    aria-controls="sidebar-pay-properties" class="side-nav-link">
+                    <i class="dripicons-home"></i>
+                    <span> Pay Properties </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebar-pay-properties">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="apps-buyer-properties.html">Buyer</a>
+                        </li>
+                        <li>
+                            <a href="apps-seller-properties.html">Seller</a>
+                        </li>
+                        <li>
+                            <a href="apps-wittness-properties.html">Wittness</a>
+                        </li>
+                        <li>
+                            <a href="apps-ecommerce-orders-details.html">Order Details</a>
+                        </li>
+                        <li>
+                            <a href="apps-ecommerce-sellers.html">View Details</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="apps-invoice-details.html" class="side-nav-link">
+                    <i class="uil-invoice"></i>
+                    <span> Invoices </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarReports" aria-expanded="false"
+                    aria-controls="sidebarReports" class="side-nav-link">
+                    <i class="uil-layer-group"></i>
+                    <span> Reports </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarReports">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="apps-apartment-register.html">Register New</a>
+                        </li>
+                        <li>
+                            <a href="apps-apartment-details.html">List All</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarComplaints" aria-expanded="false"
+                    aria-controls="sidebarComplaints" class="side-nav-link">
+                    <i class="uil-exclamation-triangle"></i>
+                    <span> Support Comlaints </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarComplaints">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="apps-complaints-register.html">Complaint Register</a>
+                        </li>
+                        <li>
+                            <a href="apps-complaint-details.html">List All</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#admins" aria-expanded="false" aria-controls="admins"
+                    class="side-nav-link">
+                    <i class="uil-user-circle"></i>
+                    <span> Admins </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="admins">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="apps-admin-register.html">Register New</a>
+                        </li>
+                        <li>
+                            <a href="view-admin-details.html">View Admins</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="{% url "admin_dashboard:admin_logout" %}" class="side-nav-link">
+                    <i class="mdi mdi-logout me-1"></i>
+                    <span> Logout </span>
+                </a>
+            </li>
+
+
+
+    </div>
+    <!-- Sidebar -left -->
+
+</div>
+<!-- Left Sidebar End -->

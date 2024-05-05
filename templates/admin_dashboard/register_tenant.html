@@ -1,0 +1,285 @@
+{% extends "base_admin.html" %}
+
+{% load static %}
+
+<!-- wrapper -->
+{% block wrapper %}
+
+<div class="wrapper">
+    {% include "admin_partial/left_sidebar.html" %}
+
+    <div class="content-page">
+        <div class="content">
+            {% include "admin_partial/topbar.html" %}
+
+            <!-- Start Content-->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">SomaliRealEState</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Registeration</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Tenant</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">Register New Tenant</h4>
+                            <p class="text-muted mb-4" style="margin-top: -10px;">After registration, tenants can
+                                apply for houses or apartments.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card widget-flat">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-12">
+
+
+                                        <form class="needs-validation" novalidate>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="first-name" class="form-label">First Name
+                                                            <span class="text-danger">*</span></label>
+                                                        <input class="form-control" type="text"
+                                                            placeholder="Enter your first name" id="first-name" required/>
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Your First Name.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="middle-name" class="form-label">Middle Name
+                                                            <span class="text-danger">*</span></label>
+                                                        <input class="form-control" type="text"
+                                                            placeholder="Enter your middle name" id="middle-name" required/>
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Your Middle Name.
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="last-name" class="form-label">Last Name <span
+                                                                class="text-danger">*</span></label>
+                                                        <input class="form-control" type="text"
+                                                            placeholder="Enter your last name" id="last-name" required/>
+
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Your Last Name.
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div> <!-- end row -->
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="email-address" class="form-label">Email address
+                                                            <span class="text-danger">*</span></label>
+                                                        <input type="email" id="email-address" class="form-control"
+                                                            placeholder="somalirealestate@gmail.com" required>
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Your Email Address.
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="password" class="form-label">Password <span
+                                                            class="text-danger">*</span></label>
+                                                        <div class="input-group input-group-merge">
+                                                            <input type="password" id="password"
+                                                                class="form-control"
+                                                                placeholder="Enter your password" required>
+                                                                
+                                                            <div class="input-group-text" data-password="false">
+                                                                <span class="password-eye"></span>
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please Enter Your Password Name.
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="confirm-password" class="form-label">Confirm
+                                                            Password <span
+                                                            class="text-danger">*</span></label>
+                                                        <div class="input-group input-group-merge">
+                                                            <input type="password" id="confirm-password"
+                                                                class="form-control" placeholder="confirm password" required>
+                                                            <div class="input-group-text" data-password="false">
+                                                                <span class="password-eye"></span>
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Check Your Password try Again..
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end row -->
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="phone-number" class="form-label">Phone
+                                                            Number <span
+                                                            class="text-danger">*</span></label>
+                                                        <input type="text" id="phone-number" class="form-control" required>
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Your Phone Number.
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="gender" class="form-label">Gender <span
+                                                            class="text-danger">*</span></label>
+                                                        <select class="form-select" id="gender" required>
+                                                            <option value="">Choose Your Gender</option>
+                                                            <option value="male">Male</option>
+                                                            <option value="female">Female</option>
+
+                                                        </select>
+                                                        <div class="invalid-feedback">
+                                                            Choose Your Gender
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="dob" class="form-label">Date of Birth</label>
+                                                        <input class="form-control" id="dob" type="date"
+                                                            name="date" required>
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Your Date Birth.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end row -->
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="address" class="form-label">Address
+                                                            <span class="text-danger">*</span></label>
+                                                        <input class="form-control" type="text"
+                                                         id="address" required/>
+                                                         <div class="invalid-feedback">
+                                                            Please Enter Your Address.
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="state" style="margin-bottom: 8px;">Select State <span
+                                                                class="text-danger">*</span></label>
+                                                        <select data-toggle="select2" title="state" id="state" style="margin-top: 10px;">
+                                                            <option value="0">Select State</option>
+                                                            <option value="WD">Wadajir</option>
+                                                            <option value="Dhr">Dharkenley</option>
+                                                            <option value="Dnl">Daynile</option>
+                                                            <option value="Wrd">Wardigley</option>
+                                                            <option value="HWl">Howl Wadaag</option>
+                                                            <option value="Wbr">Waberi</option>
+                                                            <option value="HJb">Hamar Jijab</option>
+                                                        </select>
+                                                    </div>
+                                                
+                                                </div> <!-- end col -->
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="occupation"
+                                                            class="form-label">Occupation <span
+                                                            class="text-danger">*</span></label>
+                                                        <input type="text" id="occupation" class="form-control"
+                                                            placeholder="Enter your job" required>
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Your Occupation.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="mb-3">
+                                                            <label for="identity-doc" class="form-label">Identification
+                                                                Document <span
+                                                                class="text-danger">*</span></label>
+                                                            <input type="file" id="identity-doc" class="form-control" required>
+                                                            <div class="invalid-feedback">
+                                                                Please Enter Your Identification Document.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+
+                                            </div> <!-- end row -->
+
+                                           
+                                            <div class="row mt-4">
+                                                <div class="col-sm-12">
+                                                    <div class="text-sm-end">
+                                                        <button class="btn btn-primary" type="submit">Submit</button>
+                                                    </div>
+                                                </div> <!-- end col -->
+                                            </div> <!-- end row -->
+
+                                        </form>
+                                    </div>
+
+                                </div> <!-- end row-->
+
+
+
+
+                            </div> <!-- end card-body-->
+                        </div> <!-- end card-->
+                    </div> <!-- end col -->
+
+                </div>
+                <!-- end row -->
+
+
+            </div> <!-- container -->
+        </div>
+
+    </div> <!-- content -->
+
+    {% include "admin_partial/footer.html" %}
+</div> <!-- end wrapper -->
+
+
+
+{% endblock %}
+
+
+<!-- right_sidebar -->
+{% block right_sidebar %}
+{% include "admin_partial/right_sidebar.html" %}
+{% endblock  %}
+
+
+

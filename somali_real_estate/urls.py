@@ -22,4 +22,5 @@ urlpatterns = [
     path("", include("listings_app.urls")),
     path("account/", include("accounts_app.urls")),
     path("rental_properties/", include("rental_property_app.urls")),
+    path('admin_dashboard/', include('admin_dashboard.urls')),
 ]
