@@ -78,11 +78,20 @@
                     </li>
                     
                     <li>
-                      <a href="{% url 'accounts_app:change_password' id=request.user.id %}" class="dropdown-item">
-                        <i class="fas fa-key"></i>
-                        <span>Change Password</span>
-                    </a>
-                    
+                      {% if request.session.user_id %}
+                          <a href="{% url 'accounts_app:change_password' id=request.session.user_id %}" class="dropdown-item">
+                              <i class="fas fa-key"></i>
+                              <span>Change Password</span>
+                          </a>
+                      {% else %}
+                          <a href="{% url 'accounts_app:login' %}" class="dropdown-item">
+                              <i class="fas fa-sign-in-alt"></i>
+                              <span>Login to Change Password</span>
+                          </a>
+                      {% endif %}
+
+
+                                      
                   </li>
                   
                     <li><a href="#resetPasswordModal"class="dropdown-item" data-toggle="modal"><i class="fas fa-undo-alt"></i> Reset Password</a></li>
