@@ -1,71 +1,62 @@
-
 {% extends 'base_user.html' %}
 
 {% block navbar %}
 {% include 'partials/navbar.html' %}
 
-{% endblock  %}
+{% endblock %}
 
 {% block content %}
-    <!-- login side -->
-  <div class="site-section" style="background-color:#f9f9f9 !important">
-    <!-- Section: Design Block -->
-    <section class="container-lg rounded-5">
-      <!-- Jumbotron -->
-      <div class="px-4 py-5 px-md-5 rounded-2">
-        <div class="container">
-          <div class="row justify-content-center align-items-center">
+<!-- login side -->
+<div class="site-section" style="background-color:#f9f9f9 !important">
+  <!-- Section: Design Block -->
+  <section class="container-lg rounded-5">
+    <!-- Jumbotron -->
+    <div class="px-4 py-5 px-md-5 rounded-2">
+      <div class="container">
+        <div class="row justify-content-center align-items-center">
 
-            <div class="col-lg-6 mb-5 mb-lg-0">
+          <div class="col-lg-6 mb-5 mb-lg-0">
 
-              <div class="card" style="border-radius: 5px; border: 0;">
-                <div class="card-body py-5 px-md-5">
-                  <h3 class="text-center fs-5 fw-bold pb-3 text-uppercase" style="color: #212A55;">login</h3>
-                  <p class="text-center pb-5" style="color: #858585;">Please enter your login and password!</p>
-                  {% if messages %}
-                    {% for message in messages %}
-                      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                      </div>
-                    {% endfor %}
-                  {% endif %}
+            <div class="card" style="border-radius: 5px; border: 0;">
+              <div class="card-body py-5 px-md-5">
+                <h3 class="text-center fs-5 fw-bold pb-3 text-uppercase" style="color: #212A55;">LOG IN</h3>
+                <p class="text-center pb-5" style="color: #858585;">Please enter your login and password!</p>
+                {% include "partials/alert_message.html" %}
 
-
-
-
-                  <form action="{% url 'accounts_app:login' %}" method="POST">
-                    {% csrf_token %}
-                    <!-- Email input -->
-                    <div class="mb-4">
-                      <div data-mdb-input-init class="form-outline">
-                        <input type="email" id="type_email" name="type_email" style="height: 40px;" class="form-control my-3" />
-                        <label class="form-label" for="type_email">Email Address</label>
-                      </div>
+                <form action="{% url 'accounts_app:login' %}" method="POST">
+                  {% csrf_token %}
+                  <!-- Email input -->
+                  <div class="mb-4">
+                    <div data-mdb-input-init class="form-outline">
+                      <input type="email" id="type_email" name="type_email" style="height: 40px;"
+                        class="form-control my-3" />
+                      <label class="form-label" for="type_email">Email Address</label>
                     </div>
+                  </div>
 
-                    <!-- Password input -->
-                    <div class="mb-4">
-                      <div data-mdb-input-init class="form-outline">
-                        <input type="password" id="type_password" name="type_password" style="height: 40px;" class="form-control my-3 no-border" />
-                        <label class="form-label" for="type_password">Password</label>
+                  <!-- Password input -->
+                  <div class="mb-4">
+                    <div data-mdb-input-init class="form-outline">
+                      <input type="password" id="type_password" name="type_password" style="height: 40px;"
+                        class="form-control my-3 no-border" />
+                      <label class="form-label" for="type_password">Password</label>
                     </div>
 
                     <div class="mb-3">
                       <label for="form3Example4" class="form-label">Select Role</label>
                       <select class="form-select" id="role" name="role" style="height: 40px;">
-                          <option>Role</option>
-                          <option value="Owner">Owner</option>
-                          <option value="Tenant">Tenant</option>
-                      </select>                     
-                  </div>
-                  <a href="#resetPasswordModal"  data-toggle="modal">
-                    <p class="text-center" style="color: #858585;">Forget password?</p>
-                  </a>
+                        <option>Role</option>
+                        <option value="Owner">Owner</option>
+                        <option value="Tenant">Tenant</option>
+                      </select>
+                    </div>
+                    <a href="#resetPasswordModal" data-toggle="modal">
+                      <p class="text-center" style="color: #858585;">Forget password?</p>
+                    </a>
 
                     <!-- Submit button -->
                     <button type="submit" class="btn text-uppercase btn-primary btn-block mb-4">
-                      Register
+                      LOG IN
                     </button>
 
 
@@ -88,21 +79,21 @@
                         <i class="fab fa-github"></i>
                       </button>
                     </div>
-                    <p class="text-center mt-4" style="color: #858585;">Don't have an account? <a
-                        href="{% url "accounts_app:register" %}">LOG IN</a></p>
-                  </form>
-                </div>
+                    <p class="text-center mt-4" style="color: #858585;">Don't have an account? <a href="{% url "
+                        accounts_app:register" %}">Register</a></p>
+                </form>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- Jumbotron -->
-    </section>
-    <!-- Section: Design Block -->
-  </div>
+    </div>
+    <!-- Jumbotron -->
+  </section>
+  <!-- Section: Design Block -->
+</div>
 
-  {% include "partials/edit_reset_modals.html" %}
+{% include "partials/edit_reset_modals.html" %}
 
 <!-- MDB -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"></script>

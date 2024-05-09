@@ -1,4 +1,5 @@
 {% load static %}
+
 <div class="site-wrap">
 
     <div class="site-mobile-menu">
@@ -75,7 +76,14 @@
                     <li><a href="#deletePropertyModal" class="dropdown-item" data-toggle="modal"><i class="fa fa-trash" aria-hidden="true"></i> 
                         <span>Delete Property</span></a>
                     </li>
-                    <li><a href="#changePasswordModal" class="dropdown-item" data-toggle="modal"><i class="fas fa-key"></i></i><span> Change Password</span></a></li>
+                    
+                    <li>
+                      <a href="{% url 'accounts_app:change_password' id=request.user.id %}" class="dropdown-item">
+                          <i class="fas fa-key"></i>
+                          <span>Change Password</span>
+                      </a>
+                  </li>
+                  
                     <li><a href="#resetPasswordModal"class="dropdown-item" data-toggle="modal"><i class="fas fa-undo-alt"></i> Reset Password</a></li>
                     <li>
                       <hr class="dropdown-divider">

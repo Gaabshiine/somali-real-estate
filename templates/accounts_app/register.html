@@ -49,14 +49,7 @@
             <div class="card" style="border-radius: 5px; border: 0;">
               <div class="card-body py-5 px-md-5">
                 <h3 class="text-center fs-5 fw-bold pb-2 text-uppercase" style="color: #212A55;">Join Us</h3>
-                {% if messages %}
-                    {% for message in messages %}
-                      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                      </div>
-                    {% endfor %}
-                {% endif %}
+                {% include "partials/alert_message.html" %}
                 <form action="{% url 'accounts_app:register' %}" method="POST">
 
                   {% csrf_token %}

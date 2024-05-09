@@ -10,11 +10,14 @@
 
 {% block content_modal %}
 <div class="site-section">
+  
   <section class="h-100 gradient-custom-2">
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
+        
         <div class="col col-lg-9 col-xl-7">
           <div class="card">
+            {% include "partials/alert_message.html" %}
             <div class="rounded-top text-white d-flex flex-row" style="background-color: #1a9536; height:200px;">
               <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
                 <img src="{% static "./user_styles/images/person_1.jpg" %}" alt="Generic placeholder image"

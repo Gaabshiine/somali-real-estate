@@ -93,6 +93,7 @@ DATABASES = {
 
 
 
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -135,6 +136,8 @@ STATICFILES_DIRS = [
 ]
 
 
+SESSION_COOKIE_AGE = 86400  # 24 hours in seconds
+
 
 # Media Folder Setting
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -145,6 +148,14 @@ from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
+
+# email setting
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'gaavshiineq@gmail.com'
+EMAIL_HOST_PASSWORD = 'oyhb ogvr tvcw nznk'
 
 
 # Default primary key field type

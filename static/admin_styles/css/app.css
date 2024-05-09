@@ -1,17 +1,5 @@
 @charset "UTF-8";
-/*
-Template Name: Hyper - Responsive Bootstrap 5 Admin Dashboard
-Version: 3.4.0
-Author: CoderThemes
-Email: support@coderthemes.com
-File: Main Css File
-*/
-/*!
- * Bootstrap v5.1.0 (https://getbootstrap.com/)
- * Copyright 2011-2021 The Bootstrap Authors
- * Copyright 2011-2021 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
- */
+
 :root {
   --bs-blue: #2c8ef8;
   --bs-indigo: #239f40;
