@@ -123,7 +123,7 @@ def edit_profile_view(request, slug):
 
 
 # change_password_view
-def change_password_view(request):
+def change_password_view(request, id):
     user_id = request.session.get('user_id')
     if user_id:
         if request.method == "POST":

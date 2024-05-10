@@ -10,6 +10,7 @@ urlpatterns = [
     path("owner_profile/", views.owner_profile_view, name="owner_profile"),
     path("user_profile/", views.user_profile_view, name="user_profile"),
     path("edit_profile/<slug:slug>", views.edit_profile_view, name="edit_profile"),
-    path("change_password/<int:id>", views.change_password_view, name="change_password"),
+    path("change_password/", views.change_password_view, name="change_password"),
+    path("change_password/<int:id>", views.change_password_view, name="change_password_with_id"),
     path("forgot_password/", views.forgot_password_view, name="forgot_password"),
 ]

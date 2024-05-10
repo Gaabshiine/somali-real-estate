@@ -33,8 +33,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "False").lower() == "true" # when you end of the developement leave the comment
-
+# DEBUG = os.environ.get("DEBUG", "False").lower() == "true" # when you end of the developement leave the comment
+DEBUG = True
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 
@@ -93,10 +93,10 @@ WSGI_APPLICATION = 'somali_real_estate.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bd460ltebcpsau9qcw19',
-        'USER': 'uouzqzapmnlff5mu',
-        'PASSWORD': 'iI1TeDVsz9ttiemZQCo6',
-        'HOST': 'bd460ltebcpsau9qcw19-mysql.services.clever-cloud.com',
+        'NAME': 'gaabshiine_realestatems',
+        'USER': 'gaabshiine_somalirealestate',
+        'PASSWORD': '8716!jrwZ',
+        'HOST': 'somalirealestate.helioho.st',
         'PORT': '3306',
     }
 }
