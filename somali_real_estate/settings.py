@@ -16,12 +16,12 @@ import secrets
 import string
 
 # Function to generate a random SECRET_KEY
-def generate_secret_key(length=50):
-    alphabet = string.ascii_letters + string.digits + '!@#$%^&*(-_=+)'
-    return ''.join(secrets.choice(alphabet) for _ in range(length))
+# def generate_secret_key(length=50):
+#     alphabet = string.ascii_letters + string.digits + '!@#$%^&*(-_=+)'
+#     return ''.join(secrets.choice(alphabet) for _ in range(length))
 
 # Set SECRET_KEY using environment variable or generate a random one
-SECRET_KEY = os.environ.get("SECRET_KEY", generate_secret_key())
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
