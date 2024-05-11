@@ -6,10 +6,7 @@ from django.contrib.sessions.models import Session
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth import authenticate, login
-
-
-
-
+from django.contrib.auth import update_session_auth_hash
 
 # Create your views here.
 
@@ -123,6 +120,7 @@ def edit_profile_view(request, slug):
 
 
 # change_password_view
+
 def change_password_view(request, id):
     user_id = request.session.get('user_id')
     if user_id:
@@ -130,6 +128,9 @@ def change_password_view(request, id):
             old_password = request.POST.get("current_password")
             new_password = request.POST.get("new_password")
             confirm_password = request.POST.get("confirm_password")
+            print("old_password", old_password)
+            print("new_password", new_password)
+            print("confirm_password", confirm_password)
 
             owner = Owner.objects.filter(id=user_id).first()
             tenant = Tenant.objects.filter(id=user_id).first()
@@ -137,10 +138,15 @@ def change_password_view(request, id):
             if owner:
                 if owner.check_password(old_password):
                     if new_password == confirm_password:
-                        owner.set_password(new_password)
-                        owner.save()
-                        messages.success(request, "Password updated successfully")
-                        return redirect("accounts_app:owner_profile")
+                        # Update password only if it's different from the current one
+                        if not owner.check_password(new_password):
+                            print("new_password", new_password)
+                            owner.set_password(new_password)
+                            owner.save()
+                            messages.success(request, "Password updated successfully")
+                            return redirect(reverse('accounts_app:owner_profile'))
+                        else:
+                            messages.error(request, "New password should be different from the old one")
                     else:
                         messages.error(request, "New password and confirm password do not match")
                 else:
@@ -148,22 +154,41 @@ def change_password_view(request, id):
             elif tenant:
                 if tenant.check_password(old_password):
                     if new_password == confirm_password:
-                        tenant.set_password(new_password)
-                        tenant.save()
-                        messages.success(request, "Password updated successfully")
-                        return redirect("accounts_app:user_profile")
+                        # Update password only if it's different from the current one
+                        if not tenant.check_password(new_password):
+                            tenant.set_password(new_password)
+                            tenant.save()
+                            messages.success(request, "Password updated successfully")
+                            return redirect(reverse('accounts_app:user_profile'))
+                        else:
+                            messages.error(request, "New password should be different from the old one")
                     else:
                         messages.error(request, "New password and confirm password do not match")
                 else:
                     messages.error(request, "Current password is incorrect")
             else:
                 messages.error(request, "User not found")
+        else:
+            messages.error(request, "Invalid request method")
     else:
         messages.warning(request, "Please login to change your password.")
         return redirect(reverse('accounts_app:login'))
     
-    return render(request, "accounts_app/change_password.html", {})
+    return render(request, "accounts_app/change_password.html", {'id': user_id})
 
+
+
+
+
+def change_password_redirect_view(request):
+    # Assuming request.session.user_id contains the correct user ID
+    user_id = request.session.get('user_id')
+    if user_id:
+        return redirect('accounts_app:change_password', id=user_id)
+    else:
+        # Handle the case where user_id is not set in session
+        return redirect('accounts_app:login')  # or wherever you want to redirect
+    
 
 
 # reset_password_view
