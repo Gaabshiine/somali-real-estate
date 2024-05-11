@@ -10,6 +10,13 @@
 
 {% block content_modal %}
 
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
 
 <div class="site-section">
   <section class="h-100 gradient-custom-2">

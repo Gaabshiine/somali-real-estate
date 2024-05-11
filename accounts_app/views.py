@@ -36,8 +36,10 @@ def register_view(request):
             if type_of_user == "Owner":
                 # save the data to the database
                 owner = Owner(first_name=first_name, middle_name=middle_name, last_name=last_name, email_address=email_address, gender=gender,
-                               date_of_birth=date_of_birth, phone_number=phone_number, address=address, occupation=occupation, state=state, password=password)
+                date_of_birth=date_of_birth, phone_number=phone_number, address=address, occupation=occupation, state=state)
+                owner.set_password(password)  # This hashes the password before saving
                 owner.save()
+
             elif type_of_user == "Tenant":
                 # save the data to the database
                 tenant = Tenant(first_name=first_name, middle_name=middle_name, last_name=last_name, email_address=email_address, gender=gender,
@@ -68,7 +70,7 @@ def login_view(request):
 
         if type_of_user == "Owner":
             owner = Owner.objects.filter(email_address=email_address).first()
-            if owner and owner.password == password:
+            if owner and owner.check_password(password):
                 login(request, owner)
                 request.session['user_id'] = owner.id
                 messages.success(request, "Login successful")
@@ -128,38 +130,22 @@ def change_password_view(request, id):
             old_password = request.POST.get("current_password")
             new_password = request.POST.get("new_password")
             confirm_password = request.POST.get("confirm_password")
-            print("old_password", old_password)
-            print("new_password", new_password)
-            print("confirm_password", confirm_password)
+            print("Old Password: ", old_password)
+            print("New Password: ", new_password)
+            print("Confirm Password: ", confirm_password)
 
-            owner = Owner.objects.filter(id=user_id).first()
-            tenant = Tenant.objects.filter(id=user_id).first()
-
-            if owner:
-                if owner.check_password(old_password):
+            user = Owner.objects.filter(id=user_id).first()  # Assuming the user model based on your scenario
+            if user:
+                if user.check_password(old_password):
+                    print("Old password is correct")
                     if new_password == confirm_password:
-                        # Update password only if it's different from the current one
-                        if not owner.check_password(new_password):
-                            print("new_password", new_password)
-                            owner.set_password(new_password)
-                            owner.save()
+                        if not user.check_password(new_password):
+                            print("New password is different and updating")
+                            user.set_password(new_password)
+                            user.save()
+                            update_session_auth_hash(request, user)  # Important to keep the user logged in after password change
                             messages.success(request, "Password updated successfully")
-                            return redirect(reverse('accounts_app:owner_profile'))
-                        else:
-                            messages.error(request, "New password should be different from the old one")
-                    else:
-                        messages.error(request, "New password and confirm password do not match")
-                else:
-                    messages.error(request, "Current password is incorrect")
-            elif tenant:
-                if tenant.check_password(old_password):
-                    if new_password == confirm_password:
-                        # Update password only if it's different from the current one
-                        if not tenant.check_password(new_password):
-                            tenant.set_password(new_password)
-                            tenant.save()
-                            messages.success(request, "Password updated successfully")
-                            return redirect(reverse('accounts_app:user_profile'))
+                            return redirect('accounts_app:owner_profile')
                         else:
                             messages.error(request, "New password should be different from the old one")
                     else:
@@ -172,7 +158,6 @@ def change_password_view(request, id):
             messages.error(request, "Invalid request method")
     else:
         messages.warning(request, "Please login to change your password.")
-        return redirect(reverse('accounts_app:login'))
     
     return render(request, "accounts_app/change_password.html", {'id': user_id})
 
@@ -180,6 +165,7 @@ def change_password_view(request, id):
 
 
 
+# change_password_redirect_view
 def change_password_redirect_view(request):
     # Assuming request.session.user_id contains the correct user ID
     user_id = request.session.get('user_id')
