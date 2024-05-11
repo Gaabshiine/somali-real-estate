@@ -30,18 +30,18 @@
                 <li class="active">
                     <a href="{% url 'listings_app:home' %}">Home</a>
                 </li>
-                <li><a href="buy.html">Buy</a></li>
-                <li><a href="{% url "rental_property_app:rental_property_list" %}">Rent</a></li>
+                <li><a href="#">Buy</a></li>  <!-- Adjust the 'buy' named URL accordingly -->
+                <li><a href="{% url 'rental_property_app:rental_property_list' %}">Rent</a></li>
                 <li class="has-children">
-                  <a href="properties.html">Properties</a>
-                  <ul class="dropdown arrow-top">
-                    <li><a href="#">Apartments</a></li>
-                    <li><a href="#">Houses</a></li>
-                  </ul>
+                    <a href="#">Properties</a>  <!-- Adjust the 'properties' named URL accordingly -->
+                    <ul class="dropdown arrow-top">
+                        <li><a href="#">Apartments</a></li>
+                        <li><a href="#">Houses</a></li>
+                    </ul>
                 </li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-              </ul>
+                <li><a href="{% url 'listings_app:about' %}">About</a></li>  
+                <li><a href="{% url 'listings_app:contact' %}">Contact</a></li>  
+            </ul>
             </nav>
   
           </div>
