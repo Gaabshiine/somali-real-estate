@@ -1,0 +1,47 @@
+{% extends 'base_user.html' %}
+
+{% block content %}
+<div class="site-section" style="background-color:#f9f9f9 !important">
+
+  <!-- Section: Design Block -->
+  <section class="container-lg rounded-5 mail-seccess section">
+    <!-- Jumbotron -->
+    <div class="px-4 py-5 px-md-5 rounded-2">
+      <div class="container">
+        <div class="row justify-content-center align-items-center">
+
+          <div class="col-lg-12 mb-5 mb-lg-0">
+
+            <div class="card shadow-none" style="border-radius: 5px; border: 0;">
+              <div class="card-body  py-5 px-md-5">
+                  <div class="container">
+                      <div class="row">
+                          <div class="col-lg-6 offset-lg-3 col-12">
+                              <!-- Error Inner -->
+                              <div class="success-inner">
+                                  <h1><i class="fa fa-envelope"></i><span>Your Mail Sent Successfully!</span></h1>
+                                  <p>
+                                      We've emailed you instructions for setting your password, if an account exists with the email you entered. You should receive them shortly. If you don't receive an email, please sure you've entered the address you registered with, and check your spam folder.
+
+                                  </p>
+                                  <p class="mb-0">If you continue to experience problems, please <a href="{% url 'listings_app:contact' %}">contact support</a>.</p>
+                                
+                              </div>
+                              <!--/ End Error Inner -->
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Jumbotron -->
+  </section>
+  <!-- Section: Design Block -->
+</div>
+
+{% include "accounts_app/reset_password_modal.html" %}
+{% endblock %}
+

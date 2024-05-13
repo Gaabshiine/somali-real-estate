@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib import messages
-from .models import Owner, Tenant
-from django.contrib.sessions.models import Session
 from django.core.mail import send_mail
+from .models import Owner, Tenant
 from django.conf import settings
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, logout
 from django.contrib.auth import update_session_auth_hash
+from django.conf import settings
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 
@@ -185,9 +186,49 @@ def logout_view(request):
 
 
 ############################# reset_password_view info #############################
-def forgot_password_view(request):
-    return render(request, "accounts_app/forget_password.html", ) # render reset password page
+
+def reset_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email1')
+        user = Owner.objects.filter(email_address=email).first()
+        if user:
+            send_reset_email(user, request)
+            return redirect('accounts_app:email_sent_confirmation')
+        else:
+            messages.error(request, "No account with that email exists.")
+    return render(request, 'accounts_app/reset_password_modal.html')
+
+def send_reset_email(user, request):
+    # Define the reset URL using the reverse function to get the URL path
+    reset_path = reverse('accounts_app:password_reset_form', args=[user.id])
+    reset_url = request.build_absolute_uri(reset_path)
+    
+    subject = "Password Reset Requested"
+    message = f'''Hi {user.first_name},
+    Please click on the following link to reset your password:
+    {reset_url} If you did not make this request, please ignore this email and ensure your account is secure.'''
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [user.email_address]
+    send_mail(subject, message, email_from, recipient_list)
+    return redirect('accounts_app:password_reset_done')
+
+def password_reset_form(request, user_id):
+    user = get_object_or_404(Owner, id=user_id)
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+        if password == confirm_password:
+            user.set_password(password)
+            user.save()
+            messages.success(request, "Your password has been reset successfully.")
+            return redirect('accounts_app:password_reset_done')
+        else:
+            messages.error(request, "Passwords do not match.")
+    return render(request, 'accounts_app/password_reset_form.html', {'user_id': user_id})
+
+def password_reset_done(request):
+    return render(request, 'accounts_app/password_reset_done.html')
 
 
-
-# 
+def email_sent_confirmation(request):
+    return render(request, 'accounts_app/email_sent_confirmation.html')

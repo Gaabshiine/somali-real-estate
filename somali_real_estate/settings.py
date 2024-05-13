@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
-import secrets
-import string
 
 # Function to generate a random SECRET_KEY
 # def generate_secret_key(length=50):
@@ -35,6 +33,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true" # when you end of the developement leave the comment
 
+# DEBUG = True
+
+# SECURITY WARNING: define the correct hosts in production!
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 
@@ -167,7 +168,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'gaavshiineq@gmail.com'
-EMAIL_HOST_PASSWORD = 'oyhb ogvr tvcw nznk'
+EMAIL_HOST_PASSWORD = 'veje drwj zxgd zhlb'
 
 
 # Default primary key field type
