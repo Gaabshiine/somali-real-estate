@@ -12,14 +12,16 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+import secrets
+import string
 
 # Function to generate a random SECRET_KEY
-# def generate_secret_key(length=50):
-#     alphabet = string.ascii_letters + string.digits + '!@#$%^&*(-_=+)'
-#     return ''.join(secrets.choice(alphabet) for _ in range(length))
+def generate_secret_key(length=50):
+    alphabet = string.ascii_letters + string.digits + '!@#$%^&*(-_=+)'
+    return ''.join(secrets.choice(alphabet) for _ in range(length))
 
 # Set SECRET_KEY using environment variable or generate a random one
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY", generate_secret_key())
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -31,9 +33,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "False").lower() == "true" # when you end of the developement leave the comment
+# DEBUG = os.environ.get("DEBUG", "False").lower() == "true" # when you end of the developement leave the comment
 
-# DEBUG = True
+DEBUG = True
 
 # SECURITY WARNING: define the correct hosts in production!
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")

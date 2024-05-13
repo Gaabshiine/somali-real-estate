@@ -7,7 +7,8 @@ from django.conf import settings
 from django.contrib.auth import login, logout
 from django.contrib.auth import update_session_auth_hash
 from django.conf import settings
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password
+
 
 # Create your views here.
 
@@ -91,21 +92,26 @@ def login_view(request):
         email_address = request.POST.get("type_email").strip()
         password = request.POST.get("type_password").strip()
         type_of_user = request.POST.get("role").strip()
+        role = request.POST.get("role")
+        if role:
+            user = None
+            if type_of_user == "Owner":
+                user = Owner.objects.filter(email_address=email_address).first()
+            elif type_of_user == "Tenant":
+                user = Tenant.objects.filter(email_address=email_address).first()
+            # Continue for other types
 
-        user = None
-        if type_of_user == "Owner":
-            user = Owner.objects.filter(email_address=email_address).first()
-        elif type_of_user == "Tenant":
-            user = Tenant.objects.filter(email_address=email_address).first()
-        # Continue for other types
+            if user and user.check_password(password):
+                login(request, user)
+                request.session['user_id'] = user.id
+                messages.success(request, "Login successful")
+                return redirect(get_redirect_url(user))
+            else:
+                messages.error(request, "Invalid email address or password")
 
-        if user and user.check_password(password):
-            login(request, user)
-            request.session['user_id'] = user.id
-            messages.success(request, "Login successful")
-            return redirect(get_redirect_url(user))
         else:
-            messages.error(request, "Invalid email address or password")
+            messages.error(request, "Please select a role.")
+            return render(request, 'accounts_app/login.html')
     return render(request, "accounts_app/login.html")
 
 
@@ -186,37 +192,58 @@ def logout_view(request):
 
 
 ############################# reset_password_view info #############################
-
 def reset_password(request):
     if request.method == 'POST':
         email = request.POST.get('email1')
-        user = Owner.objects.filter(email_address=email).first()
-        if user:
-            send_reset_email(user, request)
-            return redirect('accounts_app:email_sent_confirmation')
+        user_type = request.POST.get('role')
+        user_model = {
+            'Owner': Owner,
+            'Tenant': Tenant
+        }.get(user_type)
+
+        if user_model:
+            user = user_model.objects.filter(email_address=email).first()
+            if user:
+                send_reset_email(user, user_type, request)
+                return redirect('accounts_app:email_sent_confirmation')
+            else:
+                messages.error(request, "No account found with that email for the selected role.")
         else:
-            messages.error(request, "No account with that email exists.")
+            messages.error(request, "Invalid user role selected.")
     return render(request, 'accounts_app/reset_password_modal.html')
 
-def send_reset_email(user, request):
-    # Define the reset URL using the reverse function to get the URL path
-    reset_path = reverse('accounts_app:password_reset_form', args=[user.id])
+
+
+def send_reset_email(user, user_role, request):
+    # Generate a reset URL with the user's ID
+    reset_path = reverse('accounts_app:password_reset_form', args=[user.id, user_role])
     reset_url = request.build_absolute_uri(reset_path)
-    
     subject = "Password Reset Requested"
-    message = f'''Hi {user.first_name},
-    Please click on the following link to reset your password:
-    {reset_url} If you did not make this request, please ignore this email and ensure your account is secure.'''
+    message = f"Hi {user.first_name},\n\nYou have requested to reset your password as a {user_role}.\nPlease click on the following link to reset your password:\n{reset_url}\n\nIf you did not make this request, please ignore this email and ensure your account is secure."
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [user.email_address]
     send_mail(subject, message, email_from, recipient_list)
     return redirect('accounts_app:password_reset_done')
 
-def password_reset_form(request, user_id):
-    user = get_object_or_404(Owner, id=user_id)
+
+
+def password_reset_form(request, user_id, user_type):
+    # Map user_type to the correct model
+    model_map = {
+        'Owner': Owner,
+        'Tenant': Tenant,
+    }
+    user_model = model_map.get(user_type)
+    user = get_object_or_404(user_model, id=user_id)
     if request.method == 'POST':
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
+
+        # Check if new password is the same as the old
+        if check_password(password, user.password):
+            messages.error(request, "New password cannot be the same as the old password.")
+            return render(request, 'accounts_app/password_reset_form.html', {'user_id': user_id, 'user_type': user_type})
+        
         if password == confirm_password:
             user.set_password(password)
             user.save()
@@ -224,7 +251,8 @@ def password_reset_form(request, user_id):
             return redirect('accounts_app:password_reset_done')
         else:
             messages.error(request, "Passwords do not match.")
-    return render(request, 'accounts_app/password_reset_form.html', {'user_id': user_id})
+    return render(request, 'accounts_app/password_reset_form.html', {'user_id': user_id, 'user_type': user_type})
+
 
 def password_reset_done(request):
     return render(request, 'accounts_app/password_reset_done.html')
