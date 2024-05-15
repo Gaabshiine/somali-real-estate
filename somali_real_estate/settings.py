@@ -141,15 +141,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 
+
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'), 
+]
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
-if DEBUG:
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'static'),
-    ]
-else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 STATIC_FILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -157,6 +154,10 @@ STATIC_FILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 SESSION_COOKIE_AGE = 86400  # 24 hours in seconds
 
+
+# Media Folder Setting
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # Message
 from django.contrib.messages import constants as messages
