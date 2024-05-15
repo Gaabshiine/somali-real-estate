@@ -33,7 +33,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "False").lower() == "true" # when you end of the developement leave the comment
+DEBUG = False # when you end of the developement leave the comment
 
 
 # SECURITY WARNING: define the correct hosts in production!
@@ -56,24 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'ERROR',
-            'class': 'logging.FileHandler',
-            'filename': 'C:\\var\\www\\mydjangoapp\\logs\\error.log',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-    },
-}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
