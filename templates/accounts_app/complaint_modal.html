@@ -1,0 +1,99 @@
+
+
+{% block content_modal %}
+
+<!-- complaint modal HTML -->
+<div id="complaintModal" class="modal fade" style="margin-top: 80px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="" method="POST">
+                <div class="modal-header">
+                    <h4 class="modal-title fs-6"> Complaint Request</h4>
+                    
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body p-4" style="max-height: 450px; overflow-y: auto;">
+                  <p class="text-muted mb-4 fs-6 text-center" style="margin-top: -10px;">Pleas Fill out the following Form With your Complaint. We will Review your 
+                    request and follow up with you as soon as possible.</p>
+                    <form action="">
+                      <div class="row">
+  
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="complaint-type" class="form-label">Complaint
+                                    Type <span class="text-danger">*</span></label>
+                                <select class="form-select" id="complaint-type" required>
+                                    <option value="">Select Complaint Type</option>
+                                    <option value="electrical">Electrical</option>
+                                    <option value="fire">Fire</option>
+                                    <option value="repair">Repair</option>
+                                    <option value="security">Security</option>
+                                    <option value="neighbor">Neighbor Issue</option>
+                                    <option value="others">Others</option>
+  
+                                </select>
+                                <div class="invalid-feedback">
+                                    Select Complaint Type
+                                </div>
+                            </div>
+                        </div>
+  
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="complaint-status" class="form-label">Complaint
+                                    Status <span class="text-danger">*</span></label>
+                                <select class="form-select" id="complaint-status" required>
+                                    <option value="">Select Complaint Status</option>
+                                    <option value="un-resolved">Un Resolved</option>
+                                    <option value="in-progress">In Propgress</option>
+                                    <option value="un-resolved">Resolved</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Select Complaint Status
+                                </div>
+                            </div>
+                        </div>
+  
+  
+                    </div> <!-- end row -->
+  
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="mb-3">
+                            <label for="phone-number" class="form-label">Phone
+                                Number <span class="text-danger">*</span></label>
+                            <input type="text" id="phone-number" class="form-control"
+                                required>
+                            <div class="invalid-feedback">
+                                Please Enter Your Phone Number.
+                            </div>
+                        </div>
+                    </div>
+                    </div> <!-- end row -->
+  
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="mb-3">
+                            <label for="complaint-description"
+                                class="form-label">Complaint Description</label>
+                            <textarea class="form-control" id="complaint-description"
+                                rows="3" placeholder="Write some note.."></textarea>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- Submit button -->
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary text-capitalize">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+
+
+
+{% endblock  %}
+
+
+

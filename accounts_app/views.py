@@ -75,8 +75,8 @@ def owner_profile_view(request):
     return render(request, "accounts_app/owner_profile.html", {})  # render owner profile page
 
 # user_profile_view
-def user_profile_view(request):
-    return render(request, "accounts_app/user_profile.html", {})  # render user profile page
+def tenant_profile_view(request):
+    return render(request, "accounts_app/tenant_profile.html", {})  # render user profile page
 
 
 # edit_profile_view
@@ -118,7 +118,6 @@ def login_view(request):
 
 
 ############################# Change password info #############################
-
 # get_redirect_url
 def get_redirect_url(user):
     """
@@ -127,7 +126,7 @@ def get_redirect_url(user):
     if isinstance(user, Owner):
         return 'accounts_app:owner_profile'
     elif isinstance(user, Tenant):
-        return 'accounts_app:user_profile'
+        return 'accounts_app:tenant_profile'
     # Add checks for other user types as necessary
     # Example:
     # elif isinstance(user, Seller):
@@ -142,6 +141,7 @@ def get_redirect_url(user):
 def change_password_view(request, id):
     user_id = request.session.get('user_id')
     if user_id:
+        
         user = Owner.objects.filter(id=user_id).first() or Tenant.objects.filter(id=user_id).first()  # Extend for other types
         if user:
             if request.method == "POST":
@@ -181,7 +181,6 @@ def change_password_redirect_view(request):
     else:
         # Handle the case where user_id is not set in session
         return redirect('accounts_app:login')  # or wherever you want to redirect
-    
 
 ############################# Logout view info #############################
 def logout_view(request):

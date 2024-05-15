@@ -71,8 +71,10 @@
 
                   <li><a href="#complaintModal" class="dropdown-item" data-toggle="modal"><i class="fas fa-user-ninja"></i><span> Complaint</span></a></li>
 
-                  <li><a href="#changePasswordModal" class="dropdown-item" data-toggle="modal"><i
-                        class="fas fa-key"></i><span> Change Password</span></a></li>
+                  <a href="{% url 'accounts_app:change_password_redirect' %}" class="dropdown-item">
+                    <i class="fas fa-key"></i>
+                    <span>Change Password</span>
+                  </a>
                   <li><a href="#resetPasswordModal" class="dropdown-item" data-toggle="modal"><i
                         class="fas fa-undo-alt"></i> Reset Password</a></li>
                   <li>

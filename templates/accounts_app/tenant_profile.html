@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block navbar %}
-{% include "partials/navbar_profile_owner.html" %}
+{% include "partials/navbar_profile_user.html" %}
 {% endblock navbar %}
 
 
@@ -10,7 +10,13 @@
 
 {% block content_modal %}
 
-{% include "partials/alert_message.html" %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
 <div class="site-section">
   <section class="h-100 gradient-custom-2">
     <div class="container py-5 h-100">
