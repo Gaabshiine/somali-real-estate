@@ -33,7 +33,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False # when you end of the developement leave the comment
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true" # when you end of the developement leave the comment
 
 
 # SECURITY WARNING: define the correct hosts in production!
@@ -55,8 +55,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
-
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
