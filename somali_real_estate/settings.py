@@ -37,7 +37,7 @@ DEBUG = os.environ.get("DEBUG", "False").lower() == "true" # when you end of the
 
 
 # SECURITY WARNING: define the correct hosts in production!
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = ['somali-real-estate-75rx.onrender.com', 'localhost']
 
 
 # Application definition
@@ -148,8 +148,9 @@ STATICFILES_DIRS = [
 ]
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATIC_FILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 SESSION_COOKIE_AGE = 86400  # 24 hours in seconds
