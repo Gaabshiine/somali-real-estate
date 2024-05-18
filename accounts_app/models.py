@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
+from django.conf import settings
 
 class Owner(AbstractBaseUser):
     first_name = models.CharField(max_length=255, blank=False, null=False)
@@ -42,3 +43,28 @@ class Tenant(AbstractBaseUser):
 
     class Meta:
         db_table = 'tenant'
+
+
+
+
+class Profile(models.Model):
+    owner = models.OneToOneField('Owner', on_delete=models.CASCADE, null=True, blank=True)
+    tenant = models.OneToOneField('Tenant', on_delete=models.CASCADE, null=True, blank=True)
+    image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
+    bio = models.TextField(blank=True)
+    social_media_link = models.URLField(blank=True)
+    facebook_link = models.URLField(blank=True)
+    tiktok_link = models.URLField(blank=True)
+    youtube_link = models.URLField(blank=True)
+
+    def get_image_url(self):
+        if self.image:
+            return self.image.url
+        
+        user = self.owner if self.owner else self.tenant
+        if user.gender == 'male':
+            return '/static/user_styles/images/avatar_man.png'
+        else:
+            return '/static/user_styles/images/avatar_woman.png'
+    def get_user(self):
+        return self.owner or self.tenant

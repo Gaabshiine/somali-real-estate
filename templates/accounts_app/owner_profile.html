@@ -2,15 +2,129 @@
 {% load static %}
 
 {% block navbar %}
-{% include "partials/navbar_profile_owner.html" %}
-{% endblock navbar %}
+<div class="site-wrap">
 
+  <div class="site-mobile-menu">
+    <div class="site-mobile-menu-header">
+      <div class="site-mobile-menu-close mt-3">
+        <span class="icon-close2 js-menu-toggle"></span>
+      </div>
+    </div>
+    <div class="site-mobile-menu-body"></div>
+  </div> <!--.site-mobile-menu -->
+
+  <header class="site-navbar">
+    <div class="container-lg py-1">
+      <div class="row justify-content-between align-items-center">
+        <div class="col-8 col-sm-3">
+
+          <!-- logo-->
+          <a class="navbar-brand mt-2" href="#">
+            <img src="{% static "./user_styles/images/greenlogo2.svg"%}" class="img-fluid" width="158px" height="50px"
+              alt="Somaali Real Estate" loading="lazy" />
+          </a>
+
+        </div>
+        <div class="d-none d-sm-block col-sm-6">
+          <nav class="site-navigation text-end text-md-end" role="navigation">
+
+            <ul class="site-menu js-clone-nav d-none d-xl-block text-center">
+              <li class="active">
+                  <a href="{% url 'listings_app:home' %}">Home</a>
+              </li>
+              <li><a href="#">Buy</a></li>  <!-- Adjust the 'buy' named URL accordingly -->
+              <li><a href="{% url 'rental_property_app:rental_property_list' %}">Rent</a></li>
+              <li class="has-children">
+                  <a href="#">Properties</a>  <!-- Adjust the 'properties' named URL accordingly -->
+                  <ul class="dropdown arrow-top">
+                      <li><a href="#">Apartments</a></li>
+                      <li><a href="#">Houses</a></li>
+                  </ul>
+              </li>
+              <li><a href="{% url 'listings_app:about' %}">About</a></li>  
+              <li><a href="{% url 'listings_app:contact' %}">Contact</a></li>  
+          </ul>
+          </nav>
+
+        </div>
+
+        <div class="col-4 col-sm-3">
+          <nav class="site-navigation text-end text-md-end" role="navigation">
+            <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3">
+              <a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3"></span></a>
+            </div>
+            <ul class="site-menu js-clone-nav d-none d-xl-block">
+
+              <li class="nav-item dropdown">
+                
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  {% if profile.image %}
+                    <img src="{{ profile.get_image_url }}" alt="Profile Picture"
+                    class="rounded-circle" width="30">
+                  {% else %}
+                    {% if user.gender == 'male' %}
+                      <img src="{% static './user_styles/images/avatar_man.png' %}" alt="Profile Picture"
+                      class="rounded-circle" width="30">
+                    {% else %}
+                      <img src="{% static './user_styles/images/avatar_woman.png' %}" alt="Profile Picture"
+                      class="rounded-circle" width="30">
+                    {% endif %}
+                  {% endif %}<span style="color: #1f3c88;">{{ user.first_name }} {{ user.middle_name }}</span>
+                </a> 
+               
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="{% url "accounts_app:owner_profile" %}"><i
+                        class="fa-regular fa-circle-user fa-fw"></i>
+                      View Profile</a></li>
+                  <li>
+                      <a href="{% url "rental_property_app:add_property" %}" class="dropdown-item" ><i class="fa-solid fa-house-user fa-fw"></i>
+                          <span>Add Property</span></a>
+                      
+                  </li>
+                  <li><a href="#editPropertyModal" class="dropdown-item" data-toggle="modal"><i class="fa-solid fa-pen-nib fa-fw"></i>
+                      <span>Edit Property</span></a>
+                  <li><a href="#deletePropertyModal" class="dropdown-item" data-toggle="modal"><i class="fa fa-trash" aria-hidden="true"></i> 
+                      <span>Delete Property</span></a>
+                  </li>
+                  
+                  <li>
+                      <a href="{% url 'accounts_app:change_password_redirect' %}" class="dropdown-item">
+                          <i class="fas fa-key"></i>
+                          <span>Change Password</span>
+                      </a>
+                  </li>
+                
+                  <li><a href="#resetPasswordModal"class="dropdown-item" data-toggle="modal"><i class="fas fa-undo-alt"></i> Reset Password</a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item" href=" {% url "accounts_app:logout" %} "><i
+                        class="fas fa-sign-out-alt fa-fw"></i> Log Out</a>
+                  </li>
+                </ul>
+              </li>
+
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+</div>
+{% endblock navbar %}
 
 
 
 {% block content_modal %}
 
-{% include "partials/alert_message.html" %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
 <div class="site-section">
   <section class="h-100 gradient-custom-2">
     <div class="container py-5 h-100">
@@ -18,14 +132,28 @@
         <div class="col col-lg-9 col-xl-7">
           <div class="card">
             <div class="rounded-top text-white d-flex flex-row" style="background-color: #1a9536; height:200px;">
-              <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
-                <img src="{% static "./user_styles/images/person_1.jpg" %}" alt="Generic placeholder image"
-                  class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
+              <div class="rounded-top text-white d-flex flex-row" style="background-color: #1a9536; height:200px;">
+                <div class="ms-4 d-flex flex-column" style="width: 150px; margin-top:60px">
+                  
+                  {% if profile.image %}
+                    <img src="{{ profile.get_image_url }}" alt="Profile Picture"
+                        class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
+                  {% else %}
+                    {% if user.gender == 'male' %}
+                      <img src="{% static './user_styles/images/avatar_man.png' %}" alt="Default Male Avatar"
+                          class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
+                    {% else %}
+                      <img src="{% static './user_styles/images/avatar_woman.png' %}" alt="Default Female Avatar"
+                          class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
+                    {% endif %}
+                  {% endif %}
+                </div>
+                <div class="ms-3" style="margin-top: 130px;">
+                  <h5>{{ user.first_name }} {{ user.middle_name }} {{ user.last_name }}</h5>
+                  <p>{{ user_type|title }}</p>
+                </div>
               </div>
-              <div class="ms-3" style="margin-top: 130px;">
-                <h5>Abdisalan Abdukadir</h5>
-                <p>Owner</p>
-              </div>
+              
             </div>
             <div class="p-4 text-black" style="background-color: #f8f9fa;">
               <div class="d-flex justify-content-end text-center py-1">
@@ -35,50 +163,65 @@
               </div>
             </div>
             <div class="card-body p-4 text-black">
-              <div class="mb-5">
-                <p class="lead fw-normal mb-4">Personal Details</p>
-                <div class="p-4" style="background-color: #f8f9fa;">
-                  <div class="mt-3">
-                    <div class="mb-3">
-                      <label for="simpleinput" class="form-label text-primary mb-2 font-13"><strong>Full Name:
-                        </strong></label><small class="ps-3 text-secondary" style="font-size:18px">Abdisalan Abdukadir Mohamed</small>
-                    </div>
-                    <div class="mb-3">
-                      <label for="simpleinput" class="form-label text-primary mb-2 font-13"><strong>Email:
-                        </strong></label><small class="ps-3 text-secondary" style="font-size:18px">abdisalanabdukadir@gmail.com</small>
-                    </div>
-                    <div class="mb-3">
-                      <label for="simpleinput" class="form-label text-primary mb-2 font-13"><strong>Phone Number:
-                        </strong></label><small class="ps-3 text-secondary" style="font-size:18px">+252 712 345</small>
-                    </div> 
-                    <div class="mb-3">
-                      <label for="simpleinput" class="form-label text-primary mb-2 font-13"><strong>Date of Birth:
-                        </strong></label><small class="ps-3 text-secondary" style="font-size:18px">01/01/1990</small>
-                    </div>
-                    <div class="mb-3">
-                      <label for="simpleinput" class="form-label text-primary mb-2 font-13"><strong>State:
-                        </strong></label><small class="ps-3 text-secondary" style="font-size:18px">Mogadishu</small>
-                    </div>
-                    <div class="mb-3">
-                      <label for="simpleinput" class="form-label text-primary mb-2 font-13"><strong>Address:
-                        </strong></label><small class="ps-3 text-secondary" style="font-size:18px">Wadajir</small>
-                    </div>
-                    <div class="mb-3">
-                      <label for="simpleinput" class="form-label text-primary mb-2 font-13"><strong>Occupation:
-                        </strong></label><small class="ps-3 text-secondary" style="font-size:18px">Software Engineer</small>
-                    </div>    
-                    <div class="mb-3">
-                      <label for="simpleinput" class="form-label text-primary mb-2 font-13"><strong>Type:
-                        </strong></label><small class="ps-3 text-secondary" style="font-size:18px">Owner</small>
-                    </div>
+              <p class="lead fw-normal mb-4">Personal Details</p>
+              <div class="p-4" style="background-color: #f8f9fa;">
+                <div class="mt-3">
+                  <div class="mb-3">
+                    <label class="form-label text-primary"><strong>Bio:</strong></label>
+                    <p class="text-secondary" style="font-size:18px">{{ profile.bio }}</p>
                   </div>
-                  <div class="mt-5 text-center">
-                    <a href="#editProfile" data-toggle="modal" class="rounded-4 px-3 py-2 text-white"
-                      style="background-color: #1a9536;">Edit Profile</a>
-                  </div>
-                </div>
-              </div>
+                    <div class="mb-3">
+                        <label class="form-label text-primary mb-2"><strong>Email:</strong></label>
+                        <small class="ps-3 text-secondary" style="font-size:18px">{{ user.email_address }}</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-primary mb-2"><strong>Phone Number:</strong></label>
+                        <small class="ps-3 text-secondary" style="font-size:18px">{{ user.phone_number }}</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-primary mb-2"><strong>Date of Birth:</strong></label>
+                        <small class="ps-3 text-secondary" style="font-size:18px">{{ user.date_of_birth|date:"Y-m-d" }}</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-primary mb-2"><strong>State:</strong></label>
+                        <small class="ps-3 text-secondary" style="font-size:18px">{{ user.state }}</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-primary mb-2"><strong>Address:</strong></label>
+                        <small class="ps-3 text-secondary" style="font-size:18px">{{ user.address }}</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-primary mb-2"><strong>Occupation:</strong></label>
+                        <small class="ps-3 text-secondary" style="font-size:18px">{{ user.occupation }}</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                      <label class="form-label text-primary mb-2"><strong>Social Media:</strong></label>
+                      <div>
+                        
+                      <!-- Facebook -->
+                      <a data-mdb-ripple-init class="btn btn-lg text-white mx-1" href="{{ profile.facebook_link }}"
+                      role="button" data-mdb-ripple-color="dark" target="_blank" style="background-color: #0865ff"><i class="fab fa-facebook-f"></i></a>
 
+                      <!-- Tiktok -->              
+                      <a data-mdb-ripple-init class="btn btn-lg text-white mx-1" href="{{ profile.tiktok_link }}"
+                        role="button" data-mdb-ripple-color="dark" target="_blank" style="background-color: #231319" ><i class="fab fa-tiktok"></i></a>
+                      
+                      <!-- YouTube -->
+                      <a data-mdb-ripple-init class="btn btn-lg text-white mx-1" href="{{ profile.youtube_link }}"
+                      role="button" data-mdb-ripple-color="dark" target="_blank" style="background-color: #ff0000"><i class="fab fa-youtube"></i></a>
+                      
+                      </div>
+                    </div>
+                </div>
+             
+                
+                <div class="mt-5 text-center">
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProfile">
+                    Edit Profile
+                  </button>
+                </div>
+            </div>
             </div>
           </div>
         </div>
@@ -87,43 +230,20 @@
   </section>
 </div>
 
-
-
 {% include "partials/delete_edit_modal.html" %}
 {% include "accounts_app/edit_profile.html" %}
 {% include "accounts_app/reset_password_modal.html" %}
-
 {% endblock %}
+
 
 
 {% block footer %}
     <!-- Footer content -->
     {% include 'partials/footer.html' %}
 
-          <!-- MDB -->
-<script
-type="text/javascript"
-src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"></script>
-
-<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js'></script>
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js'></script>
 
 {% endblock %}
 
-{% comment %} {% block content %} 
-        <div class="site-section">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-5">
-                        <div class="card">
-                            <div class="card-header text-center">
-                                <h4>Access Denied</h4>
-                            </div>
-                            <div class="card-body">
-                                <p class="text-center">You are not authorized to view this page. Please <a href="{% url 'accounts_app:login' %}">login</a> to view this page.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endblock content %} {% endcomment %}

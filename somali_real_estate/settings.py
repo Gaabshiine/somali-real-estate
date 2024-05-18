@@ -16,9 +16,9 @@ import secrets
 import string
 
 # Function to generate a random SECRET_KEY
-# def generate_secret_key(length=50):
-#     alphabet = string.ascii_letters + string.digits + '!@#$%^&*(-_=+)'
-#     return ''.join(secrets.choice(alphabet) for _ in range(length))
+def generate_secret_key(length=50):
+    alphabet = string.ascii_letters + string.digits + '!@#$%^&*(-_=+)'
+    return ''.join(secrets.choice(alphabet) for _ in range(length))
 
 # Set SECRET_KEY using environment variable or generate a random one
 SECRET_KEY = os.environ.get("SECRET_KEY")
@@ -35,9 +35,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true" # when you end of the developement leave the comment
 
+# DEBUG = True
 
 # SECURITY WARNING: define the correct hosts in production!
-ALLOWED_HOSTS = ['somali-real-estate-75rx.onrender.com', 'localhost']
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 
 # Application definition
@@ -140,9 +141,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-
-
-
+# static files
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'), 
 ]
@@ -152,13 +151,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Media Folder Setting
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 SESSION_COOKIE_AGE = 86400  # 24 hours in seconds
 
 
-# Media Folder Setting
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+
 
 # Message
 from django.contrib.messages import constants as messages
