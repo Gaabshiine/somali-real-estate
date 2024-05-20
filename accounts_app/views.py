@@ -250,6 +250,8 @@ def logout_view(request):
 def reset_password(request):
     if request.method == 'POST':
         email = request.POST.get('email1')
+        # get id from the session
+        user_id = request.session.get('user_id')
         user_type = request.POST.get('role')
         user_model = {
             'Owner': Owner,
@@ -261,15 +263,19 @@ def reset_password(request):
             messages.error(request, "Please fill in all fields")
             return render(request, 'accounts_app/reset_password_modal.html')
         if user_model:
-            user = user_model.objects.filter(email_address=email).first()
+            # check the Id of the user has the same email
+            user = user_model.objects.filter(id=user_id, email_address=email).first()
             if user:
                 send_reset_email(user, user_type, request)
                 return redirect('accounts_app:email_sent_confirmation')
             else:
-                messages.error(request, "No account found with that email for the selected role.")
+                messages.error(request, "Invalid email address")
         else:
-            messages.error(request, "Invalid user role selected.")
+            messages.error(request, "Invalid user type")
     return render(request, 'accounts_app/reset_password_modal.html')
+
+
+            
 
 
 
