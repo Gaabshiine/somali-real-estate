@@ -33,6 +33,10 @@ def register_view(request):
         confirm_password = request.POST.get("confirm_password").strip()
         
 
+        # check if the input has empty fields
+        if not first_name or not last_name or not middle_name or not email_address or not gender or not date_of_birth or not phone_number or not address or not occupation or not state or not type_of_user or not password or not confirm_password:
+            messages.error(request, "Please fill in all fields")
+            return render(request, "accounts_app/register.html")
         # check if the password and confirm password are the same
         if password == confirm_password:
             # check the type of user
@@ -146,6 +150,10 @@ def login_view(request):
                 user = Tenant.objects.filter(email_address=email_address).first()
             # Continue for other types
 
+            # check if the input has empty fields
+            if not email_address or not password:
+                messages.error(request, "Please fill in all fields")
+                return render(request, 'accounts_app/login.html')
             if user and user.check_password(password):
                 login(request, user)
                 request.session['user_id'] = user.id
@@ -187,9 +195,6 @@ def get_redirect_url(user):
 
 # change_password_view
 def change_password_view(request, id):
-    print(f"Request method: {request.method}")
-    user_id = request.session.get('user_id')
-    print(f"User ID from session: {user_id}")
     user_id = request.session.get('user_id')
     if user_id:
         
@@ -251,6 +256,10 @@ def reset_password(request):
             'Tenant': Tenant
         }.get(user_type)
 
+        # check if the input has empty fields
+        if not email or not user_type:
+            messages.error(request, "Please fill in all fields")
+            return render(request, 'accounts_app/reset_password_modal.html')
         if user_model:
             user = user_model.objects.filter(email_address=email).first()
             if user:
@@ -289,6 +298,10 @@ def password_reset_form(request, user_id, user_type):
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
 
+        # Check if password is empty
+        if not password or not confirm_password:
+            messages.error(request, "Please fill in all fields.")
+            return render(request, 'accounts_app/password_reset_form.html', {'user_id': user_id, 'user_type': user_type})
         # Check if new password is the same as the old
         if check_password(password, user.password):
             messages.error(request, "New password cannot be the same as the old password.")

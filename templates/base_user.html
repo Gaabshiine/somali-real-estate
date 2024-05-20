@@ -81,8 +81,14 @@
     {% endblock  %}
 </head>
 <body>
-    <!-- loading -->
-  <div class="site-loader"></div>
+   <!-- Loader should be in your HTML from the start, styled to be visible -->
+  <!-- Loader -->
+  <div class="site-loader">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
 
   <!-- progress -->
   <div id="progress">

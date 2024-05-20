@@ -1,4 +1,4 @@
-
+{% load static %}
 
 {% block content_modal %}
 
@@ -6,7 +6,7 @@
 <div id="complaintModal" class="modal fade" style="margin-top: 80px;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="" method="POST">
+            <form action="" method="POST" id="loginForm">
                 <div class="modal-header">
                     <h4 class="modal-title fs-6"> Complaint Request</h4>
                     
@@ -84,13 +84,15 @@
                 </div>
                 <div class="modal-footer">
                     <!-- Submit button -->
-                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary text-capitalize">Submit</button>
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary text-capitalize" id="submitButton">Submit</button>
                 </div>
             </form>
         </div>
     </div>
   </div>
 
+
+<script src="{% static "partials/js/snipperBtn.js" %}"></script>
 
 
 {% endblock  %}
