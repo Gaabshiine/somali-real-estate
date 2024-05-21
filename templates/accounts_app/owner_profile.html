@@ -26,18 +26,18 @@
               <div class="rounded-top text-white d-flex flex-row" style="background-color: #1a9536; height:200px;">
                 <div class="ms-4 d-flex flex-column" style="width: 150px; margin-top:60px">
                   
-                  {% if profile.image %}
-                    <img src="{{ profile.get_image_url }}" alt="Profile Picture"
+                  {% if profile.profile_picture %}
+                  <img src="{{ profile.profile_picture.url }}" alt="Profile Picture"
+                      class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; height: 150px; z-index: 1">
+                {% else %}
+                  {% if user.gender == 'male' %}
+                    <img src="{% static 'user_styles/images/avatar_man.png' %}" alt="Default Male Avatar"
                         class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; height: 150px; z-index: 1">
                   {% else %}
-                    {% if user.gender == 'male' %}
-                      <img src="{% static './user_styles/images/avatar_man.png' %}" alt="Default Male Avatar"
-                          class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; height: 150px; z-index: 1">
-                    {% else %}
-                      <img src="{% static './user_styles/images/avatar_woman.png' %}" alt="Default Female Avatar"
-                          class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; height: 150px; z-index: 1">
-                    {% endif %}
+                    <img src="{% static 'user_styles/images/avatar_woman.png' %}" alt="Default Female Avatar"
+                        class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; height: 150px; z-index: 1">
                   {% endif %}
+                {% endif %}
                 </div>
                 <div class="ms-3" style="margin-top: 130px;">
                   <h5>{{ user.first_name }} {{ user.middle_name }}</h5>

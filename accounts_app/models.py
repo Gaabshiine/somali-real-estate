@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 class Owner(AbstractBaseUser):
     first_name = models.CharField(max_length=255, blank=False, null=False)
@@ -15,7 +17,6 @@ class Owner(AbstractBaseUser):
     address = models.CharField(max_length=255)
     occupation = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
-    last_login = models.DateTimeField(auto_now=True)  # Add last_login field
 
     USERNAME_FIELD = 'email_address'  # Specify the field to use for authentication
     REQUIRED_FIELDS = ['first_name', 'last_name']  # Specify other required fields
@@ -36,7 +37,6 @@ class Tenant(AbstractBaseUser):
     address = models.CharField(max_length=255)
     occupation = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
-    last_login = models.DateTimeField(auto_now=True)  # Add last_login field
 
     USERNAME_FIELD = 'email_address'  # Specify the field to use for authentication
     REQUIRED_FIELDS = ['first_name', 'last_name']  # Specify other required fields
@@ -44,27 +44,58 @@ class Tenant(AbstractBaseUser):
     class Meta:
         db_table = 'tenant'
 
-
-
-
 class Profile(models.Model):
-    owner = models.OneToOneField('Owner', on_delete=models.CASCADE, null=True, blank=True)
-    tenant = models.OneToOneField('Tenant', on_delete=models.CASCADE, null=True, blank=True)
-    image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='profile_images/', blank=True, null=True)
     bio = models.TextField(blank=True)
-    social_media_link = models.URLField(blank=True)
     facebook_link = models.URLField(blank=True)
     tiktok_link = models.URLField(blank=True)
     youtube_link = models.URLField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    person_id = models.PositiveIntegerField()
+    person_type = models.CharField(max_length=10, choices=(('owner', 'Owner'), ('tenant', 'Tenant')))
+
+    def get_user(self):
+        if self.person_type == 'owner':
+           
+            return Owner.objects.get(id=self.person_id)
+        elif self.person_type == 'tenant':
+           
+            return Tenant.objects.get(id=self.person_id)
 
     def get_image_url(self):
-        if self.image:
-            return self.image.url
-        
-        user = self.owner if self.owner else self.tenant
-        if user.gender == 'male':
-            return '/static/user_styles/images/avatar_man.png'
+        if self.profile_picture:
+            return self.profile_picture.url
         else:
-            return '/static/user_styles/images/avatar_woman.png'
-    def get_user(self):
-        return self.owner or self.tenant
+            user = self.get_user()
+            if user.gender == 'male':
+                return '/static/user_styles/images/avatar_man.png'
+            else:
+                return '/static/user_styles/images/avatar_woman.png'
+            
+    class Meta:
+        db_table = 'profile'
+
+
+# class Profile(models.Model):
+#     owner = models.OneToOneField('Owner', on_delete=models.CASCADE, null=True, blank=True)
+#     tenant = models.OneToOneField('Tenant', on_delete=models.CASCADE, null=True, blank=True)
+#     image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
+#     bio = models.TextField(blank=True)
+#     social_media_link = models.URLField(blank=True)
+#     facebook_link = models.URLField(blank=True)
+#     tiktok_link = models.URLField(blank=True)
+#     youtube_link = models.URLField(blank=True)
+
+#     def get_image_url(self):
+#         if self.image:
+#             return self.image.url
+        
+#         user = self.owner if self.owner else self.tenant
+#         if user.gender == 'male':
+#             return '/static/user_styles/images/avatar_man.png'
+#         else:
+#             return '/static/user_styles/images/avatar_woman.png'
+#     def get_user(self):
+#         return self.owner or self.tenant
+    
