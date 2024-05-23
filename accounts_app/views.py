@@ -197,7 +197,7 @@ def get_redirect_url(user):
 
 
 ############################# start change_password_view info #############################
-# change_password_view
+
 def change_password_view(request, id):
     user_id = request.session.get('user_id')
     if user_id:
