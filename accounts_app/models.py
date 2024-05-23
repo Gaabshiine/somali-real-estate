@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.conf import settings
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey
+
 
 class Owner(AbstractBaseUser):
     first_name = models.CharField(max_length=255, blank=False, null=False)
@@ -16,7 +15,7 @@ class Owner(AbstractBaseUser):
     state = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     occupation = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
+    last_login = models.DateTimeField(auto_now=True)  # Add last_login field
 
     USERNAME_FIELD = 'email_address'  # Specify the field to use for authentication
     REQUIRED_FIELDS = ['first_name', 'last_name']  # Specify other required fields
@@ -36,7 +35,7 @@ class Tenant(AbstractBaseUser):
     state = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     occupation = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
+    last_login = models.DateTimeField(auto_now=True)  # Add last_login field
 
     USERNAME_FIELD = 'email_address'  # Specify the field to use for authentication
     REQUIRED_FIELDS = ['first_name', 'last_name']  # Specify other required fields
@@ -50,10 +49,9 @@ class Profile(models.Model):
     facebook_link = models.URLField(blank=True)
     tiktok_link = models.URLField(blank=True)
     youtube_link = models.URLField(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    
     person_id = models.PositiveIntegerField()
     person_type = models.CharField(max_length=10, choices=(('owner', 'Owner'), ('tenant', 'Tenant')))
+    created_at = models.DateTimeField(auto_now=True)  # Add created_at field
 
     def get_user(self):
         if self.person_type == 'owner':

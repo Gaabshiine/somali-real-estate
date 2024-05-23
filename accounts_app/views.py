@@ -4,7 +4,6 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from .models import Owner, Tenant, Profile
 from django.conf import settings
-from django.contrib.auth import login, logout
 from django.contrib.auth import update_session_auth_hash
 from django.conf import settings
 from django.contrib.auth.hashers import check_password
@@ -53,6 +52,7 @@ def register_view(request):
                                 date_of_birth=date_of_birth, phone_number=phone_number, address=address, occupation=occupation, state=state, password=password)
                 tenant.set_password(password)  # This hashes the password before saving
                 tenant.save()
+                
             else:
                 # return error message
                 messages.error(request, "Invalid type of user")
@@ -60,6 +60,12 @@ def register_view(request):
             
             # return success message
             messages.success(request, "Registration successful")
+            # send email to the user
+            subject = "Welcome to Somali Real Estate"
+            message = f"Hi {first_name},\n\nYou have successfully registered as a {type_of_user}.\n\nWelcome to Somali Real Estate.\n\nWe are glad to have you on board.\n\nBest Regards,\nSomali Real Estate Team"
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [email_address]
+            send_mail(subject, message, email_from, recipient_list)
             return redirect("accounts_app:login")
         else:
             # return error message
@@ -251,9 +257,9 @@ def change_password_redirect_view(request):
 
 ############################# start Logout view info #############################
 def logout_view(request):
-    logout(request)
-    messages.success(request, "You have successfully logged out.")
-    return redirect("accounts_app:login")
+    request.session.clear()
+    messages.success(request, "You have been logged out successfully")
+    return redirect('accounts_app:login')
 
 
 ############################# End Logout view info #############################

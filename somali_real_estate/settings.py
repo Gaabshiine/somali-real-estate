@@ -99,7 +99,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'gaabshiine_somalirealestate',
         'USER': 'gaabshiine_somalirealestate',
-        'PASSWORD': 'Xb360^s5b',
+        'PASSWORD': 'Gwk25s0!5',
         'HOST': 'somalirealestate.helioho.st',
         'PORT': '3306',
     }
