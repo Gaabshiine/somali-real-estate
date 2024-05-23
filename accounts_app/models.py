@@ -15,6 +15,7 @@ class Owner(AbstractBaseUser):
     state = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     occupation = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)  # Add created_at field
     last_login = models.DateTimeField(auto_now=True)  # Add last_login field
 
     USERNAME_FIELD = 'email_address'  # Specify the field to use for authentication
@@ -35,6 +36,7 @@ class Tenant(AbstractBaseUser):
     state = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     occupation = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)  # Add created_at field
     last_login = models.DateTimeField(auto_now=True)  # Add last_login field
 
     USERNAME_FIELD = 'email_address'  # Specify the field to use for authentication
@@ -51,7 +53,7 @@ class Profile(models.Model):
     youtube_link = models.URLField(blank=True)
     person_id = models.PositiveIntegerField()
     person_type = models.CharField(max_length=10, choices=(('owner', 'Owner'), ('tenant', 'Tenant')))
-    created_at = models.DateTimeField(auto_now=True)  # Add created_at field
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def get_user(self):
         if self.person_type == 'owner':
