@@ -85,7 +85,7 @@
   <!-- Loader -->
   <div class="site-loader">
     <div class="spinner-border text-primary" role="status">
-      <span class="sr-only">Loading...</span>
+      
     </div>
   </div>
 
@@ -101,10 +101,32 @@
   </div>
 
   
-
   {% block navbar %}
+<div class="site-wrap">
+    <!-- Debugging session variable -->
+    <div>User Role: {{ request.session.user_role }}</div>
+
+    <div class="site-mobile-menu">
+        <div class="site-mobile-menu-header">
+            <div class="site-mobile-menu-close mt-3">
+                <span class="icon-close2 js-menu-toggle"></span>
+            </div>
+        </div>
+        <div class="site-mobile-menu-body"></div>
+    </div> <!-- .site-mobile-menu -->
+
+    {% if request.session.user_role == 'owner' %}
+        {% include 'partials/navbar_profile_owner.html' %}
+    {% elif request.session.user_role == 'tenant' %}
+        {% include 'partials/tenant_profile.html' %}
+    {% else %}
+        {% include 'partials/navbar.html' %}
+    {% endif %}
+</div>
+{% endblock %}
+
   
-  {% endblock %}
+
 
   {% block content_modal %}{% endblock content_modal %}
    {% block content %}{% endblock content %}

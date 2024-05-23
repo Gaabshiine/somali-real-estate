@@ -66,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'accounts_app.middleware.AuthenticationMiddleware',  # Add your custom middleware here
 ]
 
 ROOT_URLCONF = 'somali_real_estate.urls'
@@ -155,7 +156,13 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+# Sessions
 SESSION_COOKIE_AGE = 86400  # 24 hours in seconds
+SESSION_SAVE_EVERY_REQUEST = True  # Save the session to the database on every request
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Session will not expire when the browser closes
+
+# For persistent sessions, consider using the database session backend
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 
 

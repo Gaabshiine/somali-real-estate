@@ -6,16 +6,32 @@
  	once: true
  });
 
+ 
+
 jQuery(document).ready(function($) {
 
 	"use strict";
 
-	// Loading page
-	var loaderPage = function() {
+	$(document).ready(function() {
+		// Log to console when document is ready
+		console.log("Document is ready");
+	  
+		// Handler to hide loader when document is ready (as a preliminary step)
 		$(".site-loader").fadeOut("slow");
-	};
-	loaderPage();
-	
+	  
+		// Also, wait for the entire window to load (all assets, images, etc.)
+		$(window).on('load', function() {
+		  console.log("Window has loaded");
+		  $(".site-loader").fadeOut("slow");
+		});
+	  
+		// Fallback if the load event or ready event doesn't work as expected
+		setTimeout(function() {
+		  console.log("Fallback timeout reached, forcing loader to hide");
+		  $(".site-loader").fadeOut("slow");
+		}, 5000);
+	});
+	  
 
 	var siteMenuClone = function() {
 

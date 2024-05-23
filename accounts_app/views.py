@@ -8,8 +8,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth import update_session_auth_hash
 from django.conf import settings
 from django.contrib.auth.hashers import check_password
-from django.contrib.auth.decorators import login_required
-from django.contrib.contenttypes.models import ContentType
+
 
 
 # Create your views here.
@@ -73,8 +72,7 @@ def register_view(request):
 
 
 
-############################# Profile info #############################
-
+############################# Start Profile info #############################
 def owner_profile_view(request):
     user_id = request.session.get('user_id')
     user = get_object_or_404(Owner, id=user_id)
@@ -125,7 +123,6 @@ def edit_profile_view(request, id, user_type):
 
         if 'profile_picture' in request.FILES:
             profile.profile_picture = request.FILES['profile_picture']
-            # Save the profile to update the image path
             profile.save()
         profile.save()
 
@@ -138,100 +135,42 @@ def edit_profile_view(request, id, user_type):
         'user_type': user_type
     })
 
-# def owner_profile_view(request):
-#     user_id = request.session.get('user_id')
-#     user = get_object_or_404(Owner, id=user_id)
-#     profile, created = Profile.objects.get_or_create(owner=user)
-#     return render(request, 'accounts_app/owner_profile.html', {
-#         'user': user,
-#         'profile': profile,
-#         'user_type' : 'owner'
-#     })
 
-# def tenant_profile_view(request):
-#     user_id = request.session.get('user_id')
-#     user = get_object_or_404(Tenant, id=user_id)
-#     profile, created = Profile.objects.get_or_create(tenant=user)
-#     return render(request, 'accounts_app/tenant_profile.html', {
-#         'user': user,
-#         'profile': profile,
-#         'user_type' : 'tenant'
-#     })
-
-# def edit_profile_view(request, id, user_type):
-#     model_dict = {'owner': Owner, 'tenant': Tenant}
-#     model = model_dict.get(user_type)
-#     if not model:
-#         return redirect('listings_app:home')
-
-#     user = get_object_or_404(model, id=id)
-#     content_type = ContentType.objects.get_for_model(user)
-#     profile, created = Profile.objects.get_or_create(person_type=content_type, person_id=user.id)
-
-#     if request.method == 'POST':
-#         user.first_name = request.POST.get('first_name')
-#         user.middle_name = request.POST.get('middle_name', '')  # Default to empty string if not provided
-#         user.last_name = request.POST.get('last_name')
-#         user.email = request.POST.get('email')
-#         user.gender = request.POST.get('gender')
-#         user.date_of_birth = request.POST.get('date_of_birth')
-#         user.phone_number = request.POST.get('phone_number')
-#         user.address = request.POST.get('address')
-#         user.state = request.POST.get('state')
-#         user.occupation = request.POST.get('occupation')
-#         user.save()
-#         profile.bio = request.POST.get('bio')
-#         profile.facebook_link = request.POST.get('facebook_link')
-#         profile.tiktok_link = request.POST.get('tiktok_link')
-#         profile.youtube_link = request.POST.get('youtube_link')
-    
-#         if 'profile_picture' in request.FILES:
-#             profile.image = request.FILES['profile_picture']
-#         profile.save()
-#         messages.success(request, "Profile updated successfully!")
-#         return redirect('accounts_app:owner_profile' if user_type == 'owner' else 'accounts_app:tenant_profile')
-#     return render(request, 'accounts_app/edit_profile.html', {
-#         'user': user,
-#         'profile': profile,
-#         'user_type': user_type
-#     })
+############################# End Profile info #############################
 
 
 
 
+############################# start Login info #############################
 
-############################# login_view info #############################
 def login_view(request):
     if request.method == "POST":
         email_address = request.POST.get("type_email").strip()
         password = request.POST.get("type_password").strip()
-        type_of_user = request.POST.get("role").strip().capitalize()
-        
-        if type_of_user:
-            user = None
-            if type_of_user == "Owner":
-                user = Owner.objects.filter(email_address=email_address).first()
-            elif type_of_user == "Tenant":
-                user = Tenant.objects.filter(email_address=email_address).first()
-            # Continue for other types
+        type_of_user = request.POST.get("role").strip().lower()  # Ensure it's in lowercase
 
-            # check if the input has empty fields
-            if not email_address or not password:
-                messages.error(request, "Please fill in all fields")
-                return render(request, 'accounts_app/login.html')
+        user = None
+        if type_of_user == "owner":
+            user = Owner.objects.filter(email_address=email_address).first()
             if user and user.check_password(password):
-                login(request, user)
                 request.session['user_id'] = user.id
-                request.session['type_of_user'] = type_of_user
-                messages.success(request, "Login successful")
-                return redirect(get_redirect_url(user))
-            else:
-                messages.error(request, "Invalid email address or password")
+                request.session['user_role'] = 'owner'  # Set the user role in session
+        elif type_of_user == "tenant":
+            user = Tenant.objects.filter(email_address=email_address).first()
+            if user and user.check_password(password):
+                request.session['user_id'] = user.id
+                request.session['user_role'] = 'tenant'  # Set the user role in session
 
+        if user:
+            messages.success(request, "Login successful")
+            return redirect(get_redirect_url(user))  # Redirect based on user role
         else:
-            messages.error(request, "Please select a role.")
-            return render(request, 'accounts_app/login.html')
+            messages.error(request, "Invalid email address or password")
     return render(request, "accounts_app/login.html")
+
+
+
+
 
 
 # get_redirect_url
@@ -252,10 +191,12 @@ def get_redirect_url(user):
     return 'accounts_app:login'  # Default redirect URL
 
 
+############################# End Login info #############################
 
-############################# Change password info #############################
 
 
+
+############################# start change_password_view info #############################
 # change_password_view
 def change_password_view(request, id):
     user_id = request.session.get('user_id')
@@ -301,15 +242,28 @@ def change_password_redirect_view(request):
         # Handle the case where user_id is not set in session
         return redirect('accounts_app:login')  # or wherever you want to redirect
 
-############################# Logout view info #############################
+
+############################# End change_password_view info #############################
+
+
+
+
+
+############################# start Logout view info #############################
 def logout_view(request):
     logout(request)
     messages.success(request, "You have successfully logged out.")
     return redirect("accounts_app:login")
 
 
+############################# End Logout view info #############################
 
-############################# reset_password_view info #############################
+
+
+
+
+
+############################# start reset_password_view info #############################
 def reset_password(request):
     if request.method == 'POST':
         email = request.POST.get('email1')
@@ -392,3 +346,6 @@ def password_reset_done(request):
 
 def email_sent_confirmation(request):
     return render(request, 'accounts_app/email_sent_confirmation.html')
+
+
+############################# End reset_password_view info #############################

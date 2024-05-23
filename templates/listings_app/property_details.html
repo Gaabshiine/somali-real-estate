@@ -3,10 +3,6 @@
 {% load static %}
 
 
-{% block navbar %}
-{% include 'partials/navbar.html' %}
-
-{% endblock  %}
 
 <!-- home -->
 {% block content %}
@@ -572,6 +568,10 @@
 </div>
 </div>
 
+{% endblock %}
+
+{% block footer %}
+{% include 'partials/footer.html' %}
 {% endblock %}
 
 
