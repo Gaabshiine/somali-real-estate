@@ -76,6 +76,10 @@
           .mail-seccess .success-inner .btn{
             color:#fff;
           }
+          .btn .spinner-border {
+            margin-right: 6px; /* Adjust as necessary */
+            vertical-align: middle;
+          }
         </style>
 
     {% endblock  %}
@@ -103,9 +107,6 @@
   
   {% block navbar %}
 <div class="site-wrap">
-    <!-- Debugging session variable -->
-    <div>User Role: {{ request.session.user_role }}</div>
-
     <div class="site-mobile-menu">
         <div class="site-mobile-menu-header">
             <div class="site-mobile-menu-close mt-3">
@@ -156,6 +157,7 @@
     <script src="{% static "./user_styles/js/aos.js" %}"></script>
 
     <script src="{% static "./user_styles/js/main.js" %}"></script>
+    <script src="{% static "partials/js/snipperBtn.js" %}"></script>
 
     <script>
       function toggleDetails(detailsId) {

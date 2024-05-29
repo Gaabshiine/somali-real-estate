@@ -34,39 +34,48 @@
                 <div class="col-xl-4 col-lg-5">
                     <div class="card text-center">
                         <div class="card-body">
-                            
-                            <img src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}{% static './admin_styles/images/users/avatar-1.jpg' %}{% endif %}" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
+                            <img src=" {% static "./admin_styles/images/users/avatar-1.jpg" %}" class="rounded-circle avatar-lg img-thumbnail"
+                            alt="profile-image">
 
-                            {% with names=admin.full_name.split %}
-                                <h4 class="mb-0 mt-2">{{ names.0 }} {{ names.1 }}</h4>
-                            {% endwith %}
+                            <h4 class="mb-0 mt-2">Dominic Keller</h4>
+                            <p class="text-muted font-14">Founder</p>
 
-                            <p class="text-muted font-14">{{ admin.user_type }}</p>
-
-                            <button type="button" class="btn btn-primary btn-sm mb-2">Follow</button>
+                            <button type="button" class="btn btn-success btn-sm mb-2">Follow</button>
                             <button type="button" class="btn btn-danger btn-sm mb-2">Message</button>
 
                             <div class="text-start mt-3">
                                 <h4 class="font-13 text-uppercase">About Me :</h4>
-                                <p class="text-muted font-13 mb-3">{{ profile.bio|default:"No bio available." }}</p>
-                                <p class="text-muted mb-2 font-13"><strong>Full Name :</strong> <span class="ms-2">{{ admin.full_name }}</span></p>
-                                <p class="text-muted mb-2 font-13"><strong>Mobile :</strong><span class="ms-2">{{ admin.phone_number|default:"Not provided" }}</span></p>
-                                <p class="text-muted mb-2 font-13"><strong>Email :</strong> <span class="ms-2 ">{{ admin.email }}</span></p>
-                                <p class="text-muted mb-1 font-13"><strong>Address :</strong> <span class="ms-2">{{ admin.address|default:"Not provided" }}</span></p>
+                                <p class="text-muted font-13 mb-3">
+                                    Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the
+                                    1500s, when an unknown printer took a galley of type.
+                                </p>
+                                <p class="text-muted mb-2 font-13"><strong>Full Name :</strong> <span class="ms-2">Geneva
+                                        D. McKnight</span></p>
+
+                                <p class="text-muted mb-2 font-13"><strong>Mobile :</strong><span class="ms-2">(123)
+                                        123 1234</span></p>
+
+                                <p class="text-muted mb-2 font-13"><strong>Email :</strong> <span class="ms-2 ">user@email.domain</span></p>
+
+                                <p class="text-muted mb-1 font-13"><strong>Location :</strong> <span class="ms-2">USA</span></p>
                             </div>
 
                             <ul class="social-list list-inline mt-3 mb-0">
                                 <li class="list-inline-item">
-                                    <a href="{{ profile.facebook_link|default:'#' }}" class="social-list-item border-primary text-primary"><i class="mdi mdi-facebook"></i></a>
+                                    <a href="javascript: void(0);" class="social-list-item border-primary text-primary"><i
+                                            class="mdi mdi-facebook"></i></a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <a href="{{ profile.google_link|default:'#' }}" class="social-list-item border-danger text-danger"><i class="mdi mdi-google"></i></a>
+                                    <a href="javascript: void(0);" class="social-list-item border-danger text-danger"><i
+                                            class="mdi mdi-google"></i></a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <a href="{{ profile.youtube_link|default:'#' }}" class="social-list-item border-danger text-danger"><i class="mdi mdi-youtube"></i></a>
+                                    <a href="javascript: void(0);" class="social-list-item border-info text-info"><i
+                                            class="mdi mdi-twitter"></i></a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <a href="{{ profile.github_link|default:'#' }}" class="social-list-item border-secondary text-secondary"><i class="mdi mdi-github"></i></a>
+                                    <a href="javascript: void(0);" class="social-list-item border-secondary text-secondary"><i
+                                            class="mdi mdi-github"></i></a>
                                 </li>
                             </ul>
                         </div> <!-- end card-body -->
@@ -192,7 +201,7 @@
                                         </div> <!-- end row -->
                                         
                                         <div class="text-end">
-                                            <button type="submit" class="btn btn-primary mt-2"><i class="mdi mdi-content-save"></i> Save</button>
+                                            <button type="submit" class="btn btn-success mt-2"><i class="mdi mdi-content-save"></i> Save</button>
                                         </div>
                                     </form>
                                 </div>
@@ -207,7 +216,7 @@
 
         </div> 
         
-        {% include "admin_partial/footer.html" %}
+        {% include "admin_partial/footer.html" %} 
         
     </div>   
     

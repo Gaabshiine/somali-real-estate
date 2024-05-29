@@ -42,6 +42,13 @@
             <li class="side-nav-title side-nav-item">Apps</li>
 
             <li class="side-nav-item">
+                <a href="{% url "admin_dashboard:user_registration" %}" class="side-nav-link">
+                    <i class="uil-user-times"></i>
+                    <span> User Registertion </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarOwners" aria-expanded="false"
                     aria-controls="sidebarOwners" class="side-nav-link">
                     <i class="uil-user"></i>
@@ -50,9 +57,6 @@
                 </a>
                 <div class="collapse" id="sidebarOwners">
                     <ul class="side-nav-second-level">
-                        <li>
-                            <a href="{% url "admin_dashboard:register_owner" %}">Register Now</a>
-                        </li>
                         <li>
                             <a href="{% url "admin_dashboard:view_owners" %}">View Owners</a>
                         </li>
@@ -70,13 +74,10 @@
                 <div class="collapse" id="sidebarUsers">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="{% url "admin_dashboard:register_tenant" %}">Register Now</a>
-                        </li>
-                        <li>
                             <a href="app-assign-property.html">Assign Property</a>
                         </li>
                         <li>
-                            <a href="{% url "admin_dashboard:view_tenants" %}">View Users</a>
+                            <a href="{% url "admin_dashboard:view_tenants" %}">View Tenants</a>
                         </li>
                     </ul>
                 </div>
@@ -240,10 +241,10 @@
                 <div class="collapse" id="admins">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="apps-admin-register.html">Register New</a>
+                            <a href="{% url "admin_dashboard:admin_register" %}">Register New</a>
                         </li>
                         <li>
-                            <a href="view-admin-details.html">View Admins</a>
+                            <a href="{% url "admin_dashboard:view_admins" %}">View Admins</a>
                         </li>
                     </ul>
                 </div>

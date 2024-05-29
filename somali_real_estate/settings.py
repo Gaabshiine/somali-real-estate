@@ -21,7 +21,7 @@ def generate_secret_key(length=50):
     return ''.join(secrets.choice(alphabet) for _ in range(length))
 
 # Set SECRET_KEY using environment variable or generate a random one
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY", generate_secret_key())
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -33,9 +33,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "False").lower() == "true" # when you end of the developement leave the comment
+# DEBUG = os.environ.get("DEBUG", "False").lower() == "true" # when you end of the developement leave the comment
 
-# DEBUG = True
+DEBUG = True
 
 # SECURITY WARNING: define the correct hosts in production!
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
@@ -66,8 +66,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'accounts_app.middleware.AuthenticationMiddleware',  # Add your custom middleware here
+    'accounts_app.middleware.AuthenticationMiddleware',  # User auth
+    'admin_dashboard.middleware.AdminAccessMiddleware',  # Admin auth
 ]
+AUTH_USER_MODEL = 'admin_dashboard.Admin'
 
 ROOT_URLCONF = 'somali_real_estate.urls'
 
@@ -99,7 +101,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'gaabshiine_somalirealestate',
         'USER': 'gaabshiine_somalirealestate',
-        'PASSWORD': '16!Fwh80l',
+        'PASSWORD': 'f9Ze4%9s6',
         'HOST': 'somalirealestate.helioho.st',
         'PORT': '3306',
     }

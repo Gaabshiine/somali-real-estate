@@ -12,9 +12,9 @@ urlpatterns = [
     path("tenant_profile/", views.tenant_profile_view, name="tenant_profile"),
     path("edit_profile/<int:id>/<str:user_type>/", views.edit_profile_view, name="edit_profile"),
     path("change_password/", views.change_password_redirect_view, name="change_password_redirect"),
-    path("change_password/<int:id>/", views.change_password_view, name="change_password"),
+    path("change_password/<slug:uidb64>/<slug:token>/", views.change_password_view, name="change_password"),
     path("reset_password/", views.reset_password, name="reset_password"),
     path("email_sent_confirmation/", views.email_sent_confirmation, name="email_sent_confirmation"),
     path("password_reset_done/", views.password_reset_done, name="password_reset_done"),
-    path("password_reset_form/<int:user_id>/<str:user_type>/", views.password_reset_form, name="password_reset_form"),
+    path("password_reset_form/<slug:uidb64>/<slug:token>/<str:user_type>/", views.password_reset_form, name="password_reset_form"),
 ]

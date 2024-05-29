@@ -23,7 +23,7 @@
                 <p class="text-center pb-5" style="color: #858585;">Please enter your login and password!</p>
                 {% include "partials/alert_message.html" %}
 
-                <form action="{% url 'accounts_app:login' %}" method="POST" id="loginForm">
+                <form action="{% url 'accounts_app:login' %}" method="POST">
                   {% csrf_token %}
                   <!-- Email input -->
                   <div class="mb-4">
@@ -52,11 +52,11 @@
                           <p class="text-center" style="color: #858585;">Forget password?</p>
                       </a>
               
-                      <!-- Submit button -->
-                      <button type="submit" id="submitButton" class="btn text-uppercase btn-primary btn-block mb-4">
-                        Log In
-                      </button>
               
+                      <button class="btn text-uppercase btn-primary btn-block mb-4" type="submit">
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        <span class="button-text">Log In</span>
+                      </button>
                       <!-- Register buttons -->
                       <div class="text-center">
                           <button type="button" class="btn btn-link btn-floating mx-1">
@@ -99,6 +99,6 @@
 
 <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js'></script>
 
-<script src="{% static "partials/js/snipperBtn.js" %}"></script>
+
 
 {% endblock %}

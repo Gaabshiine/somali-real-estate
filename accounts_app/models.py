@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.conf import settings
+from admin_dashboard.models import Admin
 
 
 class Owner(AbstractBaseUser):
@@ -22,7 +23,7 @@ class Owner(AbstractBaseUser):
     REQUIRED_FIELDS = ['first_name', 'last_name']  # Specify other required fields
 
     class Meta:
-        db_table = 'owner'
+        db_table = 'owners'
 
 class Tenant(AbstractBaseUser):
     first_name = models.CharField(max_length=255, blank=False, null=False)
@@ -43,7 +44,7 @@ class Tenant(AbstractBaseUser):
     REQUIRED_FIELDS = ['first_name', 'last_name']  # Specify other required fields
 
     class Meta:
-        db_table = 'tenant'
+        db_table = 'tenants'
 
 class Profile(models.Model):
     profile_picture = models.ImageField(upload_to='profile_images/', blank=True, null=True)
@@ -52,16 +53,20 @@ class Profile(models.Model):
     tiktok_link = models.URLField(blank=True)
     youtube_link = models.URLField(blank=True)
     person_id = models.PositiveIntegerField()
-    person_type = models.CharField(max_length=10, choices=(('owner', 'Owner'), ('tenant', 'Tenant')))
+    person_type = models.CharField(max_length=10, choices=(
+        ('owner', 'Owner'), 
+        ('tenant', 'Tenant'),
+        ('admin', 'Admin')
+        ))
     created_at = models.DateTimeField(auto_now_add=True)
 
     def get_user(self):
         if self.person_type == 'owner':
-           
             return Owner.objects.get(id=self.person_id)
         elif self.person_type == 'tenant':
-           
             return Tenant.objects.get(id=self.person_id)
+        elif self.person_type == 'admin':
+            return Admin.objects.get(id=self.person_id)
 
     def get_image_url(self):
         if self.profile_picture:
@@ -74,7 +79,25 @@ class Profile(models.Model):
                 return '/static/user_styles/images/avatar_woman.png'
             
     class Meta:
-        db_table = 'profile'
+        db_table = 'profiles'
 
 
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

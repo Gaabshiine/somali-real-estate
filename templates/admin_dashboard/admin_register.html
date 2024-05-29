@@ -1,0 +1,139 @@
+{% extends "base_admin.html" %}
+{% load static %}
+<!-- wrapper -->
+{% block wrapper %}
+
+<div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xxl-6 col-lg-7">
+                <div class="card">
+
+                    <!-- Logo -->
+                    <div class="card-header pt-4 pb-4 text-center bg-primary">
+                        <a href="index.html">
+                            <span><img src="{% static "./admin_styles/images/whiteLogo.svg" %}" alt="" height="45"></span>
+                        </a>
+                    </div>
+
+                    <div class="card-body p-4">
+                        
+                        <div class="text-center w-75 m-auto">
+                            <h4 class="text-dark-50 text-center mt-0 fw-bold">Free Sign Up</h4>
+                            <p class="text-muted mb-4">Don't have an account? Create your account, it takes less than a minute </p>
+                        </div>
+
+                        <form action="{% url 'admin_dashboard:admin_register' %}" method="post">
+                            {% csrf_token %} <!-- CSRF token for security -->
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="full_name" class="form-label">Full Name</label>
+                                        <input class="form-control" type="text" id="full_name" name="full_name" placeholder="Enter your full name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="gender" class="form-label">Gender <span
+                                            class="text-danger"></span></label>
+                                        <select class="form-select" id="gender" name="gender" required>
+                                            <option value="">Choose Your Gender</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Choose Your Gender
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="email_address" class="form-label">Email address</label>
+                                        <input class="form-control" type="email" id="email_address" name="email_address" required placeholder="Enter your email">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Password</label>
+                                        <div class="input-group input-group-merge">
+                                            <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password">
+                                            <div class="input-group-text" data-password="false">
+                                                <span class="password-eye"></span>
+                                            </div>
+                                        </div>
+                                    </div>        
+                                </div>
+                            </div>
+
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="address" class="form-label">Address</label>
+                                        <input class="form-control" type="text" id="address" name="address" placeholder="Enter your address" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="date_of_birth" class="form-label">Date of Birth</label>
+                                        <input class="form-control" type="date" id="date_of_birth" name="date_of_birth" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="phone_number" class="form-label">Phone Number</label>
+                                        <input class="form-control" type="text" id="phone_number" name="phone_number" placeholder="Enter your phone number" required>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+
+                            
+
+                            
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="superuser" name="superuser">
+                                <label class="form-check-label" for="superuser">Make superuser</label>
+                            </div>
+
+                            <div class="mb-3 text-center">
+                                <button class="btn btn-primary" type="submit"> Sign Up </button>
+                            </div>
+
+                        </form>
+                    </div> <!-- end card-body -->
+                </div>
+                <!-- end card -->
+                
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <p class="text-muted">Already have an account? <a href="{% url 'admin_dashboard:admin_login' %}" class="text-muted ms-1"><b>Sign In</b></a></p>
+                    </div> <!-- end col -->
+                </div>
+                <!-- end row -->
+
+            </div> <!-- end col -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
+</div>
+<!-- end page -->
+
+{% endblock wrapper %}
+
+
+<!-- footer -->
+{% block footer %}
+{% include "admin_partial/footer_alt.html" %}
+{% endblock %}

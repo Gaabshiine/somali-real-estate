@@ -56,18 +56,22 @@
   
                 <li class="nav-item dropdown">
                   
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    {% if profile.profile_picture %}
-                      <img src="{{ profile.profile_picture.url }}" alt="profile picture" class="rounded-circle" width="30">
-                    {% else %}
-                      {% if user.gender == 'male' %}
-                        <img src="{% static 'user_styles/images/avatar_man.png' %}" alt="Default Male Avatar" class="rounded-circle" width="30">
-                      {% else %}
-                        <img src="{% static 'user_styles/images/avatar_woman.png' %}" alt="Default Female Avatar" class="rounded-circle" width="30">
+                    <!-- navbar_profile_owner.html or similar file -->
+                      {% if user %}
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {% if user.profile_picture %}
+                          <img src="{{ user.profile_picture.url }}" alt="profile picture" class="rounded-circle" width="30">
+                        {% else %}
+                          {% if user.gender == 'male' %}
+                            <img src="{% static 'user_styles/images/avatar_man.png' %}" alt="Default Male Avatar" class="rounded-circle" width="30">
+                          {% else %}
+                            <img src="{% static 'user_styles/images/avatar_woman.png' %}" alt="Default Female Avatar" class="rounded-circle" width="30">
+                          {% endif %}
+                        {% endif %}
+                        <span style="color: #1f3c88;">{{ user.first_name }} {{ user.middle_name }}</span>
+                      </a>
                       {% endif %}
-                    {% endif %}<span style="color: #1f3c88;">{{ user.first_name }} {{ user.middle_name }}</span>
-                  </a> 
+
                  
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="{% url "accounts_app:owner_profile" %}"><i

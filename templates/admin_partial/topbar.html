@@ -179,7 +179,9 @@
                     <img src="{% static "./admin_styles/images/users/avatar-1.jpg" %}" alt="user-image" class="rounded-circle">
                 </span>
                 <span>
-                    <span class="account-user-name">Abdisalan Abdukadir</span>
+                    {% with names=admin.full_name.split %}
+                        <span class="account-user-name">{{ names.0 }} {{ names.1 }}</span>
+                    {% endwith %}
                     <span class="account-position">Founder</span>
                 </span>
             </a>

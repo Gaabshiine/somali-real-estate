@@ -84,7 +84,10 @@
                 </div>
                 <div class="modal-footer">
                     <!-- Submit button -->
-                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary text-capitalize" id="submitButton">Submit</button>
+                    <button class="btn btn-primary text-capitalize" type="submit">
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        <span class="button-text">Submit</span>
+                    </button>
                 </div>
             </form>
         </div>
@@ -92,7 +95,6 @@
   </div>
 
 
-<script src="{% static "partials/js/snipperBtn.js" %}"></script>
 
 
 {% endblock  %}
