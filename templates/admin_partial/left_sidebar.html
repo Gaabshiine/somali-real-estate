@@ -30,8 +30,7 @@
 
             <li class="side-nav-title side-nav-item"></li>
             <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="index.html" aria-expanded="false" aria-controls="index.html"
-                    class="side-nav-link">
+                <a href="{% url "admin_dashboard:dashboard" %}" class="side-nav-link">
                     <i class="uil-home-alt"></i>
                     <span> Dashboards </span>
                 </a>
@@ -231,6 +230,7 @@
             </li>
 
 
+            {% if is_superuser %}
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#admins" aria-expanded="false" aria-controls="admins"
                     class="side-nav-link">
@@ -249,6 +249,7 @@
                     </ul>
                 </div>
             </li>
+            {% endif %}
 
             <li class="side-nav-item">
                 <a href="{% url "admin_dashboard:admin_logout" %}" class="side-nav-link">

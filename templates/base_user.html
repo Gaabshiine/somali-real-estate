@@ -119,7 +119,7 @@
     {% if request.session.user_role == 'owner' %}
         {% include 'partials/navbar_profile_owner.html' %}
     {% elif request.session.user_role == 'tenant' %}
-        {% include 'partials/tenant_profile.html' %}
+        {% include 'partials/navbar_profile_tenant.html' %}
     {% else %}
         {% include 'partials/navbar.html' %}
     {% endif %}

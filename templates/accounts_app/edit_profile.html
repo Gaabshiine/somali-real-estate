@@ -10,7 +10,13 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body" style="max-height: 520px; overflow-y: auto;">
-        <form action="{% url 'accounts_app:edit_profile' user.id user_type %}" method="POST" enctype="multipart/form-data">
+        {% if user_type == 'owner' %}
+        <form action="{% url 'accounts_app:edit_owner_profile' user.id %}" method="POST" enctype="multipart/form-data">
+        {% elif user_type == 'tenant' %}
+        <form action="{% url 'accounts_app:edit_tenant_profile' user.id %}" method="POST" enctype="multipart/form-data">
+        {% elif user_type == 'admin' %}
+        <form action="{% url 'admin_dashboard:edit_admin_profile' user.id %}" method="POST" enctype="multipart/form-data">
+        {% endif %}
           {% csrf_token %}
                     <div class="row">
                         <div class="col-md-6">

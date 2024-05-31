@@ -38,7 +38,7 @@
 
                 <div style="max-height: 230px;" data-simplebar>
                     <!-- item-->
-                    <a href="{% url "admin_dashboard:admin_profile" %}" class="dropdown-item notify-item">
+                    <a href="#" class="dropdown-item notify-item">
                         <div class="notify-icon bg-primary">
                             <i class="mdi mdi-comment-account-outline"></i>
                         </div>
@@ -176,14 +176,20 @@
             <a class="nav-link dropdown-toggle nav-user arrow-none me-0" data-bs-toggle="dropdown"
                 href="#" role="button" aria-haspopup="false" aria-expanded="false">
                 <span class="account-user-avatar">
-                    <img src="{% static "./admin_styles/images/users/avatar-1.jpg" %}" alt="user-image" class="rounded-circle">
+                    {% if profile.profile_picture %}
+                        <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="me-2 rounded-circle">
+                    {% else %}
+                        {% if admin.gender == 'male' %}
+                            <img src="{% static 'user_styles/images/avatar_man.png' %}" alt="Default Male Avatar" class="rounded-circle">
+                        {% elif admin.gender == 'female' %}
+                            <img src="{% static 'user_styles/images/avatar_woman.png' %}" alt="Default Female Avatar" class="rounded-circle">
+                        {% endif %}
+                    {% endif %}
                 </span>
-                <span>
-                    {% with names=admin.full_name.split %}
-                        <span class="account-user-name">{{ names.0 }} {{ names.1 }}</span>
-                    {% endwith %}
-                    <span class="account-position">Founder</span>
-                </span>
+                {% with names=admin.full_name.split %}
+                    <span class="account-user-name">{{ names.0 }} {{ names.1 }}</span>
+                {% endwith %}
+                <span class="account-position">Admin</span>
             </a>
             <div
                 class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
@@ -193,7 +199,7 @@
                 </div>
 
                 <!-- item-->
-                <a href="{% url "admin_dashboard:admin_profile" %}" class="dropdown-item notify-item">
+                <a href="#" class="dropdown-item notify-item">
                     <i class="mdi mdi-account-circle me-1"></i>
                     <span>My Account</span>
                 </a>

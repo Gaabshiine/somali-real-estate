@@ -96,7 +96,7 @@
                                                     <td>{{ admin.phone_number }}</td>
                                                     <td>{{ admin.last_login|date:"D d M Y H:i" }}</td>
                                                     <td>
-                                                        <a href="{% url "admin_dashboard:admin_profile" %}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                                        <a href="{% url "admin_dashboard:admin_profile" admin.id %}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
                                                         <a href="#deleteAdminModal{{ admin.id }}" class="action-icon" data-bs-toggle="modal"> <i class="mdi mdi-delete"></i></a>
 
                                                         <!-- Modal -->

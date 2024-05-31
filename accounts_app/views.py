@@ -6,8 +6,7 @@ from .models import Owner, Tenant, Profile
 from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.hashers import check_password
-from .utils import register_user
-
+from .utils import register_user, update_user_profile
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
@@ -51,68 +50,111 @@ def register_view(request):
 
 
 ############################# Start Profile info #############################
+# def owner_profile_view(request):
+#     user_id = request.session.get('user_id')
+#     user = get_object_or_404(Owner, id=user_id)
+#     profile, created = Profile.objects.get_or_create(person_id=user.id, person_type='owner')
+
+#     return render(request, 'accounts_app/owner_profile.html', {
+#         'user': user,
+#         'profile': profile,
+#         'user_type': 'owner'
+#     })
+
 def owner_profile_view(request):
     user_id = request.session.get('user_id')
-    user = get_object_or_404(Owner, id=user_id)
-    profile, created = Profile.objects.get_or_create(person_id=user.id, person_type='owner')
+    owner = get_object_or_404(Owner, id=user_id)
+    profile, _ = Profile.objects.get_or_create(person_id=owner.id, person_type='owner')
 
     return render(request, 'accounts_app/owner_profile.html', {
-        'user': user,
+        'user': owner,
         'profile': profile,
         'user_type': 'owner'
     })
 
+
+
+# def tenant_profile_view(request):
+#     user_id = request.session.get('user_id')
+#     user = get_object_or_404(Tenant, id=user_id)
+#     profile, created = Profile.objects.get_or_create(person_id=user.id, person_type='tenant')
+
+#     return render(request, 'accounts_app/tenant_profile.html', {
+#         'user': user,
+#         'profile': profile,
+#         'user_type': 'tenant'
+#     })
+
+
 def tenant_profile_view(request):
     user_id = request.session.get('user_id')
-    user = get_object_or_404(Tenant, id=user_id)
-    profile, created = Profile.objects.get_or_create(person_id=user.id, person_type='tenant')
+    tenant = get_object_or_404(Tenant, id=user_id)
+    profile, _ = Profile.objects.get_or_create(person_id=tenant.id, person_type='tenant')
 
     return render(request, 'accounts_app/tenant_profile.html', {
-        'user': user,
+        'user': tenant,
         'profile': profile,
         'user_type': 'tenant'
     })
 
-def edit_profile_view(request, id, user_type):
-    model = Owner if user_type == 'owner' else Tenant
-    user = get_object_or_404(model, id=id)
+# def edit_profile_view(request, id, user_type):
+#     model = Owner if user_type == 'owner' else Tenant
+#     user = get_object_or_404(model, id=id)
     
-    profile, created = Profile.objects.get_or_create(
-        person_id=user.id, person_type=user_type
-    )
+#     profile, created = Profile.objects.get_or_create(
+#         person_id=user.id, person_type=user_type
+#     )
 
+#     if request.method == 'POST':
+#         user.first_name = request.POST.get('first_name')
+#         user.middle_name = request.POST.get('middle_name', '')
+#         user.last_name = request.POST.get('last_name')
+#         user.email_address = request.POST.get('email')
+#         user.gender = request.POST.get('gender')
+#         user.date_of_birth = request.POST.get('date_of_birth')
+#         user.phone_number = request.POST.get('phone_number')
+#         user.address = request.POST.get('address')
+#         user.state = request.POST.get('state')
+#         user.occupation = request.POST.get('occupation')
+#         user.save()
+
+#         profile.bio = request.POST.get('bio')
+#         profile.facebook_link = request.POST.get('facebook_link')
+#         profile.tiktok_link = request.POST.get('tiktok_link')
+#         profile.youtube_link = request.POST.get('youtube_link')
+
+#         if 'profile_picture' in request.FILES:
+#             profile.profile_picture = request.FILES['profile_picture']
+#             profile.save()
+#         profile.save()
+
+#         messages.success(request, "Profile updated successfully!")
+#         return redirect('accounts_app:owner_profile' if user_type == 'owner' else 'accounts_app:tenant_profile')
+
+#     return render(request, 'accounts_app/edit_profile.html', {
+#         'user': user,
+#         'profile': profile,
+#         'user_type': user_type
+#     })
+
+def edit_owner_profile_view(request, id): 
+    user_id = request.session.get('user_id')
+    owner = get_object_or_404(Owner, id=user_id)
+    profile, _ = Profile.objects.get_or_create(person_id=owner.id, person_type='owner')
     if request.method == 'POST':
-        user.first_name = request.POST.get('first_name')
-        user.middle_name = request.POST.get('middle_name', '')
-        user.last_name = request.POST.get('last_name')
-        user.email_address = request.POST.get('email')
-        user.gender = request.POST.get('gender')
-        user.date_of_birth = request.POST.get('date_of_birth')
-        user.phone_number = request.POST.get('phone_number')
-        user.address = request.POST.get('address')
-        user.state = request.POST.get('state')
-        user.occupation = request.POST.get('occupation')
-        user.save()
+        update_user_profile(request, owner, profile, request.POST, 'owner')
+        return redirect('accounts_app:owner_profile')
+    return render(request, 'accounts_app/edit_profile.html', {'user': owner, 'profile': profile})
 
-        profile.bio = request.POST.get('bio')
-        profile.facebook_link = request.POST.get('facebook_link')
-        profile.tiktok_link = request.POST.get('tiktok_link')
-        profile.youtube_link = request.POST.get('youtube_link')
 
-        if 'profile_picture' in request.FILES:
-            profile.profile_picture = request.FILES['profile_picture']
-            profile.save()
-        profile.save()
-
-        messages.success(request, "Profile updated successfully!")
-        return redirect('accounts_app:owner_profile' if user_type == 'owner' else 'accounts_app:tenant_profile')
-
-    return render(request, 'accounts_app/edit_profile.html', {
-        'user': user,
-        'profile': profile,
-        'user_type': user_type
-    })
-
+def edit_tenant_profile_view(request, id):
+    user_id = request.session.get('user_id')
+    tenant = get_object_or_404(Tenant, id=user_id)
+    profile, _ = Profile.objects.get_or_create(person_id=tenant.id, person_type='tenant')
+    if request.method == 'POST':
+        update_user_profile(request, tenant, profile, request.POST, 'tenant')
+        return redirect('accounts_app:tenant_profile')
+    return render(request, 'accounts_app/edit_profile.html', {'user': tenant, 'profile': profile})
 
 ############################# End Profile info #############################
 

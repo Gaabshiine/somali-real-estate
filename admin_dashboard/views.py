@@ -1,13 +1,13 @@
 from django.shortcuts import render,redirect
 from django.urls import reverse
 from accounts_app.models import Owner, Tenant, Profile
-from accounts_app.utils import register_user
+from accounts_app.utils import register_user, update_user_profile
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 from admin_dashboard.models import Admin
 from datetime import datetime
 from .utils import get_admin_from_request
-
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
@@ -39,10 +39,20 @@ def register_view(request):
 
 
 ########################################## Start Admin Dashboard ##########################################
+
+
 def dashboard_view(request):
-    if not request.session.get('admin_id'):
-        return redirect(reverse('admin_dashboard:admin_login'))
-    return render(request, "admin_dashboard/dashboard_view.html")
+    user_id = request.session.get('admin_id')  # assuming you store the admin's ID in session
+    if not user_id:
+        return redirect('admin_dashboard:admin_login')
+    
+    admin = get_object_or_404(Admin, id=user_id)
+    profile, _ = Profile.objects.get_or_create(person_id=admin.id, person_type='admin')
+
+    return render(request, 'admin_dashboard/dashboard_view.html', {
+        'admin': admin,
+        'profile': profile
+    })
 
 ########################################## End Admin Dashboard ##########################################
 
@@ -114,18 +124,8 @@ def admin_logout(request):
 
 
 
-def admin_profile_view(request):
-    admin = get_admin_from_request(request)
-    if not admin:
-        return redirect('admin_dashboard:login')
 
-    profile, created = Profile.objects.get_or_create(person_id=admin.id, person_type='admin', defaults={'bio': 'No additional details provided.'})
 
-    context = {
-        'admin': admin,
-        'profile': profile
-    }
-    return render(request, 'admin_dashboard/admin_profile.html', context)
 
 
 
@@ -162,15 +162,19 @@ def view_tenants(request):
     return render(request, "admin_dashboard/view_tenants.html", {'tenants': tenants})
 
 
+
 def view_admins(request):
     admins = Admin.objects.all()  # Fetch all admins
     profiles = Profile.objects.filter(person_type='admin')  # Fetch profiles related to admins
     profile_dict = {profile.person_id: profile for profile in profiles}  # Create a dictionary of profiles by person_id
 
-    # Attach each profile to its respective Tenant
     for admin in admins:
-        admin.profile = profile_dict.get(admin.id, None)  # Default to None if no profile is found
-    return render(request, "admin_dashboard/view_admins.html", {'admins': admins})
+        admin.profile = profile_dict.get(admin.id, None)  # Attach profile to each admin
+
+    return render(request, "admin_dashboard/view_admins.html", {
+        'admins': admins
+    })
+
 ########################################## End view all users ##########################################
 
 
@@ -205,9 +209,61 @@ def delete_tenant(request):
 ########################################## End delete admin ##########################################
 
 
+########################################## Start view and edit owner, tenant, admin profile ##########################################
+
+# View and edit admin profile
+def admin_profile_view(request, id):
+    admin = get_object_or_404(Admin, id=id)
+    profile, _ = Profile.objects.get_or_create(person_id=admin.id, person_type='admin')
+    # get user type
+    if request.method == 'POST':
+        # Here you would add the logic to update the profile
+        update_user_profile(request, admin, profile, request.POST, 'admin')
+        return redirect('admin_dashboard:admin_profile', id=admin.id)
+
+    return render(request, 'admin_dashboard/admin_profile.html', {
+        'admin': admin,
+        'profile': profile,
+        'user_type': 'admin'
+    })
 
 
 
+# View and edit owner profile
+def owner_profile_view(request, id):
+    owner = get_object_or_404(Owner, id=id)
+    profile, _ = Profile.objects.get_or_create(person_id=owner.id, person_type='owner')
+
+    if request.method == 'POST':
+        # Here you would add the logic to update the profile
+        update_user_profile(request, owner, profile, request.POST, 'owner')
+        return redirect('admin_dashboard:owner_profile', id=owner.id)
+
+    return render(request, 'admin_dashboard/owner_profile.html', {
+        'owner': owner,
+        'profile': profile,
+        'user_type': 'owner'
+    })
+
+
+# View and edit tenant profile
+
+def tenant_profile_view(request, id):
+    tenant = get_object_or_404(Tenant, id=id)
+    profile, _ = Profile.objects.get_or_create(person_id=tenant.id, person_type='tenant')
+
+    if request.method == 'POST':
+        # Here you would add the logic to update the profile
+        update_user_profile(request, tenant, profile, request.POST, 'tenant')
+        return redirect('admin_dashboard:tenant_profile', id=tenant.id)
+
+    return render(request, 'admin_dashboard/tenant_profile.html', {
+        'tenant': tenant,
+        'profile': profile,
+        'user_type': 'tenant'
+    })
+
+########################################## End view and edit owner, tenant, admin profile ##########################################
 
 def view_blacklist(request):
     return render(request, "admin_dashboard/view_blacklist.html", {})

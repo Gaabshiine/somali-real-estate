@@ -10,10 +10,19 @@ urlpatterns = [
     path('login/', views.admin_login, name='admin_login'),
     path('register/', views.admin_register, name='admin_register'),
     path('logout/', views.admin_logout, name='admin_logout'),
-    path('profile/', views.admin_profile_view, name='admin_profile'),
     path("change_password/", views.admin_change_password, name="admin_change_password"),
     # register onwer and tentant
     path("user_register/", views.register_view, name="user_registration"),
+
+    # profile of owner and tenant
+    path("owner_profile/<int:id>/", views.owner_profile_view, name="owner_profile"),
+    path("tenant_profile/<int:id>/", views.tenant_profile_view, name="tenant_profile"),
+    path("admin_profile/<int:id>/", views.admin_profile_view, name="admin_profile"),
+
+
+  
+
+
     # view all owners, tenants and admins
     path("view_owners/", views.view_owners, name="view_owners"),
     path("view_tenants/", views.view_tenants, name="view_tenants"),
@@ -23,12 +32,6 @@ urlpatterns = [
     path('delete_admin/', views.delete_admin, name='delete_admin'),
     path('delete_owner/', views.delete_owner, name='delete_owner'),
     path('delete_tenant/', views.delete_tenant, name='delete_tenant'),
-
-    # # edit owner
-    # path("edit_owner/<int:owner_id>/", views.edit_owner, name="edit_owner"),
-
-    # # delete owner
-    # path("delete_owner/<int:owner_id>/", views.delete_owner, name="delete_owner"),
 
 
     # view all blacklisted users

@@ -76,3 +76,45 @@ def register_user(request, user_data):
     messages.success(request, "Registration successful")
     return user
 
+
+
+
+
+def update_user_profile(request, user, profile, form_data, user_type):
+    """
+    Update user and profile data from form data based on user type.
+    """
+    if user_type in ['owner', 'tenant']:
+        # Common fields for Owner and Tenant
+        user.first_name = form_data.get('first_name', user.first_name)
+        user.middle_name = form_data.get('middle_name', user.middle_name)
+        user.last_name = form_data.get('last_name', user.last_name)
+        user.email_address = form_data.get('type_email', user.email_address)
+        user.gender = form_data.get('gender', user.gender)
+        user.date_of_birth = form_data.get('date_of_birth', user.date_of_birth)
+        user.phone_number = form_data.get('phone_number', user.phone_number)
+        user.address = form_data.get('address', user.address)
+        user.occupation = form_data.get('occupation', user.occupation)
+        user.state = form_data.get('state', user.state) 
+    elif user_type == 'admin':
+        # Fields specific to Admin
+        user.full_name = form_data.get('full_name', user.full_name)
+        user.gender = form_data.get('gender', user.gender)
+        user.email = form_data.get('email', user.email)
+        user.address = form_data.get('address', user.address)
+        user.phone_number = form_data.get('phone_number', user.phone_number)
+        user.date_of_birth = form_data.get('date_of_birth', user.date_of_birth)
+
+    user.save()
+
+    # Profile specific updates
+    profile.bio = form_data.get('bio', profile.bio)
+    profile.facebook_link = form_data.get('facebook_link', profile.facebook_link)
+    profile.tiktok_link = form_data.get('tiktok_link', profile.tiktok_link)
+    profile.youtube_link = form_data.get('youtube_link', profile.youtube_link)
+    if 'profile_picture' in request.FILES:
+        profile.profile_picture = request.FILES['profile_picture']
+    profile.save()
+
+    messages.success(request, "Profile updated successfully!")
+    
