@@ -1,4 +1,4 @@
-{% load static %}
+
 {% load static %}
 <!-- ========== Left Sidebar Start ========== -->
 <div class="leftside-menu">
@@ -83,14 +83,6 @@
             </li>
 
             <li class="side-nav-item">
-                <a href="{% url "admin_dashboard:view_blacklist" %}" class="side-nav-link">
-                    <i class="uil-user-times"></i>
-                    <span> Blacklists </span>
-                </a>
-            </li>
-
-
-            <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarApartment" aria-expanded="false"
                     aria-controls="sidebarApartment" class="side-nav-link">
                     <i class="uil-store"></i>
@@ -109,7 +101,7 @@
                                 <ul class="side-nav-second-level">
                                     <!-- Subsection for create -->
                                     <li>
-                                        <a href="apps-apartment-register.html" class="ms-2">Create Property</a>
+                                        <a href="{% url "admin_dashboard:create_apartment_admin" %}" class="ms-2">Create Property</a>
                                     </li>
                                     <!-- Subsection for Units -->
                                     <li>
@@ -265,3 +257,5 @@
 
 </div>
 <!-- Left Sidebar End -->
+
+

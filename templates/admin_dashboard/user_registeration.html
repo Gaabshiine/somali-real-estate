@@ -51,7 +51,7 @@
                                                             <label for="first_name" class="form-label">First Name
                                                                 <span class="text-danger">*</span></label>
                                                             <input class="form-control" type="text"
-                                                                placeholder="Enter your first name" id="first_name" name="first_name" required/>
+                                                                placeholder="Enter your first name" id="first_name" name="first_name" value="{{ request.POST.first_name|default_if_none:'' }}"  required/>
                                                             <div class="invalid-feedback">
                                                                 Please Enter Your First Name.
                                                             </div>
@@ -64,7 +64,7 @@
                                                             <label for="middle_name" class="form-label">Middle Name
                                                                 <span class="text-danger">*</span></label>
                                                             <input class="form-control" type="text"
-                                                                placeholder="Enter your middle name" id="middle_name" name="middle_name" required/>
+                                                                placeholder="Enter your middle name" id="middle_name" name="middle_name" value="{{ request.POST.middle_name|default_if_none:'' }}"  required/>
                                                             <div class="invalid-feedback">
                                                                 Please Enter Your Middle Name.
                                                             </div>
@@ -76,7 +76,7 @@
                                                             <label for="last_name" class="form-label">Last Name <span
                                                                     class="text-danger">*</span></label>
                                                             <input class="form-control" type="text"
-                                                                placeholder="Enter your last name" id="last_name" name="last_name" required/>
+                                                                placeholder="Enter your last name" id="last_name" name="last_name" value="{{ request.POST.last_name|default_if_none:'' }}"  required/>
 
                                                             <div class="invalid-feedback">
                                                                 Please Enter Your Last Name.
@@ -92,7 +92,7 @@
                                                             <label for="type_email" class="form-label">Email address
                                                                 <span class="text-danger">*</span></label>
                                                             <input type="email" id="type_email" class="form-control"
-                                                                placeholder="somalirealestate@gmail.com" name="type_email" required>
+                                                                placeholder="somalirealestate@gmail.com" name="type_email" value="{{ request.POST.type_email|default_if_none:'' }}"  required>
                                                             <div class="invalid-feedback">
                                                                 Please Enter Your Email Address.
                                                             </div>
@@ -107,7 +107,7 @@
                                                             <div class="input-group input-group-merge">
                                                                 <input type="password" id="password"
                                                                     class="form-control"
-                                                                    placeholder="Enter your password" name="password" required>
+                                                                    placeholder="Enter your password" name="password" value="{{ request.POST.password|default_if_none:'' }}"  required>
                                                                     
                                                                 <div class="input-group-text" data-password="false">
                                                                     <span class="password-eye"></span>
@@ -126,7 +126,7 @@
                                                                 class="text-danger">*</span></label>
                                                             <div class="input-group input-group-merge">
                                                                 <input type="password" id="confirm_password" name="confirm_password"
-                                                                    class="form-control" placeholder="confirm_password" name="" required>
+                                                                    class="form-control" placeholder="confirm_password" name="confirm_password" value="{{ request.POST.confirm_password|default_if_none:'' }}"  required>
                                                                 <div class="input-group-text" data-password="false">
                                                                     <span class="password-eye"></span>
                                                                 </div>
@@ -143,7 +143,7 @@
                                                             <label for="phone_number" class="form-label">Phone
                                                                 Number <span
                                                                 class="text-danger">*</span></label>
-                                                            <input type="text" id="phone_number" name="phone_number" class="form-control" required>
+                                                            <input type="text" id="phone_number" name="phone_number" value="{{ request.POST.phone_number|default_if_none:'' }}"  class="form-control" required>
                                                             <div class="invalid-feedback">
                                                                 Please Enter Your Phone Number.
                                                             </div>
@@ -170,7 +170,7 @@
                                                         <div class="mb-3">
                                                             <label for="dob" class="form-label">Date of Birth</label>
                                                             <input class="form-control" id="date_of_birth" type="date"
-                                                                name="date_of_birth" required>
+                                                                name="date_of_birth" value="{{ request.POST.date_of_birth|default_if_none:'' }}"  required>
                                                             <div class="invalid-feedback">
                                                                 Please Enter Your Date Birth.
                                                             </div>
@@ -197,13 +197,13 @@
                                                             <label class="state" style="margin-bottom: 8px;">Select State <span
                                                                     class="text-danger">*</span></label>
                                                             <select data-toggle="select2" title="state" name="state" id="state" style="margin-top: 10px;">
-                                                                <option value="">Choose State of Residence</option>
-                                                                <option value="Banadir">Banadir</option>
-                                                                <option value="Hershabelle">Hershabelle</option>
-                                                                <option value="Galmudug">Galmudug</option>
-                                                                <option value="Jubbanland">Jubbaland</option>
-                                                                <option value="Koonfur-galbeed">Koonfur Galbeed</option>
-                                                                <option value="Puntland">Buntland</option>
+                                                                <option value="" {% if not request.POST.state %}selected{% endif %}>Choose State of Residence</option>
+                                                                <option value="Banadir" {% if request.POST.state == 'Banadir' %}selected{% endif %}>Banadir</option>
+                                                                <option value="Hershabelle" {% if request.POST.state == 'Hershabelle' %}selected{% endif %}>Hershabelle</option>
+                                                                <option value="Galmudug" {% if request.POST.state == 'Galmudug' %}selected{% endif %}>Galmudug</option>
+                                                                <option value="Jubbaland" {% if request.POST.state == 'Jubbaland' %}selected{% endif %}>Jubbaland</option>
+                                                                <option value="Koonfur-galbeed" {% if request.POST.state == 'Koonfur-galbeed' %}selected{% endif %}>Koonfur Galbeed</option>
+                                                                <option value="Puntland" {% if request.POST.state == 'Puntland' %}selected{% endif %}>Buntland</option>
                                                             </select>
                                                         </div>
                                                     
@@ -214,7 +214,7 @@
                                                                 class="form-label">Occupation <span
                                                                 class="text-danger">*</span></label>
                                                             <input type="text" id="occupation" name="occupation" class="form-control"
-                                                                placeholder="Enter your job" required>
+                                                                placeholder="Enter your job" value="{{ request.POST.occupation|default_if_none:'' }}"  required>
                                                             <div class="invalid-feedback">
                                                                 Please Enter Your Occupation.
                                                             </div>
@@ -226,9 +226,9 @@
                                                                 <label for="gender" class="form-label">Type of User <span
                                                                     class="text-danger">*</span></label>
                                                                     <select class="form-select" id="type_of_user" name="type_of_user">
-                                                                        <option value="">Choose Your Type</option>
-                                                                        <option value="Owner">Owner</option>
-                                                                        <option value="Tenant">Tenant</option>
+                                                                        <option value="" {% if not request.POST.type_of_user %}selected{% endif %}>Choose Your Type</option>
+                                                                        <option value="Owner" {% if request.POST.type_of_user == 'Puntland' %}selected{% endif %}>Owner</option>
+                                                                        <option value="Tenant" {% if request.POST.type_of_user == 'Puntland' %}selected{% endif %}>Tenant</option>
                                                                     </select>
                                                                 <div class="invalid-feedback">
                                                                     Choose Type of User
@@ -244,7 +244,10 @@
                                                 <div class="row mt-4">
                                                     <div class="col-sm-12">
                                                         <div class="text-sm-end">
-                                                            <button class="btn btn-primary" type="submit">Submit</button>
+                                                            <button class="btn btn-primary" type="submit">
+                                                                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                                                <span class="button-text"> Submit</span>
+                                                            </button>
                                                         </div>
                                                     </div> <!-- end col -->
                                                 </div> <!-- end row -->

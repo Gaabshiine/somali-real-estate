@@ -17,5 +17,5 @@ urlpatterns = [
     path("reset_password/", views.reset_password, name="reset_password"),
     path("email_sent_confirmation/", views.email_sent_confirmation, name="email_sent_confirmation"),
     path("password_reset_done/", views.password_reset_done, name="password_reset_done"),
-    path("password_reset_form/<slug:uidb64>/<slug:token>/<str:user_type>/", views.password_reset_form, name="password_reset_form"),
+    path("password_reset_form/<uidb64>/<token>/<user_type>/", views.password_reset_form, name="password_reset_form"),
 ]

@@ -27,12 +27,9 @@ class AuthenticationMiddleware:
             return self.get_response(request)
 
         # Apply this middleware only to admin paths
-        if request.path.startswith('/account/'):
+        if request.path.startswith('/account/') or request.path.startswith('/rental_properties/'):
             if not request.session.get('user_id') and request.path not in skip_paths:
                 return redirect(reverse('accounts_app:login'))
             
-        # Check for user authentication for other paths
-        # if not request.session.get('user_id'):
-        #     return redirect(reverse('accounts_app:login'))
 
         return self.get_response(request)

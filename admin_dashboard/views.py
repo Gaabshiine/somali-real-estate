@@ -1,15 +1,30 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from django.urls import reverse
-from accounts_app.models import Owner, Tenant, Profile
-from accounts_app.utils import register_user, update_user_profile
 from django.contrib import messages
-from django.contrib.auth.hashers import check_password
-from admin_dashboard.models import Admin
 from datetime import datetime
-from .utils import get_admin_from_request
-from django.shortcuts import get_object_or_404
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
-# Create your views here.
+from accounts_app.models import Owner, Tenant, Profile
+from admin_dashboard.models import Admin
+
+from accounts_app.utils import register_user, update_user_profile, process_reset_password, display_email_sent_confirmation, display_password_reset_form, display_password_reset_done
+from rental_property_app.utils import create_apartment_util
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from accounts_app.utils import get_user_by_uid, change_user_password
+
+
+
+
+
+
+
+
+""" 
+Start: This fuctnion contains a
+list of functions that relates to the user registeration, login, logout, dashboard, 
+view all users, delete users, view and edit user profile, reset password and change password 
+"""
 
 ########################################## Start User Registeration(Tenats or Owners) ##########################################
 def register_view(request):
@@ -39,8 +54,6 @@ def register_view(request):
 
 
 ########################################## Start Admin Dashboard ##########################################
-
-
 def dashboard_view(request):
     user_id = request.session.get('admin_id')  # assuming you store the admin's ID in session
     if not user_id:
@@ -59,8 +72,6 @@ def dashboard_view(request):
 
 
 ########################################## Start admin accounts(register/login/logout) ##########################################
-
-
 # Admin register
 def admin_register(request):
     if request.method == "POST":
@@ -121,19 +132,61 @@ def admin_logout(request):
     request.session.flush()
     return redirect('admin_dashboard:admin_login')
 
+########################################## End admin accounts(register/login/logout) ##########################################
 
 
 
 
 
 
+################################################ Start Change password ################################################
+def change_password_view(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = get_user_by_uid(uid)
+    except (TypeError, ValueError, OverflowError):
+        user = None
+        messages.error(request, 'Invalid link or expired token.')
+        return redirect('admin_dashboard:admin_login')
 
+    if user is not None and PasswordResetTokenGenerator().check_token(user, token):
+        # Handle POST request inside utility function
+        if request.method == "POST":
+            response = change_user_password(request, uidb64, token, "admin_dashboard/admin_change_password.html")
+            # Ensure there is always a response to return
+            if response is True:
+                return redirect('admin_dashboard:admin_login')
+            else:
+                return response
+        else:
+            # Render form for GET requests
+            return render(request, "admin_dashboard/admin_change_password.html", {
+                'uidb64': uidb64,
+                'token': token,
+                'user': user
+            })
+    else:
+        messages.error(request, "Invalid link or expired token.")
+        return redirect('admin_dashboard:admin_login')
 
-def admin_change_password(request):
-    return render(request, "admin_dashboard/admin_change_password.html", {})
+def change_password_redirect_view(request):
+    admin_id = request.session.get('admin_id')
+    if admin_id:
+        user = get_user_by_uid(admin_id)
+        if user:
+            token_generator = PasswordResetTokenGenerator()
+            token = token_generator.make_token(user)
+            uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+            return redirect('admin_dashboard:change_password', uidb64=uidb64, token=token)
+        else:
+            messages.error(request, "User not found")
+            return redirect('admin_dashboard:admin_login')
+    else:
+        messages.warning(request, "Please login to change your password.")
+        return redirect('admin_dashboard:admin_login')
 
+########################################## End Change password  ##########################################
 
-########################################## End admin accounts ##########################################
 
 
 ########################################## Start view all users(owners, tenants and admins) ##########################################
@@ -148,8 +201,6 @@ def view_owners(request):
         owner.profile = profile_dict.get(owner.id, None)  # Default to None if no profile is found
     return render(request, "admin_dashboard/view_owners.html", {'owners': owners})
 
-
-
 # view all tenants
 def view_tenants(request):
     tenants = Tenant.objects.all()  # Fetch all tenants
@@ -161,8 +212,7 @@ def view_tenants(request):
         owner.profile = profile_dict.get(owner.id, None)  # Default to None if no profile is found
     return render(request, "admin_dashboard/view_tenants.html", {'tenants': tenants})
 
-
-
+# view all admins
 def view_admins(request):
     admins = Admin.objects.all()  # Fetch all admins
     profiles = Profile.objects.filter(person_type='admin')  # Fetch profiles related to admins
@@ -175,7 +225,7 @@ def view_admins(request):
         'admins': admins
     })
 
-########################################## End view all users ##########################################
+########################################## End view all users(owner, tenants, and admins) ##########################################
 
 
 
@@ -206,7 +256,7 @@ def delete_tenant(request):
 
 
 
-########################################## End delete admin ##########################################
+########################################## End delete admin(admin, owner, tenant) ##########################################
 
 
 ########################################## Start view and edit owner, tenant, admin profile ##########################################
@@ -228,7 +278,6 @@ def admin_profile_view(request, id):
     })
 
 
-
 # View and edit owner profile
 def owner_profile_view(request, id):
     owner = get_object_or_404(Owner, id=id)
@@ -247,7 +296,6 @@ def owner_profile_view(request, id):
 
 
 # View and edit tenant profile
-
 def tenant_profile_view(request, id):
     tenant = get_object_or_404(Tenant, id=id)
     profile, _ = Profile.objects.get_or_create(person_id=tenant.id, person_type='tenant')
@@ -265,9 +313,53 @@ def tenant_profile_view(request, id):
 
 ########################################## End view and edit owner, tenant, admin profile ##########################################
 
-def view_blacklist(request):
-    return render(request, "admin_dashboard/view_blacklist.html", {})
 
 
 
+########################################## Start reset password ##########################################
+def reset_password(request):
+    return process_reset_password(request, 'admin_dashbaord/reset_password_modal.html', 'admin_dashboard', 'user_id')
+            
+def password_reset_form(request, uidb64, token, user_type):
+    app_name = 'admin_dashboard'
+    template_name = 'admin_dashboard/password_reset_form.html'
+    session_key = 'user_id'  # or 'admin_id' if this is for admin users
+    return display_password_reset_form(request, uidb64, token, user_type, app_name, template_name, session_key)
 
+def password_reset_done(request):
+    return display_password_reset_done(request, 'admin_dashboard', 'admin_dashboard/password_reset_done.html', 'user_id')
+
+def email_sent_confirmation(request):
+    return display_email_sent_confirmation(request, 'admin_dashboard', 'admin_dashboard/email_sent_confirmation.html', 'user_id')
+
+########################################## End reset password ##########################################
+
+
+
+""" 
+End: Function that accounts for user and admin
+"""
+
+
+
+   
+def create_apartment_admin(request):
+    apartment = create_apartment_util(request)
+    owners = Owner.objects.all()  # Get all owners
+
+    user_id = request.session.get('admin_id')  # assuming you store the admin's ID in session
+    admin = get_object_or_404(Admin, id=user_id)
+    profile, _ = Profile.objects.get_or_create(person_id=admin.id, person_type='admin')
+   
+
+    if apartment:
+        # Redirect on success redirect to home page
+        return redirect('admin_dashboard:dashboard')
+    
+    else:
+        return render(request, 'admin_dashboard/admin_apartment_register.html', {
+        'user': admin,
+        'profile': profile,
+        'user_type': 'admin',
+        'owners': owners
+        })

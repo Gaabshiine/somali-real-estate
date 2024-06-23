@@ -1,5 +1,14 @@
 {% extends "base_admin.html" %}
 {% load static %}
+{% block css %}
+
+<style>
+    .btn-close-white {
+        filter: invert(1) brightness(2);
+    }    
+</style>
+
+{% endblock css %}
 <!-- wrapper -->
 {% block wrapper %}
 
@@ -17,7 +26,7 @@
                     </div>
 
                     <div class="card-body p-4">
-                        
+                        {% include "partials/alert_message.html" %}
                         <div class="text-center w-75 m-auto">
                             <h4 class="text-dark-50 text-center pb-0 fw-bold">Sign In</h4>
                             <p class="text-muted mb-4">Enter your email address and password to access admin panel.</p>
@@ -27,14 +36,18 @@
                             {% csrf_token %}
                             <div class="mb-3">
                                 <label for="email_address" class="form-label">Email address</label>
-                                <input class="form-control" type="email" id="email_address" name="email_address" required placeholder="Enter your email">
+                                <input class="form-control" type="email" id="email_address" name="email_address" value="{{ request.POST.email_address|default_if_none:'' }}" required placeholder="Enter your email">
                             </div>
 
                             <div class="mb-3">
-                                <a href="pages-recoverpw.html" class="text-muted float-end"><small>Forgot your password?</small></a>
+                                <a href="#primary-header-modal" class="text-muted float-end" data-bs-toggle="modal">
+                                    <small>Forgot your password?</small>
+                                </a>
+                                
+                      
                                 <label for="password" class="form-label">Password</label>
                                 <div class="input-group input-group-merge">
-                                    <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password">
+                                    <input type="password" id="password" name="password" value="{{ request.POST.password|default_if_none:'' }}" class="form-control" placeholder="Enter your password">
                                     <div class="input-group-text" data-password="false">
                                         <span class="password-eye"></span>
                                     </div>
@@ -42,7 +55,10 @@
                             </div>
 
                             <div class="mb-3 mb-0 text-center">
-                                <button class="btn btn-primary" type="submit"> Log In </button>
+                                <button class="btn btn-primary" type="submit">
+                                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                    <span class="button-text">Login</span>
+                                </button>
                             </div>
                         </form>
                     </div> <!-- end card-body -->
@@ -64,9 +80,13 @@
 </div>
 <!-- end page -->
 
+
+
 {% endblock wrapper %}
 
 <!-- footer -->
 {% block footer %}
+<!-- Reset Password Modal -->
+{% include "admin_dashboard/reset_passowrd_modal.html" %}
 {% include "admin_partial/footer_alt.html" %}
 {% endblock %}

@@ -32,7 +32,7 @@
                     <a href="{% url 'listings_app:home' %}">Home</a>
                 </li>
                 <li><a href="#">Buy</a></li>  <!-- Adjust the 'buy' named URL accordingly -->
-                <li><a href="{% url 'rental_property_app:rental_property_list' %}">Rent</a></li>
+                <li><a href="#">Rent</a></li>
                 <li class="has-children">
                     <a href="#">Properties</a>  <!-- Adjust the 'properties' named URL accordingly -->
                     <ul class="dropdown arrow-top">
@@ -62,9 +62,9 @@
                         {% if profile.profile_picture %}
                           <img src="{{ profile.profile_picture.url }}" alt="profile picture" class="rounded-circle" width="30">
                         {% else %}
-                          {% if profile.gender == 'male' %}
+                          {% if user.gender == 'male' %}
                             <img src="{% static 'user_styles/images/avatar_man.png' %}" alt="Default Male Avatar" class="rounded-circle" width="30">
-                          {% elif profile.gender == 'female' %}
+                          {% elif user.gender == 'female' %}
                             <img src="{% static 'user_styles/images/avatar_woman.png' %}" alt="Default Female Avatar" class="rounded-circle" width="30">
                           {% endif %}
                         {% endif %}
@@ -79,9 +79,12 @@
                           class="fa-regular fa-circle-user fa-fw"></i>
                         View Profile</a></li>
                     <li>
-                        <a href="{% url "rental_property_app:add_property" %}" class="dropdown-item" ><i class="fa-solid fa-house-user fa-fw"></i>
+                        <a href="{% url "rental_property_app:create_apartment" %}" class="dropdown-item" ><i class="fa-solid fa-house-user fa-fw"></i>
                             <span>Add Property</span></a>
-                        
+                    </li>
+                    <li>
+                      <a href="#" class="dropdown-item"><i class="fa-solid fa-bed fa-fw"></i>
+                          <span>Assign Rooms</span></a>
                     </li>
                     <li><a href="#editPropertyModal" class="dropdown-item" data-toggle="modal"><i class="fa-solid fa-pen-nib fa-fw"></i>
                         <span>Edit Property</span></a>

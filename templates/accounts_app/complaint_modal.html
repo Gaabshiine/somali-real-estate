@@ -22,16 +22,16 @@
                             <div class="mb-3">
                                 <label for="complaint-type" class="form-label">Complaint
                                     Type <span class="text-danger">*</span></label>
-                                <select class="form-select" id="complaint-type" required>
-                                    <option value="">Select Complaint Type</option>
-                                    <option value="electrical">Electrical</option>
-                                    <option value="fire">Fire</option>
-                                    <option value="repair">Repair</option>
-                                    <option value="security">Security</option>
-                                    <option value="neighbor">Neighbor Issue</option>
-                                    <option value="others">Others</option>
+                                {% comment %} <select class="form-select" id="complaint-type" required>
+                                    <option value="" {% if not request.POST.complaint-type %}selected{% endif %}>Select Complaint Type</option>
+                                    <option value="electrical" {% if request.POST.complaint-type == 'electrical' %}selected{% endif %}>Electrical</option>
+                                    <option value="fire" {% if request.POST.complaint-type == 'fire' %}selected{% endif %}>Fire</option>
+                                    <option value="repair" {% if request.POST.complaint-type == 'repair' %}selected{% endif %}>Repair</option>
+                                    <option value="security" {% if request.POST.complaint-type == 'security' %}selected{% endif %}>Security</option>
+                                    <option value="neighbor" {% if request.POST.complaint-type == 'neighbor' %}selected{% endif %}>Neighbor Issue</option>
+                                    <option value="others" {% if request.POST.complaint-type == 'others' %}selected{% endif %}>Others</option>
   
-                                </select>
+                                </select> {% endcomment %}
                                 <div class="invalid-feedback">
                                     Select Complaint Type
                                 </div>
@@ -40,17 +40,17 @@
   
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="complaint-status" class="form-label">Complaint
+                                {% comment %} <label for="complaint-status" class="form-label">Complaint
                                     Status <span class="text-danger">*</span></label>
                                 <select class="form-select" id="complaint-status" required>
-                                    <option value="">Select Complaint Status</option>
-                                    <option value="un-resolved">Un Resolved</option>
-                                    <option value="in-progress">In Propgress</option>
-                                    <option value="un-resolved">Resolved</option>
+                                    <option value="" {% if not request.POST.complaint-status %}selected{% endif %}>Select Complaint Status</option>
+                                    <option value="un-resolved" {% if request.POST.complaint-status == 'un-resolved' %}selected{% endif %}>Un Resolved</option>
+                                    <option value="in-progress" {% if request.POST.complaint-status == 'in-progress' %}selected{% endif %}>In Propgress</option>
+                                    <option value="resolved" {% if request.POST.complaint-status == 'resolved' %}selected{% endif %}>Resolved</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     Select Complaint Status
-                                </div>
+                                </div> {% endcomment %}
                             </div>
                         </div>
   
@@ -62,8 +62,8 @@
                         <div class="mb-3">
                             <label for="phone-number" class="form-label">Phone
                                 Number <span class="text-danger">*</span></label>
-                            <input type="text" id="phone-number" class="form-control"
-                                required>
+                            {% comment %} <input type="text" id="phone-number" name="phone-number" value="{{ request.POST.phone-number|default_if_none:'' }}" class="form-control"
+                                required> {% endcomment %}
                             <div class="invalid-feedback">
                                 Please Enter Your Phone Number.
                             </div>
@@ -77,7 +77,7 @@
                             <label for="complaint-description"
                                 class="form-label">Complaint Description</label>
                             <textarea class="form-control" id="complaint-description"
-                                rows="3" placeholder="Write some note.."></textarea>
+                                rows="3" placeholder="Write some note..">{{ request.POST.complaint_description|default_if_none:'' }}</textarea>
                         </div>
                       </div>
                     </div>

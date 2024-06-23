@@ -199,13 +199,13 @@
                 </div>
 
                 <!-- item-->
-                <a href="#" class="dropdown-item notify-item">
+                <a href="{% url "admin_dashboard:admin_profile" admin.id %}" class="dropdown-item notify-item">
                     <i class="mdi mdi-account-circle me-1"></i>
                     <span>My Account</span>
                 </a>
 
                 <!-- item-->
-                <a href="{% url "admin_dashboard:admin_change_password" %} " class="dropdown-item notify-item">
+                <a href="{% url 'admin_dashboard:change_password_redirect' %} " class="dropdown-item notify-item">
                     <i class="mdi mdi-account-edit me-1"></i>
                     <span>Change Password</span>
                 </a>

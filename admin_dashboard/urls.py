@@ -10,9 +10,14 @@ urlpatterns = [
     path('login/', views.admin_login, name='admin_login'),
     path('register/', views.admin_register, name='admin_register'),
     path('logout/', views.admin_logout, name='admin_logout'),
-    path("change_password/", views.admin_change_password, name="admin_change_password"),
+
     # register onwer and tentant
     path("user_register/", views.register_view, name="user_registration"),
+
+
+    # change passowrd
+    path("change_password/", views.change_password_redirect_view, name="change_password_redirect"),
+    path("change_password/<slug:uidb64>/<slug:token>/", views.change_password_view, name="change_password"),
 
     # profile of owner and tenant
     path("owner_profile/<int:id>/", views.owner_profile_view, name="owner_profile"),
@@ -34,6 +39,17 @@ urlpatterns = [
     path('delete_tenant/', views.delete_tenant, name='delete_tenant'),
 
 
-    # view all blacklisted users
-    path("view_blacklist/", views.view_blacklist, name="view_blacklist"),
+    path("reset_password/", views.reset_password, name="reset_password"),
+    path("email_sent_confirmation/", views.email_sent_confirmation, name="email_sent_confirmation"),
+    path("password_reset_done/", views.password_reset_done, name="password_reset_done"),
+    path("password_reset_form/<uidb64>/<token>/<user_type>/", views.password_reset_form, name="password_reset_form"),
+
+
+    
+
+    # create apartment
+    path("rent/apartment/create/", views.create_apartment_admin, name="create_apartment_admin"),
+
+
+    
 ]
