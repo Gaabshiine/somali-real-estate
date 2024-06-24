@@ -1,11 +1,13 @@
 import moviepy.editor as mp
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-from .models import Apartment # Room, RoomInvoice
+
 
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
-from .models import Owner, Apartment, ApartmentFeature, ApartmentImages, OwnerIdentification
+
+from accounts_app.models import Owner
+from .models import Apartment, ApartmentFeature, ApartmentImages, OwnerIdentification
 
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
@@ -13,7 +15,7 @@ import os
 from django.conf import settings
 
 
-######################################################## create apartment Start ########################################################
+######################################################## create and update apartment Start ########################################################
 def create_apartment_util(request):
     if request.method != 'POST':
         return None  # Only process POST requests
@@ -60,6 +62,7 @@ def create_apartment_util(request):
             os.remove(full_temp_file_path)
 
     apartment.save()
+    update_apartment_status(apartment.id)
 
     features = ApartmentFeature(
         apartment=apartment,
@@ -95,6 +98,67 @@ def create_apartment_util(request):
     messages.success(request, "Apartment created successfully!")
     return apartment  # Return the apartment object upon successful creation
 
+
+
+
+# Update apartment utility function
+def update_apartment_util(request, apartment_id):
+    if request.method != 'POST':
+        return None  # Only process POST requests
+    
+    apartment = get_object_or_404(Apartment, id=apartment_id)
+    
+   
+
+    owner_id = request.session.get('user_id', None) or request.POST.get('owner-id')
+    if not owner_id:
+        messages.error(request, "Owner not specified.")
+        return None
+
+    apartment.apartment_name = request.POST.get('apartment-name')
+    apartment.year_built = request.POST.get('year-built')
+    apartment.area = request.POST.get('area')
+    apartment.district_located = request.POST.get('district-located')
+    apartment.location = request.POST.get('location')
+    apartment.apartment_description = request.POST.get('description')
+
+    video = request.FILES.get('video')
+    if video:
+        temp_file_path = default_storage.save('temp/' + video.name, ContentFile(video.read()))
+        full_temp_file_path = os.path.join(settings.MEDIA_ROOT, temp_file_path)
+        try:
+            validate_video_duration(full_temp_file_path)
+            apartment.video = video
+        finally:
+            os.remove(full_temp_file_path)
+
+    apartment.save()
+    # update_apartment_status(apartment.id)
+
+    ApartmentFeature.objects.update_or_create(
+        apartment=apartment,
+        defaults={
+            'has_gym': 'gym' in request.POST,
+            'has_car_parking': 'car-parking' in request.POST,
+            'has_internet': 'internet' in request.POST,
+            'has_swimming_pool': 'swimming-pool' in request.POST,
+            'has_alarm': 'alarm' in request.POST,
+            'has_air_conditioner': 'air-conditioner' in request.POST
+        }
+    )
+
+    
+    # Update apartment images
+    ApartmentImages.objects.filter(apartment=apartment).delete()  # Remove existing images
+    for img_file in request.FILES.getlist('images'):
+        if img_file:
+            ApartmentImages.objects.create(apartment=apartment, image=img_file)
+
+
+    messages.success(request, "Apartment updated successfully!")
+    return apartment
+
+    
 ######################################################## create apartment End ########################################################
 
 

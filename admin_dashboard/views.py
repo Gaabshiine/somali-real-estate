@@ -6,9 +6,10 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 from accounts_app.models import Owner, Tenant, Profile
 from admin_dashboard.models import Admin
+from rental_property_app.models import Apartment, ApartmentFeature
 
 from accounts_app.utils import register_user, update_user_profile, process_reset_password, display_email_sent_confirmation, display_password_reset_form, display_password_reset_done
-from rental_property_app.utils import create_apartment_util
+from rental_property_app.utils import create_apartment_util, update_apartment_util
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from accounts_app.utils import get_user_by_uid, change_user_password
@@ -62,9 +63,17 @@ def dashboard_view(request):
     admin = get_object_or_404(Admin, id=user_id)
     profile, _ = Profile.objects.get_or_create(person_id=admin.id, person_type='admin')
 
+    # count the number of owners, tenants and apartments
+    owners = Owner.objects.all().count()
+    tenants = Tenant.objects.all().count()
+    apartments = Apartment.objects.all().count()
+
     return render(request, 'admin_dashboard/dashboard_view.html', {
         'admin': admin,
-        'profile': profile
+        'profile': profile,
+        'owners': owners,
+        'tenants': tenants,
+        'apartments': apartments
     })
 
 ########################################## End Admin Dashboard ##########################################
@@ -342,6 +351,11 @@ End: Function that accounts for user and admin
 
 
 
+
+"""
+Start: apartment related functions
+"""
+
    
 def create_apartment_admin(request):
     apartment = create_apartment_util(request)
@@ -363,3 +377,61 @@ def create_apartment_admin(request):
         'user_type': 'admin',
         'owners': owners
         })
+    
+
+# Update apartment view
+def update_apartment_admin(request, apartment_id):
+    apartment = get_object_or_404(Apartment, id=apartment_id)
+    owners = Owner.objects.all()  # Get all owners
+
+    
+    user_id = request.session.get('admin_id')  # assuming you store the admin's ID in session
+    admin = get_object_or_404(Admin, id=user_id)
+    profile, _ = Profile.objects.get_or_create(person_id=admin.id, person_type='admin')
+
+    # Fetch the features
+    try:
+        features = ApartmentFeature.objects.get(apartment=apartment)
+    except ApartmentFeature.DoesNotExist:
+        features = None
+
+    if request.method == 'POST':
+        updated_apartment = update_apartment_util(request, apartment_id)
+        if updated_apartment:
+            return redirect('admin_dashboard:dashboard')
+        else:
+            messages.error(request, "Failed to update apartment.")
+            return render(request, 'admin_dashboard/admin_apartment_update.html', {
+                'apartment': apartment,
+                'user': admin,
+                'profile': profile,
+                'user_type': 'admin',
+                'owners': owners,
+                'existing_images': apartment.images.all(),
+                'features': features  # Pass features to the template
+            })
+    else:
+        # Populate the form with existing data for GET request
+        return render(request, 'admin_dashboard/admin_apartment_update.html', {
+            'apartment': apartment,
+            'user': admin,
+            'profile': profile,
+            'user_type': 'admin',
+            'owners': owners,
+            'existing_images': apartment.images.all(),
+            'features': features  # Pass features to the template
+        })
+    
+
+# Delete apartment
+def delete_apartment_admin(request, apartment_id):
+    apartment = get_object_or_404(Apartment, id=apartment_id)
+    apartment.delete()
+    messages.success(request, "Apartment successfully deleted.")
+    return redirect('admin_dashboard:view_apartments')
+
+
+# read all apartments
+def view_apartments(request):
+    apartments = Apartment.objects.all()
+    return render(request, "admin_dashboard/view_apartments.html", {'apartments': apartments})

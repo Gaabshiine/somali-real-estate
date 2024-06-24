@@ -8,9 +8,14 @@ urlpatterns = [
         
     # # Apartment URLs
     # path('apartments/', views.list_apartments, name='list_apartments'),
-    path('apartment/create/', views.create_apartment, name='create_apartment'),
-    # path('apartment/edit/<int:pk>/', views.edit_apartment, name='edit_apartment'),
-    # path('apartment/delete/<int:pk>/', views.delete_apartment, name='delete_apartment'),
+    
+    path('property/create/', views.create_apartment, name='create_apartment'),
+    path('property/update/<int:apartment_id>/', views.update_apartment, name='update_apartment'),
+    path('property/my_apartments/', views.my_apartments, name='my_apartments'), 
+    path('property/delete/<int:apartment_id>/', views.delete_apartment, name='delete_apartment'),
+    
+
+   
 
     # # Room URLs
     # path('rooms/list/<int:apartment_id>/', views.list_rooms, name='list_rooms'),

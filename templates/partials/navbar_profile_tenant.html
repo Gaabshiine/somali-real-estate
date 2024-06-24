@@ -58,9 +58,9 @@
                         {% if profile.profile_picture %}
                           <img src="{{ profile.profile_picture.url }}" alt="profile picture" class="rounded-circle" width="30">
                         {% else %}
-                          {% if profile.gender == 'male' %}
+                          {% if user.gender == 'male' %}
                             <img src="{% static 'user_styles/images/avatar_man.png' %}" alt="Default Male Avatar" class="rounded-circle" width="30">
-                          {% elif profile.gender == 'female' %}
+                          {% elif user.gender == 'female' %}
                             <img src="{% static 'user_styles/images/avatar_woman.png' %}" alt="Default Female Avatar" class="rounded-circle" width="30">
                           {% endif %}
                         {% endif %}

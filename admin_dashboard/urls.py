@@ -49,6 +49,12 @@ urlpatterns = [
 
     # create apartment
     path("rent/apartment/create/", views.create_apartment_admin, name="create_apartment_admin"),
+    path("rent/apartment/update/<int:apartment_id>/", views.update_apartment_admin, name="update_apartment_admin"),
+    path("rent/apartment/delete/<int:apartment_id>/", views.delete_apartment_admin, name="delete_apartment_admin"),
+
+    # view all apartments
+    path("view_apartments/", views.view_apartments, name="view_apartments"),
+
 
 
     

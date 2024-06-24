@@ -1,0 +1,694 @@
+{% extends "base_user.html" %}
+
+
+
+{% block content %}
+
+<div class="site-section">
+  <!-- Section: Design Block -->
+  <section class="container-lg rounded-5">
+    <!-- Jumbotron -->
+    <div class="px-4 py-5 px-md-5 rounded-2">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-xl-9 col-xl-5">
+            <div class="card">
+              <div class="card-body p-4 mt-3">
+                {% include 'partials/alert_message.html' %}
+                <h4 class="page-title fs-5 fw-bold">Property Listing Portal</h4>
+                <p class="text-muted mb-4 fs-6">Select the type of listing you wish to create for your property, whether
+                  for rent or for outright sale.</p>
+
+                <h6 class="fw-bold text-primary">List a Property for Rent:</h6>
+                <p class="text-muted fs-6">Fill in the specifics to list your apartment or house for rent. Click on the
+                  relevant checkbox to proceed with your rental listing.</p>
+                <label class="checkbox-label mb-5">
+                  <input type="checkbox" id="checkbox1" style="width: 18px; height: 18px;"
+                    onchange="toggleDetails('details1')"> APARTMENT RENTAL INFO
+                </label>
+                <label class="checkbox-label mb-5">
+                  <input type="checkbox" id="checkbox2" style="width: 18px; height: 18px;"
+                    onchange="toggleDetails('details2')"> HOUSE RENTAL INFO
+                </label>
+
+                <form method="POST" action="{% url 'rental_property_app:update_apartment' apartment.id %}" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div id="details1" class="details">
+                      <div class="row">
+                          <div class="col-lg-12">
+                              <div class="card border-0 shadow-none">
+                                  <div class="card-body">
+                                      <!-- Apartment Name and Location -->
+                                      <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="apartment-name" class="form-label">Apartment Name <span class="text-danger">*</span></label>
+                                                <input class="form-control" type="text" placeholder="Enter your apartment name" id="apartment-name" name="apartment-name" value="{{ apartment.apartment_name }}" style="height: 40px;" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="location" class="form-label">Location <span class="text-danger">*</span></label>
+                                                <input class="form-control" type="text" placeholder="e.g. 279Q+J4F, Mogadishu" id="location" name="location" value="{{ apartment.location }}" style="height: 40px;" required />
+                                            </div>
+                                        </div>
+                                      </div> <!-- end row -->
+                                      
+                                      <!-- Year Built and Area -->
+                                      <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="year-built" class="form-label">Year Built <span class="text-danger">*</span></label>
+                                                <input class="form-control" type="text" placeholder="Enter the year your apartment was built" id="year-built" name="year-built" value="{{ apartment.year_built }}" style="height: 40px;" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="area" class="form-label">Area <span class="text-danger">*</span></label>
+                                                <div class="input-group flex-nowrap">
+                                                    <span class="input-group-text" id="basic-addon1" style="height: 40px;">SQ FT</span>
+                                                    <input type="text" id="area" name="area" class="form-control" aria-label="area" aria-describedby="basic-addon1" value="{{ apartment.area }}" style="height: 40px;" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div> <!-- end row -->
+              
+                                      <!-- District -->
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <label for="district-located" class="form-label">Select District Located <span class="text-danger">*</span></label>
+                                                <select class="form-select" id="district-located" name="district-located" style="height: 40px;" required>
+                                                    <option value="">Choose District Location</option>
+                                                    <option value="Wadajir" {% if apartment.district_located == "Wadajir" %}selected{% endif %}>Wadajir</option>
+                                                    <option value="Dharkenley" {% if apartment.district_located == "Dharkenley" %}selected{% endif %}>Dharkenley</option>
+                                                    <option value="Deynile" {% if apartment.district_located == "Deynile" %}selected{% endif %}>Deynile</option>
+                                                    <option value="Wardhigley" {% if apartment.district_located == "Wardhigley" %}selected{% endif %}>Wardhigley</option>
+                                                    <option value="Howlwadag" {% if apartment.district_located == "Howlwadag" %}selected{% endif %}>Howlwadag</option>
+                                                    <option value="Waberi" {% if apartment.district_located == "Waberi" %}selected{% endif %}>Waberi</option>
+                                                    <option value="Habar jijab" {% if apartment.district_located == "Habar jijab" %}selected{% endif %}>Habar jijab</option>
+                                                    <option value="Boondhere" {% if apartment.district_located == "Boondhere" %}selected{% endif %}>Boondhere</option>
+                                                    <option value="Karaan" {% if apartment.district_located == "Karaan" %}selected{% endif %}>Karaan</option>
+                                                    <option value="Yaqshid" {% if apartment.district_located == "Yaqshid" %}selected{% endif %}>Yaqshid</option>
+                                                    <option value="Huriwaa" {% if apartment.district_located == "Huriwaa" %}selected{% endif %}>Huriwaa</option>
+                                                    <option value="Kahda" {% if apartment.district_located == "Kahda" %}selected{% endif %}>Kahda</option>
+                                                    <option value="Hodan" {% if apartment.district_located == "Hodan" %}selected{% endif %}>Hodan</option>
+                                                    <option value="Shibis" {% if apartment.district_located == "Shibis" %}selected{% endif %}>Shibis</option>
+                                                    <option value="Abdiaziz" {% if apartment.district_located == "Abdiaziz" %}selected{% endif %}>Abdiaziz</option>
+                                                    <option value="Shangani" {% if apartment.district_located == "Shangani" %}selected{% endif %}>Shangani</option>
+                                                    <option value="Daaru salam" {% if apartment.district_located == "Daaru salam" %}selected{% endif %}>Daaru salam</option>
+                                                    <option value="Garasbaley" {% if apartment.district_located == "Garasbaley" %}selected{% endif %}>Garasbaley</option>
+                                                </select>
+                                                <div class="invalid-feedback">Choose District Location</div>
+                                            </div>
+                                        </div>
+                                      </div>
+
+                                      <!-- Description -->
+                                      <div class="row">
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label for="description" class="form-label">Description (Optional)</label>
+                                                <textarea class="form-control" id="description" name="description" rows="3" placeholder="Write some note..">{{ apartment.apartment_description }}</textarea>
+                                            </div>
+                                        </div>
+                                      </div> <!-- end row -->       
+
+                                      <!-- Apartment Features Checklist -->
+                                      <h4 class="page-title mt-5 fs-6 fw-bold">Apartment Features Checklist</h4>
+                                      <p class="text-muted mb-4 fs-6">Customize your search by selecting the amenities and features that matter most to you.</p>
+                                      <div class="row px-2">
+                                          <div class="col-md-4">
+                                              <div class="mt-2">
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" name="gym" id="gym" {% if features and features.has_gym %}checked{% endif %}>
+                                                      <label class="form-check-label" for="gym">Gym</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                              <div class="mt-2">
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" name="alarm" id="alarm" {% if features and features.has_alarm %}checked{% endif %}>
+                                                      <label class="form-check-label" for="alarm">Alarm</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                              <div class="mt-2">
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" name="internet" id="internet" {% if features and features.has_internet %}checked{% endif %}>
+                                                      <label class="form-check-label" for="internet">Internet</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="row px-2">
+                                          <div class="col-md-4">
+                                              <div class="mt-2">
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" name="air-conditioner" id="air-conditioner" {% if features and features.has_air_conditioner %}checked{% endif %}>
+                                                      <label class="form-check-label" for="air-conditioner">Air Conditioner</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                              <div class="mt-2">
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" name="car-parking" id="car-parking" {% if features and features.has_car_parking %}checked{% endif %}>
+                                                      <label class="form-check-label" for="car-parking">Car Parking</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                              <div class="mt-2">
+                                                  <div class="form-check">
+                                                      <input type="checkbox" class="form-check-input" name="swimming-pool" id="swimming-pool" {% if features and features.has_swimming_pool %}checked{% endif %}>
+                                                      <label class="form-check-label" for="swimming-pool">Swimming Pool</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                        </div>
+              
+                                      <!-- Property Images -->
+
+                                      
+                                      <h4 class="page-title mt-5 fs-6 fw-bold">Property Images</h4>
+                                      <p class="text-muted mb-4 fs-6">Please Insert Pictures of the Apartment at least three Pictures.</p>
+                                      <div class="row">
+                                          <div class="col-md-4">
+                                              <div class="mb-3">
+                                                  <label for="img-1" class="form-label">Gallery_1 <span class="text-danger">*</span></label>
+                                                  <input type="file" id="img-1" name="images" class="form-control" style="height: 38px;">
+                                                  {% if existing_images.0 %}
+                                                      <img src="{{ existing_images.0.image.url }}" height="100" alt="Current Image 1">
+                                                  {% endif %}
+                                              </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                              <div class="mb-3">
+                                                  <label for="img-2" class="form-label">Gallery_2</label>
+                                                  <input type="file" id="img-2" name="images" class="form-control" style="height: 38px;">
+                                                  {% if existing_images.1 %}
+                                                      <img src="{{ existing_images.1.image.url }}" height="100" alt="Current Image 2">
+                                                  {% endif %}
+                                              </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                              <div class="mb-3">
+                                                  <label for="img-3" class="form-label">Gallery_3</label>
+                                                  <input type="file" id="img-3" name="images" class="form-control" style="height: 38px;">
+                                                  {% if existing_images.2 %}
+                                                      <img src="{{ existing_images.2.image.url }}" height="100" alt="Current Image 3">
+                                                  {% endif %}
+                                              </div>
+                                          </div>
+                                      </div> <!-- end row -->
+
+                                      <!-- Property Video -->
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                            <h4 class="page-title mt-5 fs-6 fw-bold">Property Video</h4>
+                                            <p class="text-muted mb-4 fs-6">Please insert one video of the apartment.</p>
+                                            <div class="mb-3">
+                                                <label for="video" class="form-label">Video (optional)</label>
+                                                <input type="file" id="video" name="video" class="form-control">
+                                                {% if apartment.video %}
+                                                    <!-- Displaying existing video if available -->
+                                                    <video width="100%" height="240" controls style="margin-top: 10px;">
+                                                        <source src="{{ apartment.video.url }}" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                      </div>
+
+              
+                                      <!-- Submit Button -->
+                                      <div class="row mt-4">
+                                          <div class="col-sm-12">
+                                              <div class="text-sm-end">
+                                                <button class="btn btn-primary" type="submit">
+                                                  <span class="spinner-border spinner-border-sm d-none" role="status"
+                                                    aria-hidden="true"></span>
+                                                  <span class="button-text">Update Apartment</span>
+                                                </button>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </form>
+                
+
+              <div id="details2" class="details">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="card border-0  shadow-none">
+                      <div class="card-body">
+
+                        <div class="row">
+                          <div class="col-lg-12">
+
+
+                            <form class="needs-validation" novalidate>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label for="house-name" class="form-label">House Name <span
+                                        class="text-danger">*</span></label>
+                                    <input class="form-control" type="text" placeholder="Enter your house name"
+                                      id="house-name" style="height: 40px;" />
+                                  </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label for="amount" class="form-label">Rent <span class="text-danger">
+                                        *</span></label>
+                                    <div class="input-group flex-nowrap">
+                                      <span class="input-group-text" id="basic-addon1" style="height: 40px;">$</span>
+                                      <input type="text" id="amount" class="form-control" aria-label="rent"
+                                        aria-describedby="basic-addon1" style="height: 40px;" required>
+                                    </div>
+                                  </div>
+                                </div>
+
+
+                              </div> <!-- end row -->
+
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label for="form-control" class="form-label">Year Built <span
+                                        class="text-danger">*</span></label>
+                                    <input class="form-control" type="text"
+                                      placeholder="Enter the year your apartment was built" id="year-built"
+                                      style="height: 40px;" required />
+                                  </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label for="form-control" class="form-label">Area <span class="text-danger">
+                                        *</span></label>
+                                    <div class="input-group flex-nowrap">
+                                      <span class="input-group-text" id="basic-addon1" style="height: 40px;">SQ
+                                        FT</span>
+                                      <input type="text" id="area" class="form-control" aria-label="rent"
+                                        aria-describedby="basic-addon1" style="height: 40px;" required>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div> <!-- end row -->
+
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label for="gender" class="form-label">Select Distric Located <span
+                                        class="text-danger">*</span></label>
+                                    <select class="form-select" id="gender" style="height: 40px;" required>
+                                      <option value="">Choose District Location</option>
+
+                                      <option value="WD">Wadajir</option>
+                                      <option value="Dhr">Dharkenley</option>
+                                      <option value="Dnl">Daynile</option>
+                                      <option value="Wrd">Wardigley</option>
+                                      <option value="HWl">Howl Wadaag</option>
+                                      <option value="Wbr">Waberi</option>
+                                      <option value="HJb">Hamar Jijab</option>
+                                      <option value="Bon">Bondhere</option>
+                                      <option value="Krn">Karaan</option>
+                                      <option value="Yaq">Yaqshid</option>
+                                      <option value="Huw">Huriwaa</option>
+                                      <option value="Kd">Kahda</option>
+                                      <option value="Hdn">Hodan</option>
+                                      <option value="Shb">Shibis</option>
+                                      <option value="Abd">Abdiaziz</option>
+                                      <option value="Shg">Shangani</option>
+
+                                    </select>
+                                    <div class="invalid-feedback">
+                                      Choose Owner Name
+                                    </div>
+                                  </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label for="form-control" class="form-label">Location <span
+                                        class="text-danger">*</span></label>
+                                    <input class="form-control" type="text" placeholder="" id="location"
+                                      style="height: 40px;" required />
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="mb-3">
+                                    <label for="gender" class="form-label">Select Owner <span
+                                        class="text-danger">*</span></label>
+                                    <select class="form-select" id="gender" style="height: 40px;" required>
+                                      <option value="">Choose District Location</option>
+
+                                      <option value="WD">Wadajir</option>
+                                      <option value="Dhr">Dharkenley</option>
+                                      <option value="Dnl">Daynile</option>
+                                      <option value="Wrd">Wardigley</option>
+                                      <option value="HWl">Howl Wadaag</option>
+
+                                    </select>
+                                    <div class="invalid-feedback">
+                                      Choose Owner Name
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label class="number-of-bathroom">No. of Bathrooms</label>
+                                    <input type="text" class="form-control" aria-label="number-of-bathroom"
+                                      aria-describedby="basic-addon1" placeholder="e.g. 2" id="number-of-bathroom"
+                                      style="height: 40px;">
+                                  </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label class="number-of-rooms">No. of Rooms</label>
+
+
+                                    <input type="text" class="form-control" aria-label="number-of-rooms"
+                                      aria-describedby="basic-addon1" placeholder="e.g. 6" id="number-of-rooms"
+                                      style="height: 40px;">
+
+                                  </div>
+                                </div>
+
+                              </div> <!-- end row -->
+                              <div class="row">
+                                <div class="col-12">
+
+
+                                  <div class="mb-3">
+                                    <label for="house-description" class="form-label">House Description</label>
+                                    <textarea class="form-control" id="house-description" rows="3"
+                                      placeholder="Write some note.."></textarea>
+                                  </div>
+                                </div>
+                              </div> <!-- end row -->
+                          </div>
+
+
+                          <h4 class="page-title mt-5 fs-6 fw-bold">Property Images</h4>
+                          <p class="text-muted mb-4 fs-6">Please Insert Pictures of the Apartment atleast three
+                            Pictures.</p>
+                          <div class="row">
+                            <div class="col-md-4">
+                              <div class="mb-3">
+                                <label for="img-1" class="form-label">Gallery_1 <span
+                                    class="text-danger">*</span></label>
+                                <input type="file" id="img-1" class="form-control" style="height: 38px;" required>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="mb-3">
+                                <label for="img-2" class="form-label">Gallery_2</span></label>
+                                <input type="file" id="img-2" class="form-control" style="height: 38px;">
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="mb-3">
+                                <label for="img-3" class="form-label">Gallery_3</label>
+                                <input type="file" id="img-3" class="form-control" style="height: 38px;">
+                              </div>
+                            </div>
+                          </div> <!-- end row -->
+                          <div class="row mt-4">
+                            <div class="col-sm-12">
+                              <div class="text-sm-end">
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                              </div>
+                            </div> <!-- end col -->
+                          </div> <!-- end row -->
+
+                          </form>
+                        </div>
+
+                      </div> <!-- end row-->
+
+
+
+
+                    </div> <!-- end card-body-->
+                  </div> <!-- end card-->
+                </div>
+
+              </div>
+
+
+
+              <h6 class="fw-bold" style="color: #1a9536;">List a Property for Sale:</h6>
+              <p class="text-muted fs-6">Provide the necessary information to put your property on the market for
+                sale. Activate the checkbox below to start detailing your property for sale.</p>
+
+              <label class="checkbox-label mb-5">
+                <input type="checkbox" id="checkbox3" style="width: 18px; height: 18px;"
+                  onchange="toggleDetails('details3')"> PROPERTY SALE INFO
+              </label>
+              <div id="details3" class="details">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="card border-0  shadow-none">
+                      <div class="card-body">
+
+                        <div class="row">
+                          <div class="col-lg-12">
+
+                            <form class="needs-validation" novalidate>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label for="house-name" class="form-label">House Name <span
+                                        class="text-danger">*</span></label>
+                                    <input class="form-control" type="text" placeholder="Enter your house name"
+                                      id="house-name" style="height: 40px;" />
+                                  </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label for="amount" class="form-label">Rent <span class="text-danger">
+                                        *</span></label>
+                                    <div class="input-group flex-nowrap">
+                                      <span class="input-group-text" id="basic-addon1" style="height: 40px;">$</span>
+                                      <input type="text" id="amount" class="form-control" aria-label="rent"
+                                        aria-describedby="basic-addon1" style="height: 40px;" required>
+                                    </div>
+                                  </div>
+                                </div>
+
+
+                              </div> <!-- end row -->
+
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label for="form-control" class="form-label">Year Built <span
+                                        class="text-danger">*</span></label>
+                                    <input class="form-control" type="text"
+                                      placeholder="Enter the year your apartment was built" id="year-built"
+                                      style="height: 40px;" required />
+                                  </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label for="form-control" class="form-label">Area <span class="text-danger">
+                                        *</span></label>
+                                    <div class="input-group flex-nowrap">
+                                      <span class="input-group-text" id="basic-addon1" style="height: 40px;">SQ
+                                        FT</span>
+                                      <input type="text" id="area" class="form-control" aria-label="rent"
+                                        aria-describedby="basic-addon1" style="height: 40px;" required>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div> <!-- end row -->
+
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label for="gender" class="form-label">Select Distric Located <span
+                                        class="text-danger">*</span></label>
+                                    <select class="form-select" id="gender" style="height: 40px;" required>
+                                      <option value="">Choose District Location</option>
+
+                                      <option value="WD">Wadajir</option>
+                                      <option value="Dhr">Dharkenley</option>
+                                      <option value="Dnl">Daynile</option>
+                                      <option value="Wrd">Wardigley</option>
+                                      <option value="HWl">Howl Wadaag</option>
+                                      <option value="Wbr">Waberi</option>
+                                      <option value="HJb">Hamar Jijab</option>
+                                      <option value="Bon">Bondhere</option>
+                                      <option value="Krn">Karaan</option>
+                                      <option value="Yaq">Yaqshid</option>
+                                      <option value="Huw">Huriwaa</option>
+                                      <option value="Kd">Kahda</option>
+                                      <option value="Hdn">Hodan</option>
+                                      <option value="Shb">Shibis</option>
+                                      <option value="Abd">Abdiaziz</option>
+                                      <option value="Shg">Shangani</option>
+
+                                    </select>
+                                    <div class="invalid-feedback">
+                                      Choose Owner Name
+                                    </div>
+                                  </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label for="form-control" class="form-label">Location <span
+                                        class="text-danger">*</span></label>
+                                    <input class="form-control" type="text" placeholder="" id="location"
+                                      style="height: 40px;" required />
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label class="number-of-bathroom">No. of Bathrooms</label>
+                                    <input type="text" class="form-control" aria-label="number-of-bathroom"
+                                      aria-describedby="basic-addon1" placeholder="e.g. 2" id="number-of-bathroom"
+                                      style="height: 40px;">
+                                  </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label class="number-of-rooms">No. of Rooms</label>
+
+
+                                    <input type="text" class="form-control" aria-label="number-of-rooms"
+                                      aria-describedby="basic-addon1" placeholder="e.g. 6" id="number-of-rooms"
+                                      style="height: 40px;">
+
+                                  </div>
+                                </div>
+
+                              </div> <!-- end row -->
+                              <div class="row">
+                                <div class="col-12">
+
+
+                                  <div class="mb-3">
+                                    <label for="house-description" class="form-label">House Description</label>
+                                    <textarea class="form-control" id="house-description" rows="3"
+                                      placeholder="Write some note.."></textarea>
+                                  </div>
+                                </div>
+                              </div> <!-- end row -->
+                          </div>
+
+
+                          <h4 class="page-title mt-5 fs-6 fw-bold">Property Images</h4>
+                          <p class="text-muted mb-4 fs-6">Please Insert Pictures of the Apartment atleast three
+                            Pictures.</p>
+                          <div class="row">
+                            <div class="col-md-4">
+                              <div class="mb-3">
+                                <label for="img-1" class="form-label">Gallery_1 <span
+                                    class="text-danger">*</span></label>
+                                <input type="file" id="img-1" class="form-control" style="height: 38px;" required>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="mb-3">
+                                <label for="img-2" class="form-label">Gallery_2</span></label>
+                                <input type="file" id="img-2" class="form-control" style="height: 38px;">
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="mb-3">
+                                <label for="img-3" class="form-label">Gallery_3</label>
+                                <input type="file" id="img-3" class="form-control" style="height: 38px;">
+                              </div>
+                            </div>
+                          </div> <!-- end row -->
+                          <div class="row mt-4">
+                            <div class="col-sm-12">
+                              <div class="text-sm-end">
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                              </div>
+                            </div> <!-- end col -->
+                          </div> <!-- end row -->
+
+                          </form>
+                        </div>
+
+                      </div> <!-- end row-->
+
+
+
+
+                    </div> <!-- end card-body-->
+                  </div> <!-- end card-->
+                </div>
+
+              </div>
+            </div>
+
+
+
+            <!-- end row -->
+          </div> <!-- end card-body-->
+        </div>
+        <!-- end card -->
+
+
+
+      </div> <!-- end col -->
+    </div>
+    <!-- end row -->
+</div>
+<!-- end container -->
+</div>
+{% endblock %}
+
+{% block content_modal %}
+{% include "accounts_app/reset_password_modal.html" %}
+{% include "accounts_app/complaint_modal.html" %}
+{% include "accounts_app/edit_profile.html" %}
+{% endblock %}
+
+{% block footer %}
+<!-- Footer content -->
+{% include 'partials/footer.html' %}
+{% include "partials/navbar_profile_owner.html" %}
+<!-- MDB -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"></script>
+
+<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js'></script>
+
+{% endblock %}
