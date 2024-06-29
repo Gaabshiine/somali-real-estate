@@ -42,7 +42,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <form class="needs-validation" novalidate method="post" action="{% url 'admin_dashboard:user_registration' %}">
+                                        <form class="needs-validation" method="post" action="{% url 'admin_dashboard:user_registration' %}">
                                             {% include "partials/alert_message.html" %}
                                             {% csrf_token %}
                                                 <div class="row">

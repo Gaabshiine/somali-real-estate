@@ -1,0 +1,79 @@
+<!-- templates/admin_dashboard/select_room_for_view_invoice.html -->
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block wrapper %}
+<div class="wrapper">
+    {% include "admin_partial/left_sidebar.html" %}
+    <div class="content-page">
+        <div class="content">
+            {% include "admin_partial/topbar.html" %}
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">SomaliRealEState</a></li>
+                                    <li class="breadcrumb-item active">Select Room for Viewing Invoices</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">Select Room for Viewing Invoices</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <form method="POST" action="{% url 'admin_dashboard:select_room_for_view_invoice' %}" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="apartment_id" class="form-label">Select Apartment <span class="text-danger">*</span></label>
+                                <select class="form-select" id="apartment_id" name="apartment_id" required>
+                                    <option value="">Select Apartment</option>
+                                    {% for apartment in apartments %}
+                                        <option value="{{ apartment.id }}">{{ apartment.apartment_name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please select an apartment.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="room_id" class="form-label">Select Room <span class="text-danger">*</span></label>
+                                <select class="form-select" id="room_id" name="room_id" required>
+                                    <option value="">Select Room</option>
+                                    {% for apartment in apartments %}
+                                        {% for room in apartment.rooms.all %}
+                                            <option value="{{ room.id }}">{{ room.room_name }}</option>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please select a room.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-sm-12">
+                            <div class="text-sm-end">
+                                
+                                <button class="btn btn-primary" type="submit">
+                                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                    <span class="button-text">Select Room</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% include "admin_partial/footer.html" %}
+    </div>
+</div>
+{% endblock %}

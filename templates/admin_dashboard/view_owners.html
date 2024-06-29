@@ -89,7 +89,7 @@
                                                                 <img src="{% static 'user_styles/images/avatar_woman.png' %}" alt="Default Female Avatar" class="me-2 rounded-circle">
                                                             {% endif %}
                                                         {% endif %}
-                                                        <a href="javascript:void(0);" class="text-body fw-semibold">{{ owner.first_name }} {{ owner.middle_name }}</a>
+                                                        <a href="{% url "admin_dashboard:owner_profile" owner.id %}" class="text-body fw-semibold">{{ owner.first_name }} {{ owner.middle_name }}</a>
                                                     </td>
                                                     <td>{{ owner.email_address }}</td>
                                                     <td>{{ owner.address }}</td>
@@ -115,7 +115,10 @@
                                                                             {% csrf_token %}
                                                                             <input type="hidden" name="owner_id" value="{{ owner.id }}">
                                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                                            <button type="submit" class="btn text-white" style="background-color:#d32f4d;">Delete</button>
+                                                                            <button  type="submit" class="btn text-white" style="background-color:#d32f4d;">
+                                                                                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                                                                <span class="button-text">Delete</span>
+                                                                            </button>
                                                                         </form>
                                                                     </div>
                                                                 </div>

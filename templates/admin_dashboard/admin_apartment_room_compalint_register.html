@@ -1,0 +1,121 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block wrapper %}
+<div class="wrapper">
+    {% include "admin_partial/left_sidebar.html" %}
+
+    <div class="content-page">
+        <div class="content">
+            {% include "admin_partial/topbar.html" %}
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">SomaliRealEState</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Page</a></li>
+                                    <li class="breadcrumb-item active">Complaint</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">Complaint Form</h4>
+                            <p class="text-muted mb-4" style="margin-top: -10px;">Please fill out the following form with your complaint. We will review your request and follow up with you as soon as possible.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card widget-flat">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <form method="POST" action="{% url 'admin_dashboard:create_complaint' room.id %}" class="needs-validation" novalidate>
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="complaint-type" class="form-label">Complaint Type <span class="text-danger">*</span></label>
+                                                        <select class="form-select" id="complaint-type" name="complaint_type" required>
+                                                            <option value="">Select Complaint Type</option>
+                                                            <option value="electrical">Electrical</option>
+                                                            <option value="fire">Fire</option>
+                                                            <option value="repair">Repair</option>
+                                                            <option value="security">Security</option>
+                                                            <option value="neighbor">Neighbor Issue</option>
+                                                            <option value="others">Others</option>
+                                                        </select>
+                                                        
+                                                        <div class="invalid-feedback">
+                                                            Select Complaint Type
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="complaint-status" class="form-label">Complaint Status <span class="text-danger">*</span></label>
+                                                        <select class="form-select" id="complaint-status" name="complaint_status" required>
+                                                            <option value="">Select Complaint Status</option>
+                                                            <option value="Unresolved">Unresolved</option>
+                                                            <option value="In Progress">In Progress</option>
+                                                            <option value="Resolved">Resolved</option>
+                                                        </select>
+                                                        <div class="invalid-feedback">
+                                                            Select Complaint Status
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                    
+                                                        <label class="tenant">Tenant
+                                                            <span class="text-danger">*</span></label>
+                                                        <select data-toggle="select2" title="District" id="tenant_id" name="tenant_id" required>
+                                                            <option value="">Select Tenant</option>
+                                                            {% for tenant in tenants %}
+                                                                <option value="{{ tenant.id }}">{{ tenant.first_name }} {{ tenant.middle_name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-8">
+                                                    <div class="mb-3">
+                                                        <label for="complaint-description" class="form-label">Complaint Description</label>
+                                                        <textarea class="form-control" id="complaint-description" name="complaint_description" rows="3" placeholder="Write some note.."></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-4">
+                                                <div class="col-sm-12">
+                                                    <div class="text-sm-end">
+                                                        <button class="btn btn-primary" type="submit">
+                                                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                                            <span class="button-text">Submit</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include "admin_partial/footer.html" %}
+    </div>
+</div>
+{% endblock %}
+
+{% block right_sidebar %}
+{% include "admin_partial/right_sidebar.html" %}
+{% endblock %}

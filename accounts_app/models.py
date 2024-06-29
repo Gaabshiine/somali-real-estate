@@ -80,6 +80,8 @@ class Profile(models.Model):
             
     class Meta:
         db_table = 'profiles'
+        unique_together = ('person_id', 'person_type')  # Add this line
+
 
 
     

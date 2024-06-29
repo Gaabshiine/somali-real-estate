@@ -1,0 +1,113 @@
+<!-- templates/admin_dashboard/view_invoices.html -->
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block wrapper %}
+<div class="wrapper">
+    {% include "admin_partial/left_sidebar.html" %}
+    <div class="content-page">
+        <div class="content">
+            {% include "admin_partial/topbar.html" %}
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">SomaliRealEState</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">View</a></li>
+                                    <li class="breadcrumb-item active">Invoice</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">Invoice Lists</h4>
+                        </div>
+                    </div>
+                </div>     
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row mb-2">
+                                    <div class="col-sm-4"></div>
+                                    <div class="col-sm-8">
+                                        <div class="text-sm-end">
+                                            <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog"></i></button>
+                                            <button type="button" class="btn btn-light mb-2">Import</button>
+                                            <button type="button" class="btn btn-light mb-2">Export</button>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                <div class="table-responsive">
+                                    <table class="table table-centered table-striped dt-responsive nowrap w-100">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 20px;">
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="form-check-input" id="customCheck1">
+                                                        <label class="form-check-label" for="customCheck1">&nbsp;</label>
+                                                    </div>
+                                                </th>
+                                                <th>User</th>
+                                                <th>Phone</th>
+                                                <th>Email</th>
+                                                <th>Amount Due</th>
+                                                <th>Due Date</th>
+                                                <th>Status</th>
+                                                <th style="width: 75px;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for invoice in invoices %}
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="form-check-input" id="customCheck{{ forloop.counter }}">
+                                                            <label class="form-check-label" for="customCheck{{ forloop.counter }}">&nbsp;</label>
+                                                        </div>
+                                                    </td>
+                                                    <td class="table-user">
+                                                        <img src="assets/images/users/avatar-4.jpg" alt="table-user" class="me-2 rounded-circle">
+                                                        <a href="javascript:void(0);" class="text-body fw-semibold">{{ invoice.tenant.first_name }} {{ invoice.tenant.last_name }}</a>
+                                                    </td>
+                                                    <td>{{ invoice.tenant.phone_number }}</td>
+                                                    <td>{{ invoice.tenant.email }}</td>
+                                                    <td>${{ invoice.amount_due }}</td>
+                                                    <td>{{ invoice.invoice_date }}</td>
+                                                    <td>
+                                                        {% if invoice.invoice_status == 'Paid' %}
+                                                            <span class="badge badge-success-lighten">Paid</span>
+                                                        {% elif invoice.invoice_status == 'Pending' %}
+                                                            <span class="badge badge-warning-lighten">Pending</span>
+                                                        {% else %}
+                                                            <span class="badge badge-danger-lighten">Overdue</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        <a href="{% url 'admin_dashboard:admin_apartment_print_invoice' invoice.id %}" class="btn btn-primary btn-sm">Details</a>
+                                                    </td>
+                                                </tr>
+                                            {% empty %}
+                                                <tr>
+                                                    <td colspan="8" class="text-center">No invoices available.</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div> 
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div> 
+        </div>
+        {% include "admin_partial/footer.html" %}
+    </div>
+</div>
+{% endblock %}
+
+{% block right_sidebar %}
+{% include "admin_partial/right_sidebar.html" %}
+{% endblock %}

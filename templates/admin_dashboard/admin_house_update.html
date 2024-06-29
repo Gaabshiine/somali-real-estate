@@ -1,0 +1,305 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+<!-- wrapper -->
+{% block wrapper %}
+<div class="wrapper">
+    {% include "admin_partial/left_sidebar.html" %}
+
+    <div class="content-page">
+        <div class="content">
+            {% include "admin_partial/topbar.html" %}
+            <!-- Start Content-->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">SomaliRealEState</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Page</a></li>
+                                    <li class="breadcrumb-item active">Edit House</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">Edit a House</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <!-- tab -->
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                {% include "partials/alert_message.html" %}
+                                <h4 class="mt-2">Basic Details</h4>
+
+                                <p class="text-muted mb-4">The form below improves to update your house.</p>
+
+                                <div id="rootwizard">
+                                    <ul class="nav nav-pills nav-justified form-wizard-header mb-3">
+                                        <li class="nav-item" data-target-form="#accountForm">
+                                            <a href="#first" data-bs-toggle="tab" data-toggle="tab"
+                                                class="nav-link rounded-0 pt-2 pb-2">
+                                                <i class="mdi mdi-account-circle me-1"></i>
+                                                <span class="d-none d-sm-inline">Basic Details</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" data-target-form="#profileForm">
+                                            <a href="#second" data-bs-toggle="tab" data-toggle="tab"
+                                                class="nav-link rounded-0 pt-2 pb-2">
+                                                <i class="mdi mdi-face-profile me-1"></i>
+                                                <span class="d-none d-sm-inline">Location</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" data-target-form="#otherForm">
+                                            <a href="#third" data-bs-toggle="tab" data-toggle="tab"
+                                                class="nav-link rounded-0 pt-2 pb-2">
+                                                <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i>
+                                                <span class="d-none d-sm-inline">Finish</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    
+                                    <form id="accountForm" method="POST" action="{% url 'admin_dashboard:update_house_admin' house.id %}" enctype="multipart/form-data" class="form-horizontal">
+                                        {% csrf_token %}
+                                        <div class="tab-content mb-0 b-0">
+
+                                            <div class="tab-pane" id="first">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="house_name" class="form-label col-form-label">House Name <span class="text-danger">*</span></label>
+                                                            <input class="form-control" type="text" id="house_name" value="{{ house.house_name }}" name="house_name" style="height: 40px;" required />
+                                                        </div>
+                                                    </div> <!-- end col -->
+
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="year_built" class="form-label">Year Built <span class="text-danger">*</span></label>
+                                                            <input class="form-control" type="number" id="year_built" value="{{ house.year_built }}" name="year_built" required />
+                                                        </div>
+                                                    </div> <!-- end col -->
+                                                </div> <!-- end row -->
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="rent_amount" class="form-label col-form-label">Rent Amount <span class="text-danger">*</span></label>
+                                                            <input class="form-control" type="text" id="rent_amount" value="{{ house.rent_amount }}" name="rent_amount" style="height: 40px;" required />
+                                                        </div>
+                                                    </div> <!-- end col -->
+
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="deposit_amount" class="form-label col-form-label">Deposit Amount <span class="text-danger">*</span></label>
+                                                            <input class="form-control" type="text" id="deposit_amount" value="{{ house.deposit_amount }}" name="deposit_amount" style="height: 40px;" />
+                                                        </div>
+                                                    </div> <!-- end col -->
+                                                </div> <!-- end row -->
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="no_of_bathrooms" class="form-label col-form-label">Number of Bathrooms <span class="text-danger">*</span></label>
+                                                            <input class="form-control" type="number" id="no_of_bathrooms" value="{{ house.no_of_bathrooms }}" name="no_of_bathrooms" style="height: 40px;" required />
+                                                        </div>
+                                                    </div> <!-- end col -->
+
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="no_of_rooms" class="form-label col-form-label">Number of Rooms <span class="text-danger">*</span></label>
+                                                            <input class="form-control" type="number" id="no_of_rooms" value="{{ house.no_of_rooms }}" name="no_of_rooms" style="height: 40px;" required />
+                                                        </div>
+                                                    </div> <!-- end col -->
+                                                </div> <!-- end row -->
+
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="mb-3">
+                                                            <label for="owners" class="form-label">Choose Owner:</label>
+                                                            <select data-toggle="select2" title="District" id="owners" name="owner_id" required>
+                                                                <option value="">Choose Owner</option>
+                                                                {% for owner in owners %}
+                                                                    <option value="{{ owner.id }}" {% if owner.id == house.owner.id %} selected {% endif %}>{{ owner.first_name }} {{ owner.middle_name }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                            <div class="invalid-feedback">Choose owner name</div>
+                                                        </div>
+                                                    </div> <!-- end col -->
+                                                </div> <!-- end row -->
+
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="mb-3">
+                                                            <label for="description" class="form-label">Description (Optional)</label>
+                                                            <textarea class="form-control" id="description" name="house_description" rows="3">{{ house.house_description }}</textarea>
+                                                        </div>
+                                                    </div> <!-- end col -->
+                                                </div> <!-- end row -->
+                                            </div>
+
+                                            <div class="tab-pane fade" id="second">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="location" class="form-label">Location <span class="text-danger">*</span></label>
+                                                            <input class="form-control" type="text" id="location" name="location" value="{{ house.location }}" required />
+                                                        </div>
+                                                    </div> <!-- end col -->
+
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Choose district located <span class="text-danger">*</span></label>
+                                                            <select data-toggle="select2" title="District" id="district_located" name="district_located" required>
+                                                                <option>Choose District Location</option>
+                                                                <option value="Wadajir" {% if house.district_located == "Wadajir" %}selected{% endif %}>Wadajir</option>
+                                                                <option value="Dharkenley" {% if house.district_located == "Dharkenley" %}selected{% endif %}>Dharkenley</option>
+                                                                <option value="Deynile" {% if house.district_located == "Deynile" %}selected{% endif %}>Deynile</option>
+                                                                <option value="Wardhigley" {% if house.district_located == "Wardhigley" %}selected{% endif %}>Wardhigley</option>
+                                                                <option value="Howlwadag" {% if house.district_located == "Howlwadag" %}selected{% endif %}>Howlwadag</option>
+                                                                <option value="Waberi" {% if house.district_located == "Waberi" %}selected{% endif %}>Waberi</option>
+                                                                <option value="Habar jijab" {% if house.district_located == "Habar jijab" %}selected{% endif %}>Habar jijab</option>
+                                                                <option value="Boondhere" {% if house.district_located == "Boondhere" %}selected{% endif %}>Boondhere</option>
+                                                                <option value="Karaan" {% if house.district_located == "Karaan" %}selected{% endif %}>Karaan</option>
+                                                                <option value="Yaqshid" {% if house.district_located == "Yaqshid" %}selected{% endif %}>Yaqshid</option>
+                                                                <option value="Huriwaa" {% if house.district_located == "Huriwaa" %}selected{% endif %}>Huriwaa</option>
+                                                                <option value="Kahda" {% if house.district_located == "Kahda" %}selected{% endif %}>Kahda</option>
+                                                                <option value="Hodan" {% if house.district_located == "Hodan" %}selected{% endif %}>Hodan</option>
+                                                                <option value="Shibis" {% if house.district_located == "Shibis" %}selected{% endif %}>Shibis</option>
+                                                                <option value="Abdiaziz" {% if house.district_located == "Abdiaziz" %}selected{% endif %}>Abdiaziz</option>
+                                                                <option value="Shangani" {% if house.district_located == "Shangani" %}selected{% endif %}>Shangani</option>
+                                                                <option value="Daaru salam" {% if house.district_located == "Daaru salam" %}selected{% endif %}>Daaru salam</option>
+                                                                <option value="Garasbaley" {% if house.district_located == "Garasbaley" %}selected{% endif %}>Garasbaley</option>
+                                                            </select>
+                                                            <div class="invalid-feedback">Choose District Location</div>
+                                                        </div>
+                                                    </div> <!-- end col -->
+                                                </div> <!-- end row -->
+                                            </div>
+
+                                            <div class="tab-pane fade" id="third">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <h4 class="mt-2">Property Images</h4>
+                                                        <p class="text-muted mb-4">Please Insert Pictures of the House, at least one picture.</p>
+                                                        <div class="mb-3">
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <div class="mb-3">
+                                                                        <label for="img_1" class="form-label">Gallery_1 <span class="text-danger">*</span></label>
+                                                                        <input type="file" id="img_1" name="images" class="form-control" style="height: 38px;">
+                                                                        {% if existing_images.0 %}
+                                                                            <img src="{{ existing_images.0.image.url }}" height="100" alt="Current Image 1">
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="mb-3">
+                                                                        <label for="img_2" class="form-label">Gallery_2</span></label>
+                                                                        <input type="file" id="img_2" name="images" class="form-control" style="height: 38px;">
+                                                                        {% if existing_images.1 %}
+                                                                            <img src="{{ existing_images.1.image.url }}" height="100" alt="Current Image 2">
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="mb-3">
+                                                                        <label for="img_3" class="form-label">Gallery_3</label>
+                                                                        <input type="file" id="img_3" name="images" class="form-control" style="height: 38px;">
+                                                                        {% if existing_images.2 %}
+                                                                            <img src="{{ existing_images.2.image.url }}" height="100" alt="Current Image 3">
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div> <!-- end row -->
+                                                        </div>
+                                                    </div>
+                                                </div> <!-- end row -->
+
+                                    
+                                            </div>
+
+                                            <ul class="list-inline wizard mb-0 mt-4">
+                                                <li class="previous list-inline-item"><a href="javascript:void(0);" class="btn btn-danger" id="previous-button">Previous</a></li>
+                                                <li class="next list-inline-item float-end"><a href="javascript:void(0);" class="btn btn-danger" id="next-button">Next</a></li>
+                                                <li class="submit list-inline-item float-end" style="display: none;">
+                                                    <button class="btn btn-primary" type="submit">
+                                                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                                        <span class="button-text">Save Changes</span>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div> <!-- tab-content -->
+                                    </form>
+                                </div> <!-- end #rootwizard-->
+                            </div> <!-- end card-body -->
+                        </div> <!-- end card-->
+                    </div> <!-- end col -->
+                </div> <!-- end row-->
+            </div> <!-- container -->
+        </div>
+        {% include "admin_partial/footer.html" %}
+    </div>
+</div>
+{% endblock %}
+
+<!-- right_sidebar -->
+{% block right_sidebar %}
+{% include "admin_partial/right_sidebar.html" %}
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var $ = jQuery; // Ensure jQuery is available as '$'
+        const nextButton = document.getElementById('next-button');
+        const previousButton = document.getElementById('previous-button');
+        const submitButton = document.querySelector('.submit');
+        const navLinks = $('#rootwizard .nav-link');
+        const totalTabs = navLinks.length;
+        let currentIndex = 0;
+
+        function updateButtonVisibility() {
+            if (currentIndex === totalTabs - 1) {  // Last tab
+                nextButton.style.display = 'none';
+                submitButton.style.display = 'inline-block';
+            } else {
+                nextButton.style.display = 'inline-block';
+                submitButton.style.display = 'none';
+            }
+            previousButton.style.display = currentIndex === 0 ? 'none' : 'inline-block';
+        }
+
+        navLinks.each(function(index) {
+            $(this).on('click', function (e) {
+                e.preventDefault();
+                currentIndex = index;
+                $(this).tab('show');
+                updateButtonVisibility();
+            });
+        });
+
+        nextButton.addEventListener('click', function() {
+            if (currentIndex < totalTabs - 1) {
+                currentIndex++;
+                $(navLinks[currentIndex]).tab('show');
+            }
+            updateButtonVisibility();
+        });
+
+        previousButton.addEventListener('click', function() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                $(navLinks[currentIndex]).tab('show');
+            }
+            updateButtonVisibility();
+        });
+
+        updateButtonVisibility(); // Initial button setup
+    });
+</script>
+{% endblock %}

@@ -10,6 +10,9 @@ from django.urls import reverse
 from django.contrib.auth.hashers import check_password
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from datetime import datetime
+from django.http import HttpResponse
+from datetime import date
 
 
 
@@ -74,6 +77,28 @@ def register_user(request, user_data):
         messages.error(request, "Invalid type of user")
         return None
     
+    # Convert the string date to a date object
+    try:
+        date_of_birth = datetime.strptime(date_of_birth, '%Y-%m-%d').date()  # Adjust the format string as per your input date format
+    except ValueError:
+        messages.error(request, "Invalid date format")
+
+    # Calculate age
+    today = date.today()
+    age = today.year - date_of_birth.year - ((today.month, today.day) < (date_of_birth.month, date_of_birth.day))
+
+    # Check if user is at least 18 years old
+    if age < 18:
+        messages.error(request, "User must be at least 18 years old")
+        return None
+
+
+
+
+   
+    
+    
+
     user.set_password(password)
     user.save()
     
@@ -98,6 +123,31 @@ def update_user_profile(request, user, profile, form_data, user_type):
     """
     Update user and profile data from form data based on user type.
     """
+
+    # Parse and validate date of birth
+    dob = form_data.get('date_of_birth')
+    if dob:
+        try:
+            # Check if dob is a string and needs to be parsed
+            if isinstance(dob, str):
+                dob = datetime.strptime(dob, '%Y-%m-%d').date()
+            elif not isinstance(dob, date):
+                raise ValueError("Invalid type for date_of_birth")
+            
+            # Calculate age
+            today = date.today()
+            age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+            
+            # Check if user is at least 18 years old
+            if age < 18:
+                messages.error(request, "User must be at least 18 years old")
+                return None
+            
+        except ValueError as e:
+            messages.error(request, f"Invalid date format: {e}")
+            return None
+        
+
     if user_type in ['owner', 'tenant']:
         # Common fields for Owner and Tenant
         user.first_name = form_data.get('first_name', user.first_name)
@@ -105,7 +155,7 @@ def update_user_profile(request, user, profile, form_data, user_type):
         user.last_name = form_data.get('last_name', user.last_name)
         user.email_address = form_data.get('type_email', user.email_address)
         user.gender = form_data.get('gender', user.gender)
-        user.date_of_birth = form_data.get('date_of_birth', user.date_of_birth)
+        user.date_of_birth = dob
         user.phone_number = form_data.get('phone_number', user.phone_number)
         user.address = form_data.get('address', user.address)
         user.occupation = form_data.get('occupation', user.occupation)

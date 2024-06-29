@@ -1,0 +1,163 @@
+{% extends "base_admin.html" %}
+
+{% block css %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% endblock %}
+{% load static %}
+
+<!-- wrapper -->
+{% block wrapper %}
+
+<div class="wrapper">
+    {% include "admin_partial/left_sidebar.html" %}
+    <div class="content-page">
+        <div class="content">
+
+            <!-- Topbar Start -->
+        {% include "admin_partial/topbar.html" %}
+        <!-- end Topbar -->
+
+            <!-- Start Content-->
+            <div class="container-fluid">
+                        
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">SomaliRealEState</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Page</a></li>
+                                    <li class="breadcrumb-item active">View Apartment Units</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">View Apartment Units</h4>
+                        </div>
+                    </div>
+                </div>          
+                <!-- end page title --> 
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row mb-2">
+                                    <div class="col-sm-4">
+                                        <a href="{% url 'admin_dashboard:create_room' apartment.id %}" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Add Room</a>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <div class="text-sm-end">
+                                            <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog"></i></button>
+                                            <button type="button" class="btn btn-light mb-2">Export</button>
+                                        </div>
+                                    </div><!-- end col-->
+                                </div>
+        
+                                <div class="table-responsive">
+                                    <table class="table table-centered table-striped dt-responsive nowrap w-100" id="products-datatable">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 20px;">
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="form-check-input" id="customCheck1"> 
+                                                        <label class="form-check-label" for="customCheck1">&nbsp;</label>
+                                                    </div>
+                                                </th>            
+                                                <th>ID</th>
+                                                <th>Room Name</th>
+                                                <th>Room Type</th>
+                                                <th>Floor Number</th>
+                                                <th>Rent Amount</th>
+                                                <th>Status</th>
+                                                <th style="width: 75px;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for room in rooms %}
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="form-check-input" id="customCheck{{ forloop.counter }}">
+                                                            <label class="form-check-label" for="customCheck{{ forloop.counter }}">&nbsp;</label>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ room.id }}</td>
+                                                    
+                                                    <td>{{ room.room_name }}</td>
+                                                    <td>{{ room.room_type }}</td>
+                                                    <td>{{ room.floor_number }}</td>
+                                                    <td>{{ room.rent_amount }}</td>
+                                                    <td>
+                                                        {% if room.status == 'Vacant' %}
+                                                            <span class="badge bg-success">Vacant</span>
+                                                        {% comment %} still No room was registered {% endcomment %}
+                                                        
+                                                        {% else %}
+                                                            <span class="badge bg-danger">Occupied</span>
+                                                        {% endif %}
+                                                    <td>
+
+                                                        <a href="{% url 'admin_dashboard:edit_room' room.id %}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                                        <a href="#deleteRoomModal{{ room.id }}" class="action-icon" data-bs-toggle="modal"> <i class="mdi mdi-delete"></i></a>
+                                                        <a href="{% url 'admin_dashboard:create_complaint' room.id %}" class="action-icon"> <i class="fas fa-exclamation-triangle"></i></a>
+
+                                                        <!-- Modal for deleting room -->
+                                                        <div class="modal fade" id="deleteRoomModal{{ room.id }}" tabindex="-1" aria-labelledby="deleteRoomModalLabel{{ room.id }}" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="deleteRoomModalLabel{{ room.id }}">Confirm Delete</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        Are you sure you want to delete {{ room.room_name }}?
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <form action="{% url 'admin_dashboard:delete_room' room.id %}" method="post">
+                                                                            {% csrf_token %}
+                                                                            <input type="hidden" name="room_id" value="{{ room.id }}">
+                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                                            <button  type="submit" class="btn text-white" style="background-color:#d32f4d;">
+                                                                                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                                                                <span class="button-text">Delete</span>
+                                                                            </button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>                                        
+                                        
+                                    </table>
+                                </div>
+                            </div> <!-- end card-body-->
+                        </div> <!-- end card-->
+                    </div> <!-- end col -->
+                </div>
+                <!-- end row -->
+                
+            </div> <!-- container -->
+        </div>  
+
+        <!-- footer -->
+        {% block footer %}
+
+        {% include "admin_partial/footer.html" %}
+        {% endblock %}
+    </div>  
+
+    
+</div>
+
+{% endblock %}
+
+
+<!-- right_sidebar -->
+{% block right_sidebar %}
+{% include "admin_partial/right_sidebar.html" %}
+{% endblock  %}
+
+

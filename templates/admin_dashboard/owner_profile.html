@@ -236,7 +236,7 @@
 
                                     </div>
                                     <!-- end property_details content-->
-
+                                    {% include "partials/alert_message.html" %}
                                     <div class="tab-pane" id="edit_profile">
                                         <form method="POST" action="{% url 'admin_dashboard:owner_profile' owner.id %}" enctype="multipart/form-data">
                                             {% csrf_token %}
@@ -331,7 +331,11 @@
                                             </div>
                                             
                                             <div class="text-end">
-                                                <button type="submit" class="btn btn-success mt-2"><i class="mdi mdi-content-save"></i> Save</button>
+                                                <button class="btn btn-primary mt-2" type="submit">
+                                                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                                    <span class="button-text"><i class="mdi mdi-content-save"></i> Save</span>
+                                                </button>
+                                               
                                             </div>
                                         </form>
                                     </div>

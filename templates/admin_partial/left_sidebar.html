@@ -63,24 +63,66 @@
                 </div>
             </li>
 
+
             <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarUsers" aria-expanded="false"
-                    aria-controls="sidebarUsers" class="side-nav-link">
+                <a data-bs-toggle="collapse" href="#tenants" aria-expanded="false"
+                    aria-controls="tenants" class="side-nav-link">
                     <i class="uil-users-alt"></i>
-                    <span> Tenants </span>
+                    <span>Tenants </span>
                     <span class="menu-arrow"></span>
                 </a>
-                <div class="collapse" id="sidebarUsers">
+                <div class="collapse" id="tenants">
                     <ul class="side-nav-second-level">
-                        <li>
-                            <a href="app-assign-property.html">Assign Property</a>
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarApartmentAssign" aria-expanded="false"
+                                aria-controls="sidebarCreateProperty" class="side-nav-link">
+                                <span class="ms-4">Apartment Assign </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="sidebarApartmentAssign">
+                                <ul class="side-nav-second-level">
+                                    <!-- Subsection for create -->
+                                    <li>
+                                        <a href="{% url "admin_dashboard:assign_room" %}" class="ms-2">Create Assign</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="{% url "admin_dashboard:view_room_assignments" %}" class="ms-2">View Assigns</a>
+                                    </li>
+
+                                    
+                                </ul>
+                            </div>
                         </li>
+
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarHouseAssign" aria-expanded="false"
+                                aria-controls="sidebarCreateProperty" class="side-nav-link">
+                                <span class="ms-4">House Assign </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="sidebarHouseAssign">
+                                <ul class="side-nav-second-level">
+                                    <!-- Subsection for house -->
+                                    <li>
+                                        <a href="{% url "admin_dashboard:assign_house" %}" class="ms-2">Create Assign</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="{% url "admin_dashboard:view_house_assignments" %}" class="ms-2">View Assigns</a>
+                                    </li>
+                             
+                                </ul>
+                            </div>
+                        </li>
+
                         <li>
-                            <a href="{% url "admin_dashboard:view_tenants" %}">View Tenants</a>
+                            <a href="{% url 'admin_dashboard:view_tenants' %}">View Tenants</a>
                         </li>
                     </ul>
                 </div>
             </li>
+
 
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarApartment" aria-expanded="false"
@@ -101,18 +143,15 @@
                                 <ul class="side-nav-second-level">
                                     <!-- Subsection for create -->
                                     <li>
-                                        <a href="{% url "admin_dashboard:create_apartment_admin" %}" class="ms-2">Create Property</a>
+                                        <a href="{% url "admin_dashboard:create_apartment_admin" %}" class="ms-2">Create Apartment</a>
                                     </li>
-                                    <!-- Subsection for Units -->
-                                    <li>
-                                        <a href="apps-apartment-units.html" class="ms-2">Property Units</a>
-                                    </li>
-
 
                                     <!-- Subsection for view -->
                                     <li>
                                         <a href="{% url "admin_dashboard:view_apartments" %}" class="ms-2">View Apartments</a>
                                     </li>
+
+                                    
                                 </ul>
                             </div>
                         </li>
@@ -127,15 +166,13 @@
                                 <ul class="side-nav-second-level">
                                     <!-- Subsection for house -->
                                     <li>
-                                        <a href="apps-house-register.html" class="ms-2">Create Property</a>
+                                        <a href="{% url "admin_dashboard:create_house_admin" %}" class="ms-2">Create House</a>
                                     </li>
-
-
 
                                     <!-- Subsection for view -->
                                     <li>
-                                        <a href="apps-house-view.html" class="ms-2">View Properties</a>
-                                    </li>
+                                        <a href="{% url "admin_dashboard:view_houses" %}" class="ms-2">View Houses</a>
+                                    </li>                                    
                                 </ul>
                             </div>
                         </li>
@@ -176,11 +213,24 @@
                 </div>
             </li>
 
+ 
             <li class="side-nav-item">
-                <a href="apps-invoice-details.html" class="side-nav-link">
+                <a data-bs-toggle="collapse" href="#sidebarInvoices" aria-expanded="false"
+                    aria-controls="sidebarInvoices" class="side-nav-link">
                     <i class="uil-invoice"></i>
                     <span> Invoices </span>
+                    <span class="menu-arrow"></span>
                 </a>
+                <div class="collapse" id="sidebarInvoices">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{% url 'admin_dashboard:select_room_for_invoice' %}">Create Invoice</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'admin_dashboard:select_room_for_view_invoice' %}">List Invoices</a>
+                        </li>
+                    </ul>
+                </div>
             </li>
 
             <li class="side-nav-item">
@@ -212,10 +262,7 @@
                 <div class="collapse" id="sidebarComplaints">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="apps-complaints-register.html">Complaint Register</a>
-                        </li>
-                        <li>
-                            <a href="apps-complaint-details.html">List All</a>
+                            <a href="{% url 'admin_dashboard:view_complaints' %}">List All</a>
                         </li>
                     </ul>
                 </div>

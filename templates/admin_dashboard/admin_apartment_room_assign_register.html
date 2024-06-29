@@ -1,0 +1,244 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block wrapper %}
+<div class="wrapper">
+    {% include "admin_partial/left_sidebar.html" %}
+    <div class="content-page">
+        <div class="content">
+            <!-- Topbar Start -->
+            {% include "admin_partial/topbar.html" %}
+            <!-- end Topbar -->
+
+            <!-- Start Content-->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12"> 
+                        
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">SomaliRealEState</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Assign Apartment</a></li>
+                                    <li class="breadcrumb-item active">Assign Apartment</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">Assign Apartment</h4>
+                            <p class="text-muted mb-4" style="margin-top: -10px;">Please fill all details to assign an apartment</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card widget-flat">
+                            <div class="card-body">
+                                {% if errors %}
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            {% for error in errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <form class="needs-validation" method="POST" action="{% url 'admin_dashboard:assign_room' %}"  enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="apartment_id" class="form-label">Select Apartment <span class="text-danger">*</span></label>
+                                                        <select data-toggle="select2" title="District" id="apartment_id" name="apartment_id" class="form-select" required onchange="fetchRooms(this.value)">
+                                                            <option value="">Choose the Apartment Name</option>
+                                                            {% for apartment in apartments %}
+                                                                <option value="{{ apartment.id }}">{{ apartment.apartment_name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                        <div class="invalid-feedback">
+                                                            Choose an Apartment
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="room_id" class="form-label">Select Apartment Unit <span class="text-danger">*</span></label>
+                                                        <select data-toggle="select2" class="form-select" id="room_id" name="room_id" required onchange="fetchRoomDetails(this.value)">
+                                                            <option value="">Choose the Apartment Unit</option>
+                                                        </select>
+                                                        <div class="invalid-feedback">
+                                                            Choose an Apartment Unit
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end row -->
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="rent_amount" class="form-label">Rent <span class="text-danger">*</span></label>
+                                                        <div class="input-group flex-nowrap">
+                                                            <span class="input-group-text" id="basic-addon1">$</span>
+                                                            <input type="text" id="rent_amount" class="form-control" aria-label="rent" aria-describedby="basic-addon1" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="deposit_amount" class="form-label">Deposit Paid</label>
+                                                        <div class="input-group flex-nowrap">
+                                                            <span class="input-group-text" id="basic-addon1">$</span>
+                                                            <input type="text" id="deposit_amount" class="form-control" aria-label="deposit" aria-describedby="basic-addon1" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end row -->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label for="tenant_id" class="form-label">Select User <span class="text-danger">*</span></label>
+                                                        <select data-toggle="select2" class="form-select" id="tenant_id" name="tenant_id"  onchange="checkTenantIdentification(this.value)">
+                                                            <option value="">Choose a User</option>
+                                                            {% for tenant in tenants %}
+                                                                <option value="{{ tenant.id }}">{{ tenant.first_name }} {{ tenant.last_name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                        <div class="invalid-feedback">
+                                                            Choose a User
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end row -->
+
+                                            <!-- Identification Section -->
+                                            <div id="identification_section" style="display: none;">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <h4 class="mt-2">Tenant Identification</h4>
+                                                        <p class="text-muted mb-4">Please provide the legal identification details as they appear on your official documents. This information is crucial for verification and security purposes.</p>
+                                                        <div class="mb-3">
+                                                            <div class="row px-2">
+                                                                <div class="col-md-4">
+                                                                    <div class="mb-3">
+                                                                        <label for="document_type" class="form-label">Document Type <span class="text-danger">*</span></label>
+                                                                        <select class="form-control" name="document_type" id="document_type">
+                                                                            <option value="">Choose Document Type</option>
+                                                                            <option value="National ID">National ID</option>
+                                                                            <option value="Passport">Passport</option>
+                                                                            <option value="Driver's License">Driver's License</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="mb-3">
+                                                                        <label for="identification_number" class="form-label">Identification Number <span class="text-danger">*</span></label>
+                                                                        <input type="text" class="form-control" name="identification_number" id="identification_number">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="mb-3">
+                                                                        <label for="document_file" class="form-label">Upload Identification Document <span class="text-danger">*</span></label>
+                                                                        <input type="file" class="form-control" name="document_file" id="document_file" accept=".pdf, .docx, .jpg, .jpeg, .png">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> <!-- end row -->
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="move_in_date" class="form-label">Move-In Date <span class="text-danger">*</span></label>
+                                                        <input class="form-control" id="move_in_date" type="date" name="move_in_date" required>
+                                                        <div class="invalid-feedback">
+                                                            Please enter the move-in date.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="move_out_date" class="form-label">Move-Out Date <span class="text-danger">*</span></label>
+                                                        <input class="form-control" id="move_out_date" type="date" name="move_out_date" required>
+                                                        <div class="invalid-feedback">
+                                                            Please enter the move-out date.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end row -->
+                                            
+                                            <div class="row mt-4">
+                                                <div class="col-sm-12">
+                                                    <div class="text-sm-end">
+                                                        <button class="btn btn-primary" type="submit">
+                                                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                                            <span class="button-text">Assign Room</span>
+                                                        </button>
+                                                    </div>
+                                                </div> <!-- end col -->
+                                            </div> <!-- end row -->
+                                        </form>
+                                    </div>
+                                </div> <!-- end row-->
+                            </div> <!-- end card-body-->
+                        </div> <!-- end card-->
+                    </div> <!-- end col -->
+                </div> <!-- end row -->
+            </div> <!-- container -->
+        </div>
+        {% include "admin_partial/footer.html" %}
+    </div>
+</div>
+{% endblock %}
+
+{% block right_sidebar %}
+{% include "admin_partial/right_sidebar.html" %}
+{% endblock %}
+
+{% block footer %}
+<script>
+function fetchRooms(apartmentId) {
+    if (apartmentId) {
+        fetch(`/admin_dashboard/get_rooms/${apartmentId}/`)
+        .then(response => response.json())
+        .then(data => {
+            let roomSelect = document.getElementById('room_id');
+            roomSelect.innerHTML = '<option value="">Choose the Apartment Unit</option>';
+            data.rooms.forEach(room => {
+                roomSelect.innerHTML += `<option value="${room.id}">${room.room_name}</option>`;
+            });
+        });
+    }
+}
+
+function fetchRoomDetails(roomId) {
+    if (roomId) {
+        fetch(`/admin_dashboard/get_room_details/${roomId}/`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('rent_amount').value = data.rent_amount;
+            document.getElementById('deposit_amount').value = data.deposit_amount;
+        });
+    }
+}
+
+function checkTenantIdentification(tenantId) {
+    if (tenantId) {
+        fetch(`/admin_dashboard/check_tenant_identification/${tenantId}/`)
+        .then(response => response.json())
+        .then(data => {
+            let identificationSection = document.getElementById('identification_section');
+            if (data.identification_exists) {
+                identificationSection.style.display = 'none';
+            } else {
+                identificationSection.style.display = 'block';
+            }
+        });
+    }
+}
+</script>
+{% endblock %}

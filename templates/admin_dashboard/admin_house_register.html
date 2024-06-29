@@ -1,0 +1,394 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+<!-- wrapper -->
+{% block wrapper %}
+<div class="wrapper">
+    {% include "admin_partial/left_sidebar.html" %}
+
+    <div class="content-page">
+        <div class="content">
+            {% include "admin_partial/topbar.html" %}
+            <!-- Start Content-->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">SomaliRealEState</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Page</a></li>
+                                    <li class="breadcrumb-item active">Create House</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">Create a House</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <!-- tab -->
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                {% include "partials/alert_message.html" %}
+                                <h4 class="mt-2">Basic Details</h4>
+
+                                <p class="text-muted mb-4">Please complete the form below to
+                                    register your house.</p>
+
+                                <div id="rootwizard">
+                                    <ul class="nav nav-pills nav-justified form-wizard-header mb-3">
+                                        <li class="nav-item" data-target-form="#accountForm">
+                                            <a href="#first" data-bs-toggle="tab" data-toggle="tab"
+                                                class="nav-link rounded-0 pt-2 pb-2">
+                                                <i class="mdi mdi-account-circle me-1"></i>
+                                                <span class="d-none d-sm-inline">Basic Details</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" data-target-form="#profileForm">
+                                            <a href="#second" data-bs-toggle="tab" data-toggle="tab"
+                                                class="nav-link rounded-0 pt-2 pb-2">
+                                                <i class="mdi mdi-face-profile me-1"></i>
+                                                <span class="d-none d-sm-inline">Location</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" data-target-form="#otherForm">
+                                            <a href="#third" data-bs-toggle="tab" data-toggle="tab"
+                                                class="nav-link rounded-0 pt-2 pb-2">
+                                                <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i>
+                                                <span class="d-none d-sm-inline">Finish</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    
+                                    <form id="accountForm" method="POST" action="{% url 'admin_dashboard:create_house_admin' %}"  enctype="multipart/form-data" class="form-horizontal">
+                                        {% csrf_token %}
+                                        <div class="tab-content mb-0 b-0">
+
+                                            <div class="tab-pane" id="first">
+                                                
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="house_name"
+                                                                    class="form-label col-form-label">House Name <span
+                                                                        class="text-danger">*</span></label>
+                                                                <input class="form-control" type="text"
+                                                                    placeholder="Enter your house name" id="house_name"
+                                                                    name="house_name" value="{{ form_data.house_name }}"
+                                                                    style="height: 40px;" required />
+                                                            </div>
+                                                        </div> <!-- end col -->
+                                                    </div> <!-- end row -->
+
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3">
+                                                                <label for="year_built" class="form-label">Year Built
+                                                                    <span class="text-danger">*</span></label>
+                                                                <input class="form-control" type="number"
+                                                                    placeholder="Enter the year your house was built"
+                                                                    id="year_built" name="year_built" value="{{ form_data.year_built }}"
+                                                                    required />
+                                                            </div>
+                                                        </div> <!-- end col -->
+
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3">
+                                                                <label class="area">Area <span
+                                                                        class="text-danger">*</span></label>
+                                                                <div class="input-group flex-nowrap" style="margin-top: 8px;">
+                                                                    <span class="input-group-text" id="basic-addon1">SQ
+                                                                        Ft</span>
+                                                                    <input type="text" class="form-control" aria-label="area"
+                                                                        aria-describedby="basic-addon1" id="area" name="area" value="{{ form_data.area }}"
+                                                                        required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div> <!-- end row -->
+
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3">
+                                                                <label for="rent_amount"
+                                                                    class="form-label col-form-label">Rent Amount <span
+                                                                        class="text-danger">*</span></label>
+                                                                <input class="form-control" type="text"
+                                                                    placeholder="Enter the rent amount" id="rent_amount"
+                                                                    name="rent_amount" value="{{ form_data.rent_amount }}"
+                                                                    style="height: 40px;" required />
+                                                            </div>
+                                                        </div> <!-- end col -->
+
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3">
+                                                                <label for="deposit_amount"
+                                                                    class="form-label col-form-label">Deposit Amount <span
+                                                                        class="text-danger">*</span></label>
+                                                                <input class="form-control" type="text"
+                                                                    placeholder="Enter the deposit amount" id="deposit_amount"
+                                                                    name="deposit_amount" value="{{ form_data.deposit_amount }}"
+                                                                    style="height: 40px;" required />
+                                                            </div>
+                                                        </div> <!-- end col -->
+                                                    </div> <!-- end row -->
+
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3">
+                                                                <label for="no_of_bathrooms"
+                                                                    class="form-label col-form-label">Number of Bathrooms <span
+                                                                        class="text-danger">*</span></label>
+                                                                <input class="form-control" type="number"
+                                                                    placeholder="Enter the number of bathrooms" id="no_of_bathrooms"
+                                                                    name="no_of_bathrooms" value="{{ form_data.no_of_bathrooms }}"
+                                                                    style="height: 40px;" required />
+                                                            </div>
+                                                        </div> <!-- end col -->
+
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3">
+                                                                <label for="no_of_rooms"
+                                                                    class="form-label col-form-label">Number of Rooms <span
+                                                                        class="text-danger">*</span></label>
+                                                                <input class="form-control" type="number"
+                                                                    placeholder="Enter the number of rooms" id="no_of_rooms"
+                                                                    name="no_of_rooms" value="{{ form_data.no_of_rooms }}"
+                                                                    style="height: 40px;" required />
+                                                            </div>
+                                                        </div> <!-- end col -->
+                                                    </div> <!-- end row -->
+
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="mb-3">
+                                                                <label for="owners" class="form-label">Choose Owner:</label>
+                                                               <!-- Owner selection dropdown with auto-submit on change -->
+                                                                <select class="form-select" name="owner_id" id="owners" onchange="this.form.submit()" required>
+                                                                    <option value="">Select Owner</option>
+                                                                    {% for owner in owners %}
+                                                                    <option value="{{ owner.id }}" {% if selected_owner_id|stringformat:"s" == owner.id|stringformat:"s" %}selected{% endif %}>
+                                                                        {{ owner.first_name }} {{ owner.last_name }}
+                                                                    </option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                                <div class="invalid-feedback">
+                                                                Choose owner name
+                                                                </div>
+                                                            </div>
+                                                        </div> <!-- end col -->
+                                                    </div> <!-- end row -->
+
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="mb-3">
+                                                                <label for="description" class="form-label">Description (Optional)</label>
+                                                                <textarea class="form-control" id="description" name="house_description" rows="3" placeholder="Write some note..">{{ form_data.house_description }}</textarea>
+                                                            </div>
+                                                        </div> <!-- end col -->
+                                                    </div> <!-- end row -->
+                                            </div>
+
+                                            <div class="tab-pane fade" id="second">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="location" class="form-label">Location <span class="text-danger">*</span></label>
+                                                            <input class="form-control" type="text"
+                                                                placeholder="Enter your location" id="location"
+                                                                name="location" value="{{ form_data.location }}"
+                                                                required />
+                                                        </div>
+                                                    </div> <!-- end col -->
+
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Choose district located <span class="text-danger">*</span></label>
+                                                            <select data-toggle="select2" title="District" id="district_located" name="district_located" value="{{ form_data.district_located }}" required>
+                                                                <option >Choose District Location</option>
+                                                                <option value="Wadajir">Wadajir</option>
+                                                                <option value="Dharkenley">Dharkenley</option>
+                                                                <option value="Deynile">Daynile</option>
+                                                                <option value="Wardhigley">Wardhigley</option>
+                                                                <option value="Howlwadag">Howl Wadaag</option>
+                                                                <option value="Waberi">Waberi</option>
+                                                                <option value="Habar jajab">Hamar Jijab</option>
+                                                                <option value="Boondhere">Bondhere</option>
+                                                                <option value="Karaan">Karaan</option>
+                                                                <option value="Yaqshid">Yaqshid</option>
+                                                                <option value="Huriwaa">Huriwaa</option>
+                                                                <option value="Kahda">Kahda</option>
+                                                                <option value="Hodan">Hodan</option>
+                                                                <option value="Shibis">Shibis</option>
+                                                                <option value="Abdiaziz">Abdiaziz</option>
+                                                                <option value="Shangani">Shangani</option>
+                                                                <option value="Daaru salam">Abdiaziz</option>
+                                                                <option value="Garasbaley">Garasbaley</option>
+                                                            </select>
+                                                            <div class="invalid-feedback">
+                                                                Choose District Location
+                                                            </div>
+                                                        </div>
+                                                    </div> <!-- end col -->
+                                                </div> <!-- end row -->
+                                            </div>
+
+                                            <div class="tab-pane fade" id="third">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <h4 class="mt-2">House Images</h4>
+                                                        <p class="text-muted mb-4">Please Insert Pictures of the House, at least one picture.</p>
+                                                        <div class="mb-3">
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <div class="mb-3">
+                                                                        <label for="img_1" class="form-label">Gallery_1 <span class="text-danger">*</span></label>
+                                                                        <input type="file" id="img_1" name="images" class="form-control" required>
+                                                                    </div>
+                                                                </div> <!-- end col -->
+                                                                <div class="col-md-4">
+                                                                    <div class="mb-3">
+                                                                        <label for="img_2" class="form-label">Gallery_2</label>
+                                                                        <input type="file" id="img_2" name="images" class="form-control">
+                                                                    </div>
+                                                                </div> <!-- end col -->
+                                                                <div class="col-md-4">
+                                                                    <div class="mb-3">
+                                                                        <label for="img_3" class="form-label">Gallery_3</label>
+                                                                        <input type="file" id="img_3" name="images" class="form-control">
+                                                                    </div>
+                                                                </div> <!-- end col -->
+                                                            </div> <!-- end row -->
+                                                        </div>
+                                                    </div> <!-- end col -->
+                                                </div> <!-- end row -->
+
+                                                {% if not owner_identification_exists %}
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <h4 class="mt-2">Owner Identification</h4>
+                                                            <p class="text-muted mb-4">Please provide the legal identification details as they appear on your official documents. This information is crucial for verification and security purposes.</p>
+                                                            <div class="mb-3">
+                                                                <div class="row px-2">
+                                                                    <div class="col-md-4">
+                                                                        <div class="mb-3">
+                                                                            <label for="document_type" class="form-label">Document Type <span class="text-danger">*</span></label>
+                                                                            <select class="form-control" name="document_type" id="document_type" required>
+                                                                                <option value="">Choose Document Type</option>
+                                                                                <option value="National ID">National ID</option>
+                                                                                <option value="Passport">Passport</option>
+                                                                                <option value="Driver's License">Driver's License</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div> <!-- end col -->
+                                                                    <div class="col-md-4">
+                                                                        <div class="mb-3">
+                                                                            <label for="identification_number" class="form-label">Identification Number <span class="text-danger">*</span></label>
+                                                                            <input type="text" class="form-control" name="identification_number" id="identification_number" required>
+                                                                        </div>
+                                                                    </div> <!-- end col -->
+                                                                    <div class="col-md-4">
+                                                                        <div class="mb-3">
+                                                                            <label for="document_file" class="form-label">Upload Identification Document <span class="text-danger">*</span></label>
+                                                                            <input type="file" class="form-control" name="document_file" id="document_file" required accept=".pdf, .docx, .jpg, .jpeg, .png">
+                                                                        </div>
+                                                                    </div> <!-- end col -->
+                                                                </div> <!-- end row -->
+                                                            </div> <!-- end mb-3 -->
+                                                        </div> <!-- end col -->
+                                                    </div> <!-- end row -->
+                                                {% else %}
+                                                    <div class="col-md-12">
+                                                        <p>Identification details already registered.</p>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+
+                                            <ul class="list-inline wizard mb-0 mt-4">
+                                                <li class="previous list-inline-item"><a href="javascript:void(0);" class="btn btn-danger" id="previous-button">Previous</a></li>
+                                                <li class="next list-inline-item float-end"><a href="javascript:void(0);" class="btn btn-danger" id="next-button">Next</a></li>
+                                                <li class="submit list-inline-item float-end" style="display: none;">
+                                                    <button class="btn btn-primary" type="submit" name="submit_house">
+                                                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                                        <span class="button-text">Submit</span>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div> <!-- tab-content -->
+                                    </form>
+                                </div> <!-- end #rootwizard-->
+                            </div> <!-- end card-body -->
+                        </div> <!-- end card-->
+                    </div> <!-- end col -->
+                </div> <!-- end row-->
+            </div> <!-- container -->
+        </div>
+        {% include "admin_partial/footer.html" %}
+    </div>
+</div>
+{% endblock %}
+
+<!-- right_sidebar -->
+{% block right_sidebar %}
+{% include "admin_partial/right_sidebar.html" %}
+{% endblock %}
+
+<!-- footer -->
+{% block footer %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var $ = jQuery; // Ensure jQuery is available as '$'
+    const nextButton = document.getElementById('next-button');
+    const previousButton = document.getElementById('previous-button');
+    const submitButton = document.querySelector('.submit');
+    const navLinks = $('#rootwizard .nav-link');
+    const totalTabs = navLinks.length;
+    let currentIndex = 0;
+
+    function updateButtonVisibility() {
+        if (currentIndex === totalTabs - 1) {  // Last tab
+            nextButton.style.display = 'none';
+            submitButton.style.display = 'inline-block';
+        } else {
+            nextButton.style.display = 'inline-block';
+            submitButton.style.display = 'none';
+        }
+        previousButton.style.display = currentIndex === 0 ? 'none' : 'inline-block';
+    }
+
+    navLinks.each(function(index) {
+        $(this).on('click', function (e) {
+            e.preventDefault();
+            currentIndex = index;
+            $(this).tab('show');
+            updateButtonVisibility();
+        });
+    });
+
+    nextButton.addEventListener('click', function() {
+        if (currentIndex < totalTabs - 1) {
+            currentIndex++;
+            $(navLinks[currentIndex]).tab('show');
+        }
+        updateButtonVisibility();
+    });
+
+    previousButton.addEventListener('click', function() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            $(navLinks[currentIndex]).tab('show');
+        }
+        updateButtonVisibility();
+    });
+
+    updateButtonVisibility(); // Initial button setup
+});
+</script>
+{% endblock %}

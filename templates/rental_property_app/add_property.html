@@ -46,7 +46,7 @@
                                     <label for="form-control" class="form-label">Apartment Name <span
                                         class="text-danger">*</span></label>
                                     <input class="form-control" type="text" placeholder="Enter your apartment name"
-                                      id="apartment-name" name="apartment-name" style="height: 40px;" required />
+                                      id="apartment_name" name="apartment_name" style="height: 40px;" required />
                                   </div>
                                 </div>
 
@@ -69,8 +69,8 @@
                                     <label for="form-control" class="form-label">Year Built <span
                                         class="text-danger">*</span></label>
                                     <input class="form-control" type="text"
-                                      placeholder="Enter the year your apartment was built" id="year-built"
-                                      name="year-built" style="height: 40px;" required />
+                                      placeholder="Enter the year your apartment was built" id="year_built"
+                                      name="year_built" style="height: 40px;" required />
                                   </div>
                                 </div>
 
@@ -95,7 +95,7 @@
                                   <div class="mb-3">
                                     <label for="gender" class="form-label">Select Distric Located <span
                                         class="text-danger">*</span></label>
-                                    <select class="form-select" id="district-located" name="district-located"
+                                    <select class="form-select" id="district_located" name="district_located"
                                       style="height: 40px;" required>
                                       <option value="">Choose District Location</option>
 
@@ -176,9 +176,9 @@
                                 <div class="col-md-4">
                                   <div class="mt-2">
                                     <div class="form-check">
-                                      <input type="checkbox" class="form-check-input" id="air-conditioner"
-                                        name="air-conditioner">
-                                      <label class="form-check-label" for="air-conditioner">Air Conditioner</label>
+                                      <input type="checkbox" class="form-check-input" id="air_conditioner"
+                                        name="air_conditioner">
+                                      <label class="form-check-label" for="air_conditioner">Air Conditioner</label>
                                     </div>
                                   </div>
                                 </div>
@@ -187,16 +187,16 @@
                                 <div class="col-md-4">
                                   <div class="mt-2">
                                     <div class="form-check">
-                                      <input type="checkbox" class="form-check-input" id="car-parking" name="car-parking">
-                                      <label class="form-check-label" for="car-parking">Car Parking</label>
+                                      <input type="checkbox" class="form-check-input" id="car_parking" name="car_parking">
+                                      <label class="form-check-label" for="car_parking">Car Parking</label>
                                     </div>
                                   </div>
                                 </div>
                                 <div class="col-md-4">
                                   <div class="mt-2">
                                     <div class="form-check">
-                                      <input type="checkbox" class="form-check-input" id="swimming-pool" name="swimming-pool">
-                                      <label class="form-check-label" for="swimming-pool">Swimming Pool</label>
+                                      <input type="checkbox" class="form-check-input" id="swimming_pool" name="swimming_pool">
+                                      <label class="form-check-label" for="swimming_pool">Swimming Pool</label>
                                     </div>
                                   </div>
                                 </div>
@@ -209,21 +209,21 @@
                               <div class="row">
                                 <div class="col-md-4">
                                   <div class="mb-3">
-                                    <label for="img-1" class="form-label">Gallery_1 <span class="text-danger">*</span></label>
-                                    <input type="file" id="img-1" name="img-1" class="form-control" style="height: 38px;"
+                                    <label for="img_1" class="form-label">Gallery_1 <span class="text-danger">*</span></label>
+                                    <input type="file" id="img_1" name="img_1" class="form-control" style="height: 38px;"
                                       required>
                                   </div>
                                 </div>
                                 <div class="col-md-4">
                                   <div class="mb-3">
                                     <label for="img-2" class="form-label">Gallery_2</span></label>
-                                    <input type="file" id="img-2" name="img-2" class="form-control" style="height: 38px;">
+                                    <input type="file" id="img_2" name="img_2" class="form-control" style="height: 38px;">
                                   </div>
                                 </div>
                                 <div class="col-md-4">
                                   <div class="mb-3">
                                     <label for="img-3" class="form-label">Gallery_3</label>
-                                    <input type="file" id="img-3" name="img-3" class="form-control" style="height: 38px;">
+                                    <input type="file" id="img_3" name="img_3" class="form-control" style="height: 38px;">
                                   </div>
                                 </div>
                               </div> <!-- end row -->
@@ -245,31 +245,42 @@
                               </div>
                               <div class="row">
                                 <div class="col-md-12">
-                                  <h4 class="page-title mt-5 fs-6 fw-bold">Owner Identification</h4>
-                                  <p class="text-muted mb-4">Please provide the legal identification details as they appear on your official documents. This information is crucial for verification and security purposes.</p>
-                                  <div class="mb-3">
+                                  {% if not owner_identification_exists %}
+                                    <h4 class="page-title mt-5 fs-6 fw-bold">Owner Identification</h4>
+                                    <p class="text-muted mb-4">Please provide the legal identification details as they appear on your official documents. This information is crucial for verification and security purposes.</p>
+                                    <div class="mb-3">
+                                      <div class="row px-2">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                              <label for="document-type" class="form-label">Document Type <span class="text-danger">*</span></label>
+                                              <select class="form-control" name="document_type" id="document_type" required>
+                                                  <option value="">Choose Document Type</option>
+                                                  <option value="National ID">National ID</option>
+                                                  <option value="Passport">Passport</option>
+                                                  <option value="Driver's License">Driver's License</option>
+                                              </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                              <label for="identification-number" class="form-label">Identification Number <span class="text-danger">*</span></label>
+                                              <input type="text" class="form-control" name="identification_number" id="identification-number" required>
+                                            </div>
+                                        </div>
+                                        
+                                    </div> <!-- end row -->
                                     <div class="row px-2">
-                                      <div class="col-md-6">
-                                          <div class="mb-3">
-                                            <label for="document-type" class="form-label">Document Type <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" name="document-type" id="document-type" placeholder="e.g., Passport, Driver's License" required>
-                                          </div>
-                                      </div>
-                                      <div class="col-md-6">
-                                          <div class="mb-3">
-                                            <label for="identification-number" class="form-label">Identification Number <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" name="identification-number" id="identification-number" required>
-                                          </div>
-                                      </div>
-                                      
-                                  </div> <!-- end row -->
-                                  <div class="row px-2">
-                                    <div class="col-md-12">
-                                      <div class="mb-3">
-                                        <label for="document-file" class="form-label">Upload Identification Document <span class="text-danger">*</span></label>
-                                        <input type="file" class="form-control" name="document-file" id="document-file" required accept=".pdf, .docx, .jpg, .jpeg, .png" required>
-                                      </div>
-                                  </div> 
+                                      <div class="col-md-12">
+                                        <div class="mb-3">
+                                          <label for="document-file" class="form-label">Upload Identification Document <span class="text-danger">*</span></label>
+                                          <input type="file" class="form-control" name="document_file" id="document_file" required accept=".pdf, .docx, .jpg, .jpeg, .png" required>
+                                        </div>
+                                    </div> 
+                                  {% else %}
+                                  <div class="col-md-12">
+                                      <p>Identification details already registered.</p>
+                                  </div>
+                                  {% endif %}
                                   </div>
                                   </div> <!-- end row -->
                                 </div> 
@@ -277,7 +288,7 @@
                               <div class="row mt-4">
                                 <div class="col-sm-12">
                                   <div class="text-sm-end">
-                                    <button class="btn btn-primary" type="submit">
+                                    <button class="btn btn-primary" type="submit" name="create_apartment">
                                       <span class="spinner-border spinner-border-sm d-none" role="status"
                                         aria-hidden="true"></span>
                                       <span class="button-text">Submit</span>
@@ -307,10 +318,10 @@
                               <div class="row">
                                 <div class="col-md-6">
                                   <div class="mb-3">
-                                    <label for="house-name" class="form-label">House Name <span
+                                    <label for="house_name" class="form-label">House Name <span
                                         class="text-danger">*</span></label>
                                     <input class="form-control" type="text" placeholder="Enter your house name"
-                                      id="house-name" style="height: 40px;" />
+                                      id="house_name" name="house_name" style="height: 40px;" />
                                   </div>
                                 </div>
 

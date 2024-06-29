@@ -1,0 +1,158 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+<!-- wrapper -->
+{% block wrapper %}
+
+<div class="wrapper">
+    {% include "admin_partial/left_sidebar.html" %}
+
+    <div class="content-page">
+        <div class="content">
+            {% include "admin_partial/topbar.html" %}
+            <!-- Start Content-->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">SomaliRealEState</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Page</a></li>
+                                    <li class="breadcrumb-item active">Apartment Units</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">Edit Apartment Units</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+
+                <!-- tab -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <!-- Steps Information -->
+                                <div class="tab-content">
+
+                                    <!-- Create Apartment Units-->
+                                    <div class="tab-pane show active" id="create-property">
+                                        <div class="row">
+                                            <div class="col-lg-8">
+                                                <h4 class="mt-2">Edit Apartment Unit Details</h4>
+                                                <p class="text-muted mb-4">Please fill in the apartment unit details below to register the rooms of the apartment.</p>
+                                        
+                                                <form method="POST" action="{% url 'admin_dashboard:edit_room' room.id %}" enctype="multipart/form-data">
+                                                    {% csrf_token %}
+                                                    <div class="mb-3">
+                                                        <label for="property-unit-name" class="form-label">Property Unit Name <span class="text-danger">*</span></label>
+                                                        <input class="form-control" type="text" name="room_name" value="{{ room.room_name }}" id="property-unit-name" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="floor-number" class="form-label">Floor Number <span class="text-danger">*</span></label>
+                                                        <input class="form-control" type="number" name="floor_number" value="{{ room.floor_number }}" id="floor-number" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="property-unit-type" class="form-label">Property Unit Type <span class="text-danger">*</span></label>
+                                                        <select class="form-select" id="property-unit-type" name="room_type" required>
+                                                            <option value="master" {% if room.room_type == 'master' %}selected{% endif %}>Master Room</option>
+                                                            <option value="single" {% if room.room_type == 'single' %}selected{% endif %}>Single Room</option>
+                                                            <option value="one_bedroom" {% if room.room_type == 'one_bedroom' %}selected{% endif %}>One Bedroom</option>
+                                                            <option value="two_bedroom" {% if room.room_type == 'two_bedroom' %}selected{% endif %}>Two Bedroom</option>
+                                                            <option value="three_bedroom" {% if room.room_type == 'three_bedroom' %}selected{% endif %}>Three Bedroom</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="rent-amount" class="form-label">Rent <span class="text-danger">*</span></label>
+                                                        <div class="input-group flex-nowrap">
+                                                            <span class="input-group-text">$</span>
+                                                            <input type="text" id="rent-amount" name="rent_amount" value="{{ room.rent_amount }}" class="form-control" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="deposit-amount" class="form-label">Deposit</label>
+                                                        <div class="input-group flex-nowrap">
+                                                            <span class="input-group-text">$</span>
+                                                            <input type="text" id="deposit-amount" name="deposit_amount" value="{{ room.deposit_amount }}" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="description" class="form-label">Description (Optional)</label>
+                                                        <textarea class="form-control" id="description" name="room_description" rows="3">{{ room.room_description }}</textarea>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="room-image" class="form-label">Upload Room Images</label>
+                                                        <input type="file" id="room-image" name="room_image" class="form-control">
+                                                        <img src="{{ room.room_image.url }}" alt="{{ room.room_name }}" class="img-thumbnail mt-2">
+                                                    </div>
+                                                    <button class="btn btn-primary" type="submit">
+                                                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                                        <span class="button-text">Save Changes</span>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="border p-3 mt-4 mt-lg-0 rounded">
+                                                    <h4 class="header-title mb-3">Edit Rooms For An Apartment</h4>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-centered mb-0">
+                                                            <tbody>
+                                                                {% for room in rooms %}
+                                                                <tr>
+                                                                    <td>
+                                                                        <p class="m-0 d-inline-block align-middle">
+                                                                            <a href="" class="text-body fw-semibold">{{ room.room_name }}</a>
+                                                                            <br>
+                                                                            <small>{{ 1 }} x ${{ room.rent_amount }}</small>
+                                                                        </p>
+                                                                    </td>
+                                                                    <td class="text-end">
+                                                                        ${{ room.rent_amount }}
+                                                                    </td>
+                                                                </tr>
+                                                                {% empty %}
+                                                                <tr>
+                                                                    <td colspan="2">No rooms added yet.</td>
+                                                                </tr>
+                                                                {% endfor %}
+                                                                <td>
+                                                                    <a href="{% url 'admin_dashboard:view_rooms' apartment.id %}" class="btn btn-primary btn-sm">View All Rooms</a>
+                                                                </td>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> <!-- end row -->
+                                    </div>
+                                    <!-- End create Apartment Units-->
+
+                                </div> <!-- end tab content-->
+
+                            </div> <!-- end card-body-->
+                        </div> <!-- end card-->
+                    </div> <!-- end col -->
+                </div>
+                <!-- end row-->
+
+            </div> <!-- container -->
+
+            
+        </div>
+        {% include "admin_partial/footer.html" %}
+    </div>
+</div>
+{% endblock %}
+
+
+<!-- right_sidebar -->
+{% block right_sidebar %}
+
+{% include "admin_partial/right_sidebar.html" %}
+
+{% endblock %}

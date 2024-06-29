@@ -40,7 +40,7 @@
                             <div class="card-body">
                                 <div class="row mb-2">
                                     <div class="col-sm-4">
-                                        <a href="{% url 'admin_dashboard:user_registration' %}" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Add Onwer</a>
+                                        <a href="{% url 'admin_dashboard:create_apartment_admin' %}" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Add Apartment</a>
                                     </div>
                                     <div class="col-sm-8">
                                         <div class="text-sm-end">
@@ -62,7 +62,7 @@
                                                 </th>            
                                                 <th>ID</th>
                                                 <th>Apartment Name</th>
-                                                <th>Year Built</th>
+                                                <th>Owner Name</th>
                                                 <th>Area</th>
                                                 <th>District Located</th>
                                                 <th>Status</th>
@@ -81,11 +81,19 @@
                                                     <td>{{ apartment.id }}</td>
                                                     
                                                     <td>{{ apartment.apartment_name }}</td>
-                                                    <td>{{ apartment.year_built }}</td>
+                                                    <td>{{ apartment.owner.first_name }} {{ apartment.owner.middle_name }}</td>
                                                     <td>{{ apartment.area }}</td>
                                                     <td>{{ apartment.district_located }}</td>
-                                                    <td>{{ apartment.status }}</td>
                                                     <td>
+                                                        {% if apartment.status == 'Vacant' %}
+                                                            <span class="badge bg-success">Vacant</span>
+                                                        {% else %}
+                                                            <span class="badge bg-danger">Occupied</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    
+                                                    <td>
+                                                        <a href="{% url "admin_dashboard:create_room" apartment.id %}" class="action-icon"> <i class="mdi mdi-home"></i></a>
                                                         <a href="{% url "admin_dashboard:update_apartment_admin" apartment.id %}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
                                                         <a href="#deleteOwnerModal{{ apartment.id }}" class="action-icon" data-bs-toggle="modal"> <i class="mdi mdi-delete"></i></a>
 

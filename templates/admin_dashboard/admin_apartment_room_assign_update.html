@@ -1,0 +1,102 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block wrapper %}
+<div class="wrapper">
+    {% include "admin_partial/left_sidebar.html" %}
+    <div class="content-page">
+        <div class="content">
+            <!-- Topbar Start -->
+            {% include "admin_partial/topbar.html" %}
+            <!-- end Topbar -->
+
+            <!-- Start Content-->
+            <div class="container-fluid">
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">SomaliRealEState</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Edit</a></li>
+                                    <li class="breadcrumb-item active">Room Assignment</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">Edit Room Assignment</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card widget-flat">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <form method="POST" action="{% url 'admin_dashboard:edit_room_assignment' assignment.id %}" class="needs-validation" novalidate>
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="room_name" class="form-label">Room Name</label>
+                                                        <input type="text" id="room_name" class="form-control" value="{{ assignment.room.room_name }}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="tenant_name" class="form-label">Tenant Name</label>
+                                                        <input type="text" id="tenant_name" class="form-control" value="{{ assignment.tenant.first_name }} {{ assignment.tenant.last_name }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="move_in_date" class="form-label">Move-In Date</label>
+                                                        <input type="date" id="move_in_date" name="move_in_date" class="form-control" value="{{ assignment.move_in_date }}" required>
+                                                        <div class="invalid-feedback">
+                                                            Please select a move-in date.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="move_out_date" class="form-label">Move-Out Date</label>
+                                                        <input type="date" id="move_out_date" name="move_out_date" class="form-control" value="{{ assignment.move_out_date }}" required>
+                                                        <div class="invalid-feedback">
+                                                            Please select a move-out date.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-4">
+                                                <div class="col-sm-12">
+                                                    <div class="text-sm-end">
+                                                        <button class="btn btn-primary" type="submit">
+                                                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                                            <span class="button-text">Save Changes</span>
+                                                        </button>
+                                                       
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div> <!-- end row-->
+                            </div> <!-- end card-body-->
+                        </div> <!-- end card-->
+                    </div> <!-- end col-->
+                </div> <!-- end row-->
+            </div> <!-- container -->
+        </div> <!-- content -->
+
+        {% include "admin_partial/footer.html" %}
+    </div>
+</div>
+{% endblock %}
+
+{% block right_sidebar %}
+{% include "admin_partial/right_sidebar.html" %}
+{% endblock %}

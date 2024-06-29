@@ -1,0 +1,133 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+<!-- wrapper -->
+{% block wrapper %}
+
+<div class="wrapper">
+    {% include "admin_partial/left_sidebar.html" %}
+
+    <div class="content-page">
+        <div class="content">
+            {% include "admin_partial/topbar.html" %}
+            <!-- Start Content-->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">SomaliRealEState</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Page</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Complaint</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">Complaint Form</h4>
+                            <p class="text-muted mb-4" style="margin-top: -10px;">Pleas Fill out the following Form With your Complaint. We will Review your 
+                                request and follow up with you as soon as possible.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+
+                <!-- tab -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card widget-flat">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-12">
+
+
+                                        <form method="POST" action="{% url 'admin_dashboard:edit_complaint' complaint.id %}" class="needs-validation" novalidate>
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="complaint-type" class="form-label">Complaint Type <span class="text-danger">*</span></label>
+                                                        <select class="form-select" id="complaint-type" name="complaint_type" required>
+                                                            <option value="electrical" {% if complaint.complaint_type == 'electrical' %}selected{% endif %}>Electrical</option>
+                                                            <option value="fire" {% if complaint.complaint_type == 'fire' %}selected{% endif %}>Fire</option>
+                                                            <option value="repair" {% if complaint.complaint_type == 'repair' %}selected{% endif %}>Repair</option>
+                                                            <option value="security" {% if complaint.complaint_type == 'security' %}selected{% endif %}>Security</option>
+                                                            <option value="neighbor" {% if complaint.complaint_type == 'neighbor' %}selected{% endif %}>Neighbor Issue</option>
+                                                            <option value="others" {% if complaint.complaint_type == 'others' %}selected{% endif %}>Others</option>
+                                                        </select>
+                                                        <div class="invalid-feedback">
+                                                            Select Complaint Type
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                    
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="complaint-status" class="form-label">Complaint Status <span class="text-danger">*</span></label>
+                                                        <select class="form-select" id="complaint-status" name="complaint_status" required>
+                                                            <option value="Unresolved" {% if complaint.complaint_status == 'Unresolved' %}selected{% endif %}>Unresolved</option>
+                                                            <option value="In Progress" {% if complaint.complaint_status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                                                            <option value="Resolved" {% if complaint.complaint_status == 'Resolved' %}selected{% endif %}>Resolved</option>
+                                                        </select>
+                                                        <div class="invalid-feedback">
+                                                            Select Complaint Status
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end row -->
+                                    
+                                            <div class="row">
+                                            
+                                    
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label for="complaint-description" class="form-label">Complaint Description</label>
+                                                        <textarea class="form-control" id="complaint-description" name="complaint_description" rows="3" placeholder="Write some note..">{{ complaint.complaint_description }}</textarea>
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end row -->
+                                    
+                                            <div class="row mt-4">
+                                                <div class="col-sm-12">
+                                                    <div class="text-sm-end">
+                                                        <button class="btn btn-primary" type="submit">
+                                                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                                            <span class="button-text">Save Change</span>
+                                                        </button>
+                                                    </div>
+                                                </div> <!-- end col -->
+                                            </div> <!-- end row -->
+                                        </form>
+
+                                    </div>
+                                </div> <!-- end row-->
+
+                            </div> <!-- end card-body-->
+                        </div> <!-- end card-->
+
+                    </div> <!-- end col -->
+                </div> <!-- end row-->
+
+
+
+
+
+            </div> <!-- container -->
+
+            
+        </div>
+        {% include "admin_partial/footer.html" %}
+    </div>
+</div>
+{% endblock %}
+
+
+<!-- right_sidebar -->
+{% block right_sidebar %}
+
+{% include "admin_partial/right_sidebar.html" %}
+
+{% endblock %}

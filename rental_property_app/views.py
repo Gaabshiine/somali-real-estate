@@ -1,29 +1,42 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from accounts_app.models import Owner, Profile
-from .utils import validate_video_duration, update_apartment_status, create_apartment_util, update_apartment_util
+from .utils import create_apartment_util, update_apartment_util
 from django.contrib import messages
-from .models import Apartment, ApartmentFeature, ApartmentImages
+from .models import Apartment, ApartmentFeature, ApartmentImages, OwnerIdentification, Room, RoomInvoice
 
 
 # create_apartment view
+
 def create_apartment(request):
-    apartment = create_apartment_util(request)
-    owner_id = request.session.get('user_id')
-    owner = get_object_or_404(Owner, id=owner_id)
-    profile, _ = Profile.objects.get_or_create(person_id=owner.id, person_type='owner')
+    owners = Owner.objects.all()  # Fetch all owners for the form dropdown
+    selected_owner_id = request.POST.get('owner_id')
+    owner_identification_exists = False
+    apartment = None
+    form_data = request.POST if request.method == 'POST' else None  # Initialize form_data appropriately
 
-    if apartment:
-        # Redirect on success to home page in accouont app
-        return redirect('listings_app:home')
+    if selected_owner_id:
+        # Check if the selected owner has existing identification details
+        owner_identification_exists = OwnerIdentification.objects.filter(owner_id=selected_owner_id).exists()
 
-    else:
-        return render(request, 'rental_property_app/add_property.html', {
-        'user': owner,
-        'profile': profile,
-        'user_type': 'owner'
-        })
-    
+        if request.method == 'POST' and 'create_apartment' in request.POST:
+            apartment = create_apartment_util(request)
+            if apartment:
+                messages.success(request, "Apartment created successfully!")
+                return redirect('admin_dashboard:view_apartments')
+            else:
+                messages.error(request, "Failed to create apartment.")
+
+    # Render the template, now form_data is always defined
+    return render(request, 'admin_dashboard/admin_apartment_register.html', {
+        'user_type': 'admin',
+        'owners': owners,
+        'selected_owner_id': selected_owner_id,
+        'owner_identification_exists': owner_identification_exists,
+        'apartment': apartment,
+        'form_data': form_data  # Pass the entire form data back to the template safely
+    })
+
 
 # Update apartment view
 def update_apartment(request, apartment_id):
@@ -86,7 +99,7 @@ def delete_apartment(request, apartment_id):
     })
 
 
-
+# list all apartments that you own
 def my_apartments(request):
     owner_id = request.session.get('user_id')
     owner = get_object_or_404(Owner, id=owner_id)
@@ -99,3 +112,6 @@ def my_apartments(request):
         'profile': profile,
         'user_type': 'owner'
     })
+
+
+
