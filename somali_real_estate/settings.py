@@ -35,7 +35,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true" # when you end of the developement leave the comment
 
-
+# DEBUG = True
 
 # SECURITY WARNING: define the correct hosts in production!
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
@@ -103,7 +103,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'gaabshiine_somalirealestate',
         'USER': 'gaabshiine_somalirealestate',
-        'PASSWORD': 'Wwpm21_14',
+        'PASSWORD': 'Y@71cj4i0',
         'HOST': 'somalirealestate.helioho.st',
         'PORT': '3306',
     }

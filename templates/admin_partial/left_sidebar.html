@@ -256,13 +256,29 @@
                 <a data-bs-toggle="collapse" href="#sidebarComplaints" aria-expanded="false"
                     aria-controls="sidebarComplaints" class="side-nav-link">
                     <i class="uil-exclamation-triangle"></i>
-                    <span> Support Comlaints </span>
+                    <span> Support Complaints </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarComplaints">
                     <ul class="side-nav-second-level">
                         <li>
                             <a href="{% url 'admin_dashboard:view_complaints' %}">List All</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarRequest" aria-expanded="false"
+                    aria-controls="sidebarRequest" class="side-nav-link">
+                    <i class="uil uil-envelope"></i>
+                    <span> Requests </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarRequest">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="#">List All</a>
                         </li>
                     </ul>
                 </div>
