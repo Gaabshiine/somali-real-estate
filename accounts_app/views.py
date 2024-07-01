@@ -2,12 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Owner, Tenant, Profile
 from django.conf import settings
-from .utils import register_user, update_user_profile, get_user_by_uid, change_user_password, process_reset_password, display_email_sent_confirmation, display_password_reset_form, display_password_reset_done
+from .utils import (register_user, update_user_profile, get_user_by_uid, change_user_password, process_reset_password, 
+                    display_email_sent_confirmation, display_password_reset_form, display_password_reset_done, display_send_reset_email)
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
+from django.urls import reverse
 
 
 
@@ -105,50 +107,76 @@ def login_view(request):
     if request.method == "POST":
         email_address = request.POST.get("type_email", "").strip()
         password = request.POST.get("type_password", "").strip()
-        type_of_user = request.POST.get("role", "").strip().lower()  # Ensure it's in lowercase
 
-        # Check for missing input fields
-        if not email_address or not password or not type_of_user:
+        if not email_address or not password:
             messages.error(request, "Please fill in all fields.")
             return render(request, "accounts_app/login.html")
 
-        # Attempt to fetch the user based on type and email
-        user = None
-        if type_of_user == "owner":
-            user = Owner.objects.filter(email_address=email_address).first()
-        elif type_of_user == "tenant":
-            user = Tenant.objects.filter(email_address=email_address).first()
+        owner = Owner.objects.filter(email_address=email_address).first()
+        tenant = Tenant.objects.filter(email_address=email_address).first()
 
-        # Check if user exists and password is correct
-        if user and user.check_password(password):
+        if owner and owner.check_password(password) and tenant and tenant.check_password(password):
+            request.session['email_address'] = email_address
+            request.session['password'] = password
+            return redirect('accounts_app:choose_role')
+
+        user = None
+        user_role = None
+
+        if owner and owner.check_password(password):
+            user = owner
+            user_role = 'owner'
+
+        if tenant and tenant.check_password(password):
+            user = tenant
+            user_role = 'tenant'
+
+        if user:
             request.session['user_id'] = user.id
-            request.session['user_role'] = type_of_user  # Set the user role in session
+            request.session['user_role'] = user_role
             messages.success(request, "Login successful.")
-            return redirect(get_redirect_url(user))
+            return redirect(get_redirect_url(user_role))
         else:
-            # Display error message if user not found or password is incorrect
             messages.error(request, "Invalid email address or password.")
-    
-    # Render the login page again with error message
+
     return render(request, "accounts_app/login.html")
 
+def choose_role_view(request):
+    if request.method == "POST":
+        selected_role = request.POST.get("role")
+        email_address = request.session.get('email_address')
+        password = request.session.get('password')
 
-# get_redirect_url
-def get_redirect_url(user):
-    """
-    Simple function to determine the redirect URL based on user type.
-    """
-    if isinstance(user, Owner):
-        return 'accounts_app:owner_profile'
-    elif isinstance(user, Tenant):
-        return 'accounts_app:tenant_profile'
-    # Add checks for other user types as necessary
-    # Example:
-    # elif isinstance(user, Seller):
-    #     return 'accounts_app:seller_profile'
-    # elif isinstance(user, Buyer):
-    #     return 'accounts_app:buyer_profile'
-    return 'accounts_app:login'  # Default redirect URL
+        if selected_role == 'owner':
+            user = Owner.objects.filter(email_address=email_address).first()
+            user_role = 'owner'
+        elif selected_role == 'tenant':
+            user = Tenant.objects.filter(email_address=email_address).first()
+            user_role = 'tenant'
+        else:
+            messages.error(request, "Invalid role selected.")
+            return redirect('accounts_app:login')
+
+        if user and user.check_password(password):
+            request.session['user_id'] = user.id
+            request.session['user_role'] = user_role
+            messages.success(request, "Login successful.")
+            return redirect(get_redirect_url(user_role))
+        else:
+            messages.error(request, "Invalid login credentials.")
+            return redirect('accounts_app:login')
+
+    return render(request, "accounts_app/choose_role.html")
+
+def get_redirect_url(user_role):
+    if user_role == 'owner':
+        return reverse('accounts_app:owner_profile')
+    elif user_role == 'tenant':
+        return reverse('accounts_app:tenant_profile')
+    return reverse('accounts_app:login')
+
+
+
 
 
 ############################# End Login info #############################
@@ -225,14 +253,38 @@ def logout_view(request):
 
 
 ############################# start reset_password_view info #############################
-
 def reset_password(request):
     return process_reset_password(request, 'accounts_app/reset_password_modal.html', 'accounts_app', 'user_id')
-            
-def password_reset_form(request, uidb64, token, user_type):
+
+def choose_role_reset_view(request):
+    if request.method == "POST":
+        email_address = request.POST.get('email1')
+        selected_role = request.POST.get("role")
+
+        if selected_role == 'Owner':
+            user = Owner.objects.filter(email_address=email_address).first()
+            user_role = 'Owner'
+        elif selected_role == 'Tenant':
+            user = Tenant.objects.filter(email_address=email_address).first()
+            user_role = 'Tenant'
+        else:
+            messages.error(request, "Invalid role selected.")
+            return redirect('accounts_app:reset_password')
+
+        if user:
+            display_send_reset_email(user, user_role, request, 'accounts_app', 'email_address')
+            return redirect('accounts_app:email_sent_confirmation')
+        else:
+            messages.error(request, "Invalid email address or role.")
+            return redirect('accounts_app:reset_password')
+
+    return redirect('accounts_app:reset_password')
+
+def password_reset_form(request, uidb64, token):
     app_name = 'accounts_app'
     template_name = 'accounts_app/password_reset_form.html'
-    session_key = 'user_id'  # or 'admin_id' if this is for admin users
+    session_key = 'user_id'
+    user_type = request.GET.get('user_type', None)  # Retrieve user type from GET parameter
     return display_password_reset_form(request, uidb64, token, user_type, app_name, template_name, session_key)
 
 def password_reset_done(request):
@@ -240,7 +292,6 @@ def password_reset_done(request):
 
 def email_sent_confirmation(request):
     return display_email_sent_confirmation(request, 'accounts_app', 'accounts_app/email_sent_confirmation.html', 'user_id')
-
 
 
 ############################# End reset_password_view info #############################o

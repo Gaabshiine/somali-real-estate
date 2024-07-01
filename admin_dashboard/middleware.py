@@ -2,6 +2,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from .models import AdminActivityLog
 from .utils import get_admin_from_request
+import re
 
 
 class AdminAccessMiddleware:
@@ -20,13 +21,12 @@ class AdminAccessMiddleware:
         ]
 
         dynamic_paths = [
-            '/admin_dashboard/password_reset_form/',  # this is a dynamic path, check based on starts with
+            re.compile(r'^/admin_dashboard/password_reset_form/[^/]+/[^/]+/$'),  # Dynamic path pattern
         ]
 
         # Allow unauthenticated access to public paths or if the path is for password resetting
-        if request.path in admin_public_paths or any(request.path.startswith(path) for path in dynamic_paths):
+        if request.path in admin_public_paths or any(pattern.match(request.path) for pattern in dynamic_paths):
             return self.get_response(request)
-        
 
         # Apply this middleware only to admin paths
         if request.path.startswith('/admin_dashboard/'):

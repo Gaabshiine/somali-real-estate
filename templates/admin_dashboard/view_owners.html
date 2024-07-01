@@ -93,7 +93,7 @@
                                                     </td>
                                                     <td>{{ owner.email_address }}</td>
                                                     <td>{{ owner.address }}</td>
-                                                    <td>{{ owner.created_at|date:"d/m/Y" }}</td>
+                                                    <td>{{ owner.date_of_birth|date:"d/m/Y" }}</td>
                                                     <td>{{ owner.phone_number }}</td>
                                                     <td>
                                                         <a href="{% url "admin_dashboard:owner_profile" owner.id %}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>

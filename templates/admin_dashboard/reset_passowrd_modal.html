@@ -1,8 +1,10 @@
+{% load static %}
+{% block content_modal %}
 <div id="primary-header-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header modal-colored-header bg-primary">
-                <h4 class="modal-title" id="primary-header-modalLabel">Reset Passowrd</h4>
+                <h4 class="modal-title" id="primary-header-modalLabel">Reset Password</h4>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <div class="modal-body">
@@ -10,25 +12,15 @@
                     {% csrf_token %}
                     <div class="form-outline mb-4">
                         <label class="form-label" for="email1">Email address</label>
-                        <input type="email" id="email1" name="email1" value="{{ request.POST.email1|default_if_none:'' }}" class="form-control" required placeholder="Enter your email address"/>
-                    </div>
-                    <div class="mb-3">
-                        <label for="role" class="form-label">Select Your Role</label>
-                        <select class="form-select" id="role" name="role" required>
-                            <option value="" {% if not request.POST.role %}selected{% endif %}>-- Select Role --</option>
-                            <option value="Admin" {% if request.POST.role == 'Admin' %}selected{% endif %}>Admin</option>
-                            <option value="Owner" {% if request.POST.role == 'Owner' %}selected{% endif %}>Owner</option>
-                            <option value="Tenant" {% if request.POST.role == 'Tenant' %}selected{% endif %}>Tenant</option>
-                        </select>
+                        <input type="email" id="email1" name="email1" value="{{ request.POST.email1|default_if_none:'' }}" class="form-control" required placeholder="Enter your email address" />
                     </div>
                     <button class="btn btn-primary btn-block text-capitalize" type="submit">
                         <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                         <span class="button-text">Reset Password</span>
                     </button>
-                </form>                
+                </form>
             </div>
-            
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
+        </div>
+    </div>
+</div>
+{% endblock %}

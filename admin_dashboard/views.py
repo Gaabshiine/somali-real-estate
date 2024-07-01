@@ -16,7 +16,7 @@ from admin_dashboard.models import Admin
 from rental_property_app.models import (Apartment, ApartmentFeature, Room, RoomInvoice, House, TenantIdentification,
                                         OwnerIdentification, RoomComplaints, TenantIdentification, RoomAssignment, HouseAssignment, RoomInvoice)
 
-from accounts_app.utils import (register_user, update_user_profile, process_reset_password, 
+from accounts_app.utils import (register_user, update_user_profile, process_reset_password, display_send_reset_email, 
                                 display_email_sent_confirmation, display_password_reset_form, display_password_reset_done)
 
 from rental_property_app.utils import (create_apartment_util, update_apartment_util, create_room_util, edit_room_util, delete_room_util, update_house_util ,
@@ -74,7 +74,7 @@ def register_view(request):
 
         user = register_user(request, user_data)
         if user:
-            return redirect("admin_dashboard:dashboard")
+            return redirect("admin_dashboard:view_owners")
 
     return render(request, "admin_dashboard/user_registeration.html")
 # ---------------------------------------------------> end: User Registeration(Tenats or Owners) <---------------------------------------------------
@@ -397,12 +397,28 @@ def tenant_profile_view(request, id):
 
 # ---------------------------------------------------> start: Password reset <---------------------------------------------------
 def reset_password(request):
-    return process_reset_password(request, 'admin_dashbaord/reset_password_modal.html', 'admin_dashboard', 'user_id')
-            
-def password_reset_form(request, uidb64, token, user_type):
+    if request.method == 'POST':
+        email = request.POST.get('email1')
+        
+        if not email:
+            messages.error(request, "Please fill in all fields.")
+            return render(request, 'admin_dashboard/reset_password_modal.html')
+
+        user = Admin.objects.filter(email=email).first()
+        if user:
+            display_send_reset_email(user, 'Admin', request, 'admin_dashboard', 'email')
+            return redirect('admin_dashboard:email_sent_confirmation')
+        else:
+            messages.error(request, "Invalid email address")
+            return render(request, 'admin_dashboard/reset_password_modal.html')
+
+    return render(request, 'admin_dashboard/reset_password_modal.html')
+
+def password_reset_form(request, uidb64, token):
     app_name = 'admin_dashboard'
     template_name = 'admin_dashboard/password_reset_form.html'
-    session_key = 'user_id'  # or 'admin_id' if this is for admin users
+    session_key = 'user_id'
+    user_type = request.GET.get('user_type', 'Admin')  # Default to 'Admin' since we are handling admin reset
     return display_password_reset_form(request, uidb64, token, user_type, app_name, template_name, session_key)
 
 def password_reset_done(request):
@@ -410,7 +426,6 @@ def password_reset_done(request):
 
 def email_sent_confirmation(request):
     return display_email_sent_confirmation(request, 'admin_dashboard', 'admin_dashboard/email_sent_confirmation.html', 'user_id')
-
 # ---------------------------------------------------> end: Password reset <---------------------------------------------------
 
 

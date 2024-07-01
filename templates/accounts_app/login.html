@@ -2,38 +2,28 @@
 {% load static %}
 {% block navbar %}
 {% include 'partials/navbar.html' %}
-
 {% endblock %}
 
 {% block content %}
-<!-- login side -->
 <div class="site-section" style="background-color:#f9f9f9 !important">
-  <!-- Section: Design Block -->
   <section class="container-lg rounded-5">
-    <!-- Jumbotron -->
     <div class="px-4 py-5 px-md-5 rounded-2">
       <div class="container">
         <div class="row justify-content-center align-items-center">
-
           <div class="col-lg-6 mb-5 mb-lg-0">
-
             <div class="card" style="border-radius: 5px; border: 0;">
               <div class="card-body py-5 px-md-5">
                 <h3 class="text-center fs-5 fw-bold pb-3 text-uppercase" style="color: #212A55;">LOG IN</h3>
                 <p class="text-center pb-5" style="color: #858585;">Please enter your login and password!</p>
                 {% include "partials/alert_message.html" %}
-
                 <form action="{% url 'accounts_app:login' %}" method="POST">
                   {% csrf_token %}
-                  <!-- Email input -->
                   <div class="mb-4">
                       <div data-mdb-input-init class="form-outline">
                           <input type="email" id="type_email" name="type_email" value="{{ request.POST.type_email|default_if_none:'' }}" style="height: 40px;" class="form-control my-3" />
                           <label class="form-label" for="type_email">Email Address</label>
                       </div>
                   </div>
-              
-                  <!-- Password input -->
                   <div class="mb-4">
                     <div data-mdb-input-init class="form-outline">
                       <input type="password" id="type_password" name="type_password" value="{{ request.POST.type_password|default_if_none:'' }}" class="form-control my-3 no-border" style="width: 94%;" />
@@ -42,40 +32,28 @@
                       </button>
                       <label class="form-label" for="type_password">Password</label>
                     </div>
-              
-                      <div class="mb-3">
-                          <label for="form3Example4" class="form-label">Select Your Role</label>
-                          <select class="form-select" id="role" name="role" style="height: 40px;" required>
-                              <option value="" {% if not request.POST.role %}selected{% endif %}>-- Select Role --</option>
-                              <option value="Owner" {% if request.POST.role == 'Owner' %}selected{% endif %}>Owner</option>
-                              <option value="Tenant" {% if request.POST.role == 'Tenant' %}selected{% endif %}>Tenant</option>
-                          </select>
-                      </div>
-                      <a href="#resetPasswordModal" data-toggle="modal">
-                          <p class="text-center" style="color: #858585;">Forget password?</p>
-                      </a>
-              
-              
-                      <button class="btn text-uppercase btn-primary btn-block mb-4" type="submit">
-                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
-                        <span class="button-text">Log In</span>
-                      </button>
-                      <!-- Register buttons -->
-                      <div class="text-center">
-                          <button type="button" class="btn btn-link btn-floating mx-1">
-                              <i class="fab fa-facebook-f"></i>
-                          </button>
-                          <button type="button" class="btn btn-link btn-floating mx-1">
-                              <i class="fab fa-google"></i>
-                          </button>
-                          <button type="button" class="btn btn-link btn-floating mx-1">
-                              <i class="fab fa-twitter"></i>
-                          </button>
-                          <button type="button" class="btn btn-link btn-floating mx-1">
-                              <i class="fab fa-github"></i>
-                          </button>
-                      </div>
-                      <p class="text-center mt-4" style="color: #858585;">Don't have an account? <a href="{% url 'accounts_app:register' %}">Register</a></p>
+                    <a href="#resetPasswordModal" data-toggle="modal">
+                        <p class="text-center" style="color: #858585;">Forget password?</p>
+                    </a>
+                    <button class="btn text-uppercase btn-primary btn-block mb-4" type="submit">
+                      <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                      <span class="button-text">Log In</span>
+                    </button>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+                        <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-google"></i>
+                        </button>
+                        <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                        <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-github"></i>
+                        </button>
+                    </div>
+                    <p class="text-center mt-4" style="color: #858585;">Don't have an account? <a href="{% url 'accounts_app:register' %}">Register</a></p>
                   </div>
               </form>
               </div>
@@ -84,26 +62,15 @@
         </div>
       </div>
     </div>
-    <!-- Jumbotron -->
   </section>
-  <!-- Section: Design Block -->
 </div>
-
 {% include "accounts_app/reset_password_modal.html" %}
-
 {% endblock %}
-
 {% block footer %}
-    <!-- Footer content -->
-    {% include 'partials/footer.html' %}
-
-<!-- MDB -->
+{% include 'partials/footer.html' %}
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"></script>
-
 <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js'></script>
-
 <script type="text/javascript">
-  // Function to toggle password visibility
   function togglePasswordVisibility() {
     var passwordInput = document.getElementById('type_password');
     var toggleIcon = document.getElementById('toggleIcon');
@@ -116,8 +83,6 @@
         toggleIcon.classList.remove('fa-eye-slash');
         toggleIcon.classList.add('fa-eye');
     }
-}
+  }
 </script>
-
-
 {% endblock %}

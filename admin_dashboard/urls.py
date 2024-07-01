@@ -39,17 +39,17 @@ urlpatterns = [
     path('delete_tenant/', views.delete_tenant, name='delete_tenant'),
 
 
-    # edit the admin, owner and tenant urls
-    path("reset_password/", views.reset_password, name="reset_password"),
-    path("email_sent_confirmation/", views.email_sent_confirmation, name="email_sent_confirmation"),
-    path("password_reset_done/", views.password_reset_done, name="password_reset_done"),
-    path("password_reset_form/<uidb64>/<token>/<user_type>/", views.password_reset_form, name="password_reset_form"),
 
+    # reset password urls
+    path("reset_password/", views.reset_password, name="reset_password"),
+    path("password_reset_form/<uidb64>/<token>/", views.password_reset_form, name="password_reset_form"),
+    path("password_reset_done/", views.password_reset_done, name="password_reset_done"),
+    path("email_sent_confirmation/", views.email_sent_confirmation, name="email_sent_confirmation"),
 
     
 
     #  apartment urls
-    path('check_owner_identification/<int:owner_id>/', views.check_owner_identification, name='check_owner_identification'),
+    path('check_owner_identification/<int:owner_id>/', views.check_owner_identification, name='check_owner_identification'), # check owner identification by using AJAX
     path("view_apartments/", views.view_apartments, name="view_apartments"),
     path("rent/apartment/create/", views.create_apartment_admin, name="create_apartment_admin"),
     path("rent/apartment/edit/<int:apartment_id>/", views.update_apartment_admin, name="update_apartment_admin"),

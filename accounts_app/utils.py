@@ -238,45 +238,59 @@ def change_user_password(request, uidb64, token, template_name):
 
 
 ####################################### Start Reset Password ########################################
+def get_user_model(user_type):
+    user_model = {
+        'Owner': Owner,
+        'Tenant': Tenant,
+        'Admin': Admin,
+    }.get(user_type)
+    return user_model
+
 def process_reset_password(request, template_name, app_name, session_key):
     if request.method == 'POST':
         email = request.POST.get('email1')
-        user_type = request.POST.get('role')
-        user_model = get_user_model(user_type)
-
-        # Determine the correct email field based on user type
-        if user_type in ['Owner', 'Tenant']:
-            email_field = 'email_address'  # Assume 'Owner' and 'Tenant' use 'email_address'
-            user = user_model.objects.filter(email_address=email).first()
-        else:
-            email_field = 'email'  # Assume 'Admin' uses 'email'
-            user = user_model.objects.filter(email=email).first()
-
-        if not email or not user_type:
-            messages.error(request, "Please fill in all fields")
+        
+        if not email:
+            messages.error(request, "Please fill in all fields.")
             return render(request, template_name)
 
-        if user:
-            display_send_reset_email(user, user_type, request, app_name, email_field)
-            return redirect(f'{app_name}:email_sent_confirmation')
-        else:
-            messages.error(request, "Invalid email address")
+        # Check all user models for the email address
+        user_models = [Owner, Tenant, Admin]
+        found_user = None
+        found_user_role = None
+        for model in user_models:
+            if model == Admin:
+                user = model.objects.filter(email=email).first()
+                if user:
+                    found_user = user
+                    found_user_role = 'Admin'
+                    break
+            else:
+                user = model.objects.filter(email_address=email).first()
+                if user:
+                    found_user = user
+                    found_user_role = 'Owner' if model == Owner else 'Tenant'
+                    break
+            
+        if found_user:
+            if found_user_role == 'Admin':
+                display_send_reset_email(found_user, found_user_role, request, app_name, 'email')
+                return redirect(f'{app_name}:email_sent_confirmation')
+            else:
+                return render(request, f'{app_name}/choose_role_reset.html', {'email': email})
+
+        messages.error(request, "Invalid email address")
     return render(request, template_name)
 
 def display_send_reset_email(user, user_role, request, app_name, email_field):
     token_generator = PasswordResetTokenGenerator()
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     token = token_generator.make_token(user)
-    reset_path = reverse(f'{app_name}:password_reset_form', args=[uid, token, user_role])
-    reset_url = request.build_absolute_uri(reset_path)
+    reset_path = reverse(f'{app_name}:password_reset_form', args=[uid, token])
+    reset_url = f"{request.build_absolute_uri(reset_path)}?user_type={user_role}"
 
-    # Construct email and name using direct access based on predefined conditions
-    if email_field == 'email_address':
-        email = user.email_address
-        name = user.first_name  # Assuming 'first_name' exists for Owner/Tenant
-    else:
-        email = user.email
-        name = user.full_name  # Assuming 'full_name' exists for Admin
+    email = user.email_address if hasattr(user, 'email_address') else user.email
+    name = user.first_name if hasattr(user, 'first_name') else user.full_name
 
     subject = "Password Reset Requested"
     message = f"Hi {name},\n\nYou have requested to reset your password as a {user_role}.\nPlease click on the following link to reset your password:\n{reset_url}\n\nIf you did not make this request, please ignore this email and ensure your account is secure."
@@ -284,24 +298,13 @@ def display_send_reset_email(user, user_role, request, app_name, email_field):
     recipient_list = [email]
     send_mail(subject, message, email_from, recipient_list)
 
-
-def get_user_model(user_type):
-    user_model = {
-        'Owner': Owner,  # Assuming Owner is defined somewhere
-        'Tenant': Tenant,  # Assuming Tenant is defined somewhere
-        'Admin': Admin  # Assuming Admin is a valid model for admins
-    }.get(user_type)
-    return user_model
-
-
-
-
 def display_password_reset_form(request, uidb64, token, user_type, app_name, template_name, session_key):
+    user_type = request.GET.get('user_type')  # Get the user type from the query parameter
+    user_model = get_user_model(user_type)
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        user_model = get_user_model(user_type)
         user = user_model.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, user_model.DoesNotExist) as e:
+    except (TypeError, ValueError, OverflowError, user_model.DoesNotExist):
         user = None
         messages.error(request, 'Invalid password reset link. Please try resetting your password again.')
 
@@ -314,8 +317,6 @@ def display_password_reset_form(request, uidb64, token, user_type, app_name, tem
                 messages.error(request, "Please fill in all fields.")
             elif password != confirm_password:
                 messages.error(request, "Passwords do not match.")
-            elif check_password(password, user.password):
-                messages.error(request, "New password cannot be the same as the old password.")
             else:
                 user.set_password(password)
                 user.save()
@@ -325,7 +326,7 @@ def display_password_reset_form(request, uidb64, token, user_type, app_name, tem
         return render(request, template_name, {
             'uidb64': uidb64,
             'token': token,
-            'user_type': user_type
+            'user_type': user_type  # Pass user_type to template for the form action
         })
     else:
         messages.error(request, "The password reset link is invalid or has expired.")

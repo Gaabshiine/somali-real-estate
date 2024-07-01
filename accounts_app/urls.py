@@ -6,6 +6,7 @@ app_name = "accounts_app"
 
 urlpatterns = [
     path("login/", views.login_view, name="login"),
+    path('choose-role/', views.choose_role_view, name='choose_role'),
     path("register/", views.register_view, name="register"),
     path("logout/", views.logout_view, name="logout"),
     path("owner_profile/", views.owner_profile_view, name="owner_profile"),
@@ -15,7 +16,8 @@ urlpatterns = [
     path("change_password/", views.change_password_redirect_view, name="change_password_redirect"),
     path("change_password/<slug:uidb64>/<slug:token>/", views.change_password_view, name="change_password"),
     path("reset_password/", views.reset_password, name="reset_password"),
-    path("email_sent_confirmation/", views.email_sent_confirmation, name="email_sent_confirmation"),
+    path("choose_role_reset/", views.choose_role_reset_view, name="choose_role_reset"),
+    path("password_reset_form/<uidb64>/<token>/", views.password_reset_form, name="password_reset_form"),
     path("password_reset_done/", views.password_reset_done, name="password_reset_done"),
-    path("password_reset_form/<uidb64>/<token>/<user_type>/", views.password_reset_form, name="password_reset_form"),
+    path("email_sent_confirmation/", views.email_sent_confirmation, name="email_sent_confirmation"),
 ]

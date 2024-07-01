@@ -93,7 +93,7 @@
                                                     </td>
                                                     <td>{{ tenant.email_address }}</td>
                                                     <td>{{ tenant.address }}</td>
-                                                    <td>{{ tenant.created_at|date:"d/m/Y" }}</td>
+                                                    <td>{{ tenant.date_of_birth|date:"d/m/Y" }}</td>
                                                     <td>{{ tenant.phone_number }}</td>
                                                     <td>
                                                         <a href="{% url "admin_dashboard:tenant_profile" tenant.id %}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>

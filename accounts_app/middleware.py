@@ -1,5 +1,6 @@
 from django.shortcuts import redirect
 from django.urls import reverse
+import re
 
 
 class AuthenticationMiddleware:
@@ -7,29 +8,27 @@ class AuthenticationMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        # Paths that should skip this user authentication check
         skip_paths = [
-            '/account/login/', 
-            '/account/register/', 
-            '/account/reset_password/',
-            '/account/email_sent_confirmation/',
-            '/account/password_reset_done/',
-            '/account/password_reset_form/',  # This should ideally check dynamically for the presence of user_id and user_type in the path
-            '/',  # Home page
-            '/about/',  # About page
-            '/contact/',  # Contact page
-            '/search/',  # Search page
-            '/property_details/',  # Property details page
+            reverse('accounts_app:login'),
+            reverse('accounts_app:choose_role'),
+            reverse('accounts_app:choose_role_reset'),
+            reverse('accounts_app:register'),
+            reverse('accounts_app:reset_password'),
+            reverse('accounts_app:email_sent_confirmation'),
+            reverse('accounts_app:password_reset_done'),
+            # Add other static paths if needed
         ]
 
-        # Allow unauthenticated access to public paths or if the path is for password resetting
-        if request.path in skip_paths or '/account/password_reset_form/' in request.path:
+        dynamic_skip_patterns = [
+            re.compile(r'^/account/password_reset_form/[^/]+/[^/]+/$'),
+            # Add other dynamic patterns if needed
+        ]
+
+        if request.path in skip_paths or any(pattern.match(request.path) for pattern in dynamic_skip_patterns):
             return self.get_response(request)
 
-        # Apply this middleware only to admin paths
         if request.path.startswith('/account/') or request.path.startswith('/rental_properties/'):
-            if not request.session.get('user_id') and request.path not in skip_paths:
+            if not request.session.get('user_id'):
                 return redirect(reverse('accounts_app:login'))
-            
 
         return self.get_response(request)
